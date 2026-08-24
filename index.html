@@ -104,7 +104,7 @@
         .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
         .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
 
-        /* Navigation Header & Profile Avatar */
+        /* Navigation Header & Left Profile Avatar */
         #main-site { display: none; }
         navbar { 
             position: sticky; top: 0; z-index: 100;
@@ -114,22 +114,22 @@
             border-bottom: 1px solid var(--glass-border); transition: background 0.3s ease;
         }
         .brand-container { display: flex; align-items: center; gap: 12px; position: relative; }
-        .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .brand-logo span { color: var(--text-sub); font-weight: 400; }
         
-        /* Avatar & User Controls */
-        .user-nav-controls { display: flex; align-items: center; gap: 16px; }
+        /* Avatar on Left beside Brand */
         .profile-avatar {
             width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
             border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s;
         }
         .profile-avatar:hover { transform: scale(1.08); }
 
+        .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .brand-logo span { color: var(--text-sub); font-weight: 400; }
+
         .dots-btn { background: none; border: none; color: var(--text-sub); font-size: 1.3rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s; }
         .dots-btn:hover { color: var(--text-main); background: var(--input-bg); }
 
         .theme-dropdown {
-            display: none; position: absolute; top: 40px; left: 0; 
+            display: none; position: absolute; top: 40px; left: 160px; 
             background: var(--dropdown-bg); border: 1px solid var(--glass-border); 
             border-radius: 12px; padding: 8px; width: 170px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 200;
@@ -163,6 +163,12 @@
         .folder-content { padding: 1.75rem; border-top: 1px solid var(--glass-border); animation: folderSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes folderSlideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* QURAN PLAYER STYLES */
+        .quran-box { display: flex; flex-direction: column; gap: 14px; }
+        .quran-select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); border-radius: 12px; font-weight: 600; font-size: 0.9rem; outline: none; }
+        .quran-select option { background: var(--dropdown-bg); color: var(--text-main); }
+        .quran-audio-player { width: 100%; margin-top: 8px; outline: none; border-radius: 30px; }
+
         /* GROUP CHAT & COMMENTS STYLES */
         .chat-box { display: flex; flex-direction: column; height: 320px; }
         .chat-messages { flex: 1; overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
@@ -175,10 +181,12 @@
         .chat-input { flex: 1; margin-bottom: 0 !important; }
         .chat-send-btn { background: #0071e3; color: white; border: none; padding: 0 18px; border-radius: 12px; font-weight: 500; cursor: pointer; }
 
-        /* Profile Modal */
+        /* Profile Upload Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem; }
         .modal-body { max-width: 400px; width: 100%; padding: 2rem; text-align: center; }
-        .modal-avatar-preview { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
+        .modal-avatar-preview { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
+        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; transition: 0.2s; }
+        .file-upload-label:hover { background: var(--card-bg); }
 
         /* Dual Pane Translator Suite */
         .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -243,13 +251,20 @@
         </div>
     </div>
 
-    <!-- PROFILE PICTURE UPDATE MODAL -->
+    <!-- DEVICE FILE UPLOAD PROFILE MODAL -->
     <div id="profile-modal" class="modal-overlay">
         <div class="modal-body glass-panel">
-            <h3 style="color:var(--text-main); font-size:1.3rem;">Update Profile Picture</h3>
+            <h3 style="color:var(--text-main); font-size:1.3rem; margin-bottom:6px;">Update Profile Picture</h3>
+            <p style="color:var(--text-sub); font-size:0.85rem; margin-bottom:12px;">Choose an image file from your computer or mobile device.</p>
+            
             <img id="modal-avatar-preview" src="https://via.placeholder.com/150" class="modal-avatar-preview">
-            <input type="text" id="avatar-url-input" placeholder="Paste Image URL or Base64 link...">
-            <button id="btn-save-avatar" class="btn btn-primary">Save Picture</button>
+            
+            <label for="device-file-input" class="file-upload-label">
+                📁 Choose Image File
+            </label>
+            <input type="file" id="device-file-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
+            
+            <button id="btn-save-avatar" class="btn btn-primary" disabled>Save Profile Picture</button>
             <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:6px;">Cancel</button>
         </div>
     </div>
@@ -303,6 +318,8 @@
     <div id="main-site">
         <navbar>
             <div class="brand-container">
+                <!-- Avatar moved to the left beside AKASH PORTAL -->
+                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Click to upload profile picture from device">
                 <div class="brand-logo">AKASH <span>PORTAL</span></div>
                 <button class="dots-btn" onclick="toggleThemeMenu(event)" title="Theme Settings">⋮</button>
                 
@@ -313,10 +330,8 @@
                 </div>
             </div>
 
-            <div class="user-nav-controls">
-                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Click to change profile picture">
-                <button id="btn-logout">Sign Out</button>
-            </div>
+            <!-- Sign Out on the right side alone -->
+            <button id="btn-logout">Sign Out</button>
         </navbar>
         
         <main class="dashboard-container">
@@ -436,6 +451,39 @@
                     </div>
                 </details>
 
+                <!-- Folder 4: Quran App (Audio Recitations) -->
+                <details class="folder glass-panel">
+                    <summary class="folder-tab">📖 Holy Quran Audio Player</summary>
+                    <div class="folder-content">
+                        <div class="quran-box">
+                            <label style="color:var(--text-sub); font-size:0.8rem; font-weight:600;">SELECT RECITER</label>
+                            <select id="quran-reciter" class="quran-select" onchange="loadQuranSurah()">
+                                <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                                <option value="ar.sudais">Abdur-Rahman As-Sudais</option>
+                                <option value="ar.abdullahbasfar">Abdullah Basfar</option>
+                                <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+                            </select>
+
+                            <label style="color:var(--text-sub); font-size:0.8rem; font-weight:600;">SELECT SURAH</label>
+                            <select id="quran-surah" class="quran-select" onchange="loadQuranSurah()">
+                                <option value="1">1. Al-Fatihah (الفاتحة)</option>
+                                <option value="2">2. Al-Baqarah (البقرة)</option>
+                                <option value="36">36. Ya-Sin (يس)</option>
+                                <option value="55">55. Ar-Rahman (الرحمن)</option>
+                                <option value="56">56. Al-Waqi'ah (الواقعة)</option>
+                                <option value="67">67. Al-Mulk (الملك)</option>
+                                <option value="112">112. Al-Ikhlas (الإخلاص)</option>
+                                <option value="113">113. Al-Falaq (الفلق)</option>
+                                <option value="114">114. An-Nas (الناس)</option>
+                            </select>
+
+                            <audio id="quran-audio-player" class="quran-audio-player" controls>
+                                Your browser does not support playing audio.
+                            </audio>
+                        </div>
+                    </div>
+                </details>
+
             </div>
 
             <!-- RIGHT MAIN CONTENT -->
@@ -448,7 +496,7 @@
                     </div>
                     <div class="chat-box">
                         <div id="chat-messages" class="chat-messages">
-                            <!-- Messages will load dynamically -->
+                            <!-- Messages load dynamically -->
                         </div>
                         <div class="chat-input-row">
                             <input type="text" id="chat-input-text" class="chat-input" placeholder="Type a message or comment...">
@@ -485,7 +533,7 @@
         </main>
     </div>
 
-    <!-- FIREBASE & PROFILE / CHAT LOGIC -->
+    <!-- FIREBASE & DEVICE FILE PROFILE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -517,6 +565,7 @@
 
         let currentUserObj = null;
         let hasShownWelcome = false;
+        let selectedBase64Image = null;
 
         function hideAllScreens() {
             loginScreen.style.display = 'none';
@@ -526,7 +575,7 @@
             mainSite.style.display = 'none';
         }
 
-        // Apple Welcome Routine
+        // Welcome Routine
         function triggerWelcomeAnimation(displayName, callback) {
             hideAllScreens();
             welcomeUserDisplay.innerText = `Welcome back, ${displayName}`;
@@ -542,20 +591,38 @@
             }, 2000);
         }
 
-        // Modal Control
+        // Modal Controls
         window.openProfileModal = function() {
             document.getElementById('profile-modal').style.display = 'flex';
+            if (currentUserObj) {
+                document.getElementById('modal-avatar-preview').src = currentUserObj.photoURL || "https://via.placeholder.com/150";
+            }
         };
         window.closeProfileModal = function() {
             document.getElementById('profile-modal').style.display = 'none';
+            selectedBase64Image = null;
+            document.getElementById('btn-save-avatar').disabled = true;
         };
 
-        // Save Profile Avatar
+        // Handle Device File Selection
+        window.handleFileSelect = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedBase64Image = e.target.result;
+                    document.getElementById('modal-avatar-preview').src = selectedBase64Image;
+                    document.getElementById('btn-save-avatar').disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        // Save Uploaded Profile Picture
         document.getElementById('btn-save-avatar').addEventListener('click', () => {
-            const url = document.getElementById('avatar-url-input').value.trim();
-            if (url && currentUserObj) {
-                updateProfile(currentUserObj, { photoURL: url }).then(() => {
-                    navAvatar.src = url;
+            if (selectedBase64Image && currentUserObj) {
+                updateProfile(currentUserObj, { photoURL: selectedBase64Image }).then(() => {
+                    navAvatar.src = selectedBase64Image;
                     closeProfileModal();
                 });
             }
@@ -674,7 +741,7 @@
             signOut(auth);
         });
 
-        // Group Chat Real-Time Listener
+        // Group Chat Listener
         function initRealtimeGroupChat() {
             const chatMessages = document.getElementById('chat-messages');
             const q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
@@ -725,11 +792,13 @@
                         triggerWelcomeAnimation(user.displayName || user.email.split('@')[0], () => {
                             mainSite.style.display = 'block';
                             initRealtimeGroupChat();
+                            window.loadQuranSurah();
                         });
                     } else {
                         hideAllScreens();
                         mainSite.style.display = 'block';
                         initRealtimeGroupChat();
+                        window.loadQuranSurah();
                     }
                 } else {
                     document.getElementById('login-error').innerText = "Please verify your email address before logging in.";
@@ -748,8 +817,16 @@
         });
     </script>
 
-    <!-- TOOLS & THEME SWITCHER -->
+    <!-- TOOLS, QURAN & THEME LOGIC -->
     <script>
+        // Quran Audio Loader
+        window.loadQuranSurah = function() {
+            const reciter = document.getElementById('quran-reciter').value;
+            const surah = document.getElementById('quran-surah').value;
+            const player = document.getElementById('quran-audio-player');
+            player.src = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surah}.mp3`;
+        };
+
         function toggleThemeMenu(event) {
             event.stopPropagation();
             const menu = document.getElementById('theme-menu');
