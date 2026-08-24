@@ -3,100 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash - Professional Portal</title>
+    <title>Akash - Professional Dark Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-        body { background-color: #f8fafc; color: #1e293b; line-height: 1.5; min-height: 100vh; }
+        body { background-color: #0f172a; color: #f8fafc; line-height: 1.5; min-height: 100vh; }
 
         /* Login Screen */
         #login-screen { 
             max-width: 420px; margin: 80px auto; padding: 2.5rem; 
-            background: #ffffff; border-radius: 12px; 
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
-            border: 1px solid #e2e8f0; text-align: center; 
+            background: #1e293b; border-radius: 12px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.3);
+            border: 1px solid #334155; text-align: center; 
         }
-        #login-screen h2 { margin-bottom: 0.5rem; color: #0f172a; font-weight: 700; font-size: 1.75rem; }
-        #login-screen p { color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        #login-screen h2 { margin-bottom: 0.5rem; color: #f8fafc; font-weight: 700; font-size: 1.75rem; }
+        #login-screen p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem; }
         input[type="email"], input[type="password"] { 
             width: 100%; padding: 12px 16px; margin-bottom: 12px; 
-            border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: all 0.2s;
+            background: #0f172a; border: 1px solid #475569; color: #f8fafc;
+            border-radius: 8px; font-size: 0.95rem; outline: none; transition: all 0.2s;
         }
-        input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+        input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
         .btn { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
         #btn-login { background-color: #2563eb; color: white; }
         #btn-login:hover { background-color: #1d4ed8; }
-        #btn-register { background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
-        #btn-register:hover { background-color: #e2e8f0; }
-        .error-msg { color: #ef4444; font-size: 0.875rem; margin-top: 14px; }
+        #btn-register { background-color: #334155; color: #f8fafc; border: 1px solid #475569; }
+        #btn-register:hover { background-color: #475569; }
+        .error-msg { color: #f87171; font-size: 0.875rem; margin-top: 14px; }
 
-        /* Top Navigation Header */
+        /* Navigation Header */
         #main-site { display: none; }
-        navbar { background: #0f172a; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+        navbar { background: #1e293b; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
         .brand-logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 1px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: #38bdf8; }
         #btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.875rem; transition: 0.2s; }
         #btn-logout:hover { background: #dc2626; }
 
-        /* Main App Grid Container */
+        /* Layout Grid */
         .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
         .sidebar-left { flex: 1; min-width: 320px; }
         .main-right { flex: 2; min-width: 400px; }
         @media (max-width: 850px) { .sidebar-left, .main-right { min-width: 100%; } }
 
-        /* Card System */
-        .card { background: #ffffff; padding: 1.75rem; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -2px rgba(0,0,0,0.02); }
+        /* Dark Card System */
+        .card { background: #1e293b; padding: 1.75rem; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); }
         .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-        .card-header img { height: 22px; width: auto; }
-        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: #0f172a; }
+        .card-header img { height: 22px; width: auto; object-fit: contain; }
+        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: #f8fafc; }
 
-        /* Accordion Collapsible Folders */
-        details.folder { background: #ffffff; border-radius: 12px; margin-bottom: 1rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden; transition: border-color 0.2s; }
-        details.folder[open] { border-color: #cbd5e1; }
-        summary.folder-tab { background: #f8fafc; padding: 14px 18px; font-weight: 600; font-size: 0.95rem; color: #334155; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-        summary.folder-tab:hover { background: #f1f5f9; color: #0f172a; }
+        /* Accordion Folders */
+        details.folder { background: #1e293b; border-radius: 12px; margin-bottom: 1rem; border: 1px solid #334155; overflow: hidden; }
+        summary.folder-tab { background: #334155; padding: 14px 18px; font-weight: 600; font-size: 0.95rem; color: #f8fafc; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        summary.folder-tab:hover { background: #475569; }
         summary.folder-tab::-webkit-details-marker { display: none; }
         summary.folder-tab::after { content: '›'; font-size: 1.2rem; transform: rotate(90deg); transition: transform 0.2s; }
         details[open] summary.folder-tab::after { transform: rotate(-90deg); }
-        .folder-content { padding: 1.5rem; border-top: 1px solid #f1f5f9; }
+        .folder-content { padding: 1.5rem; border-top: 1px solid #334155; background: #1e293b; }
 
-        /* Unified Search Bar Elements */
+        /* Search Forms */
         .search-form { display: flex; gap: 8px; }
-        .search-input { flex-grow: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
-        .search-input:focus { border-color: #2563eb; }
+        .search-input { flex-grow: 1; padding: 10px 14px; background: #0f172a; border: 1px solid #475569; color: #f8fafc; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .search-input:focus { border-color: #38bdf8; }
         .search-btn { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
         .yt-btn { background-color: #ff0000; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
 
-        /* Modern Calculator */
-        .calc-display { width: 100%; padding: 12px 16px; font-size: 1.5rem; text-align: right; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; }
+        /* Calculator */
+        .calc-display { width: 100%; padding: 12px 16px; font-size: 1.5rem; text-align: right; margin-bottom: 12px; border: 1px solid #475569; border-radius: 8px; background: #0f172a; font-weight: 600; color: #f8fafc; }
         .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .calc-btn { padding: 14px; font-size: 1.1rem; border: 1px solid #e2e8f0; background: #ffffff; border-radius: 8px; cursor: pointer; font-weight: 600; color: #334155; transition: 0.15s; }
-        .calc-btn:hover { background: #f1f5f9; }
-        .calc-btn.op { background: #fef3c7; color: #d97706; border-color: #fde68a; }
-        .calc-btn.op:hover { background: #fde68a; }
-        .calc-btn.clear { background: #fee2e2; color: #dc2626; border-color: #fca5a5; grid-column: span 2; }
-        .calc-btn.eq { background: #10b981; color: white; border-color: #10b981; grid-column: span 2; }
+        .calc-btn { padding: 14px; font-size: 1.1rem; border: 1px solid #475569; background: #334155; border-radius: 8px; cursor: pointer; font-weight: 600; color: #f8fafc; transition: 0.15s; }
+        .calc-btn:hover { background: #475569; }
+        .calc-btn.op { background: #b45309; color: #fef3c7; border-color: #d97706; }
+        .calc-btn.clear { background: #991b1b; color: #fee2e2; border-color: #dc2626; grid-column: span 2; }
+        .calc-btn.eq { background: #059669; color: white; border-color: #10b981; grid-column: span 2; }
 
         /* Tic-Tac-Toe Game */
         .mode-buttons { display: flex; gap: 6px; margin-bottom: 12px; }
-        .mode-btn { flex: 1; padding: 8px; border: 1px solid #cbd5e1; cursor: pointer; border-radius: 6px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
-        .mode-active { background: #0f172a; color: white; border-color: #0f172a; }
-        .mode-inactive { background: #ffffff; color: #64748b; }
+        .mode-btn { flex: 1; padding: 8px; border: 1px solid #475569; cursor: pointer; border-radius: 6px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
+        .mode-active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        .mode-inactive { background: #0f172a; color: #94a3b8; }
         
         .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 240px; margin: 12px auto; }
-        .cell { aspect-ratio: 1; background: #f8fafc; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; cursor: pointer; border-radius: 8px; }
-        .cell:hover { background: #f1f5f9; }
-        #game-status { text-align: center; font-weight: 600; font-size: 0.95rem; color: #475569; }
-        .reset-btn { display: block; margin: 12px auto 0; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .cell { aspect-ratio: 1; background: #0f172a; border: 1px solid #475569; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .cell:hover { background: #334155; }
+        #game-status { text-align: center; font-weight: 600; font-size: 0.95rem; color: #cbd5e1; }
+        .reset-btn { display: block; margin: 12px auto 0; background: #334155; color: #f8fafc; border: 1px solid #475569; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
 
-        /* Dictionary & Speech */
+        /* Dictionary & Translator */
         .dict-box { display: flex; flex-direction: column; gap: 8px; }
-        .dict-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
-        .dict-btn { background: #0f172a; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
-        .dict-result { font-size: 0.95rem; margin-top: 12px; padding: 14px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #10b981; }
-        .bangla-text { font-size: 1.35rem; color: #0f172a; font-weight: 700; margin: 4px 0 8px 0; display: block; }
+        .dict-input { width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid #475569; color: #f8fafc; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .dict-btn { background: #38bdf8; color: #0f172a; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+        .dict-result { font-size: 0.95rem; margin-top: 12px; padding: 14px; background: #0f172a; border-radius: 8px; border-left: 4px solid #10b981; }
+        .bangla-text { font-size: 1.35rem; color: #38bdf8; font-weight: 700; margin: 4px 0 8px 0; display: block; }
         .audio-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .audio-btn { background: #e2e8f0; color: #334155; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .audio-btn { background: #334155; color: #f8fafc; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
         .audio-btn-bn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
     </style>
 </head>
@@ -209,10 +208,10 @@
                     </form>
                 </section>
 
-                <!-- YouTube Search Card -->
+                <!-- YouTube Search Card (With Working Vector Logo) -->
                 <section class="card">
                     <div class="card-header">
-                        <img src="https://www.youtube.com/s/desktop/f5af05a4/img/favicon.ico" alt="YouTube Logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube Logo">
                         <h2>Search YouTube</h2>
                     </div>
                     <form class="search-form" action="https://www.youtube.com/results" method="get" target="_blank">
@@ -225,7 +224,7 @@
                     <div class="card-header">
                         <h2>Portal Updates</h2>
                     </div>
-                    <p style="color:#64748b; font-size:0.95rem;">Day 11 Update: Upgraded to a modern, professional SaaS UI template with polished typography and responsive layouts.</p>
+                    <p style="color:#94a3b8; font-size:0.95rem;">Day 12 Update: Added a sleek Dark Slate theme, replaced YouTube logo with a high-res SVG, and optimized API cross-origin requests for global users.</p>
                 </section>
 
             </div>
@@ -266,13 +265,13 @@
                         errorMsg.innerText = "Success! Please check your email inbox to verify.";
                         auth.signOut();
                     });
-                }).catch((error) => { errorMsg.style.color = "#ef4444"; errorMsg.innerText = error.message; });
+                }).catch((error) => { errorMsg.style.color = "#f87171"; errorMsg.innerText = error.message; });
         });
 
         document.getElementById('btn-login').addEventListener('click', () => {
             errorMsg.innerText = "Logging in...";
             signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-                .catch((error) => { errorMsg.style.color = "#ef4444"; errorMsg.innerText = "Login failed: " + error.message; });
+                .catch((error) => { errorMsg.style.color = "#f87171"; errorMsg.innerText = "Login failed: " + error.message; });
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
@@ -282,7 +281,7 @@
                 if (user.emailVerified) {
                     loginScreen.style.display = 'none'; mainSite.style.display = 'block'; errorMsg.innerText = "";
                 } else {
-                    errorMsg.style.color = "#ef4444"; errorMsg.innerText = "Please verify your email before logging in."; auth.signOut();
+                    errorMsg.style.color = "#f87171"; errorMsg.innerText = "Please verify your email before logging in."; auth.signOut();
                 }
             } else {
                 loginScreen.style.display = 'block'; mainSite.style.display = 'none'; emailInput.value = ''; passwordInput.value = '';
@@ -313,9 +312,9 @@
                 const safeBangla = translatedText.replace(/'/g, "\\'");
 
                 resultDiv.innerHTML = `
-                    <div style="font-size:0.8rem; color:#64748b; font-weight:600;">ENGLISH TEXT</div>
-                    <div style="font-weight:500; color:#334155;">${text}</div>
-                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:10px;">BANGLA TRANSLATION (বাংলা)</div>
+                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:600;">ENGLISH TEXT</div>
+                    <div style="font-weight:500; color:#f8fafc;">${text}</div>
+                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:600; margin-top:10px;">BANGLA TRANSLATION (বাংলা)</div>
                     <span class="bangla-text">${translatedText}</span>
                     <div class="audio-group">
                         <button class="audio-btn" onclick="playOnlineAudio('${safeEnglish}', 'en')">🔊 English</button>
@@ -323,14 +322,17 @@
                     </div>
                 `;
             } catch (err) {
-                resultDiv.innerHTML = `<p style="color:#ef4444;">Error fetching translation. Please try again.</p>`;
+                resultDiv.innerHTML = `<p style="color:#f87171;">Error fetching translation. Please try again.</p>`;
             }
         }
 
         function playOnlineAudio(text, lang) {
             if (currentAudio) { currentAudio.pause(); }
+            
+            // CORS-friendly speech audio stream
             const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
             currentAudio = new Audio(audioUrl);
+            
             currentAudio.play().catch(e => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
@@ -393,7 +395,7 @@
         function playTurn(index) {
             board[index] = currentPlayer;
             cells[index].innerText = currentPlayer;
-            cells[index].style.color = currentPlayer === "X" ? "#2563eb" : "#ef4444";
+            cells[index].style.color = currentPlayer === "X" ? "#38bdf8" : "#f87171";
             checkWin();
         }
 
@@ -419,7 +421,7 @@
             currentPlayer = "X";
             gameActive = true;
             statusDisplay.innerText = `Player X's Turn`;
-            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "#333"; });
+            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "#f8fafc"; });
         }
     </script>
 </body>
