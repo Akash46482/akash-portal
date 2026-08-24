@@ -9,6 +9,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
         
         :root {
+            /* Default Dark Mode */
             --bg-color: #000000;
             --text-main: #f5f5f7;
             --text-sub: #86868b;
@@ -96,6 +97,7 @@
         .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
         .btn-primary { background: #0071e3; color: #ffffff; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.01); }
+        .btn-primary:disabled { background: var(--input-border); color: var(--text-sub); cursor: not-allowed; }
         .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--input-border); }
         .btn-secondary:hover { background: var(--input-bg); }
         .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 16px; font-size: 0.9rem; text-decoration: none; }
@@ -115,7 +117,6 @@
         }
         .brand-container { display: flex; align-items: center; gap: 12px; position: relative; }
         
-        /* Avatar on Left beside Brand */
         .profile-avatar {
             width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
             border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s;
@@ -318,7 +319,6 @@
     <div id="main-site">
         <navbar>
             <div class="brand-container">
-                <!-- Avatar moved to the left beside AKASH PORTAL -->
                 <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Click to upload profile picture from device">
                 <div class="brand-logo">AKASH <span>PORTAL</span></div>
                 <button class="dots-btn" onclick="toggleThemeMenu(event)" title="Theme Settings">⋮</button>
@@ -330,7 +330,6 @@
                 </div>
             </div>
 
-            <!-- Sign Out on the right side alone -->
             <button id="btn-logout">Sign Out</button>
         </navbar>
         
@@ -598,21 +597,32 @@
                 document.getElementById('modal-avatar-preview').src = currentUserObj.photoURL || "https://via.placeholder.com/150";
             }
         };
+        
         window.closeProfileModal = function() {
             document.getElementById('profile-modal').style.display = 'none';
             selectedBase64Image = null;
             document.getElementById('btn-save-avatar').disabled = true;
         };
 
-        // Handle Device File Selection
+        // Handle Device File Selection with Canvas Image Compression
         window.handleFileSelect = function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    selectedBase64Image = e.target.result;
-                    document.getElementById('modal-avatar-preview').src = selectedBase64Image;
-                    document.getElementById('btn-save-avatar').disabled = false;
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = 150;
+                        canvas.height = 150;
+                        ctx.drawImage(img, 0, 0, 150, 150);
+
+                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('modal-avatar-preview').src = selectedBase64Image;
+                        document.getElementById('btn-save-avatar').disabled = false;
+                    };
                 };
                 reader.readAsDataURL(file);
             }
@@ -621,10 +631,21 @@
         // Save Uploaded Profile Picture
         document.getElementById('btn-save-avatar').addEventListener('click', () => {
             if (selectedBase64Image && currentUserObj) {
-                updateProfile(currentUserObj, { photoURL: selectedBase64Image }).then(() => {
-                    navAvatar.src = selectedBase64Image;
-                    closeProfileModal();
-                });
+                const saveBtn = document.getElementById('btn-save-avatar');
+                saveBtn.innerText = "Saving...";
+                saveBtn.disabled = true;
+
+                updateProfile(currentUserObj, { photoURL: selectedBase64Image })
+                    .then(() => {
+                        navAvatar.src = selectedBase64Image;
+                        saveBtn.innerText = "Save Profile Picture";
+                        closeProfileModal();
+                    })
+                    .catch((err) => {
+                        alert("Error saving image: " + err.message);
+                        saveBtn.innerText = "Save Profile Picture";
+                        saveBtn.disabled = false;
+                    });
             }
         });
 
