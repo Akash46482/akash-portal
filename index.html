@@ -8,9 +8,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
         
-        /* THEME VARIABLES SYSTEM */
         :root {
-            /* Default Dark Mode */
             --bg-color: #000000;
             --text-main: #f5f5f7;
             --text-sub: #86868b;
@@ -66,51 +64,25 @@
 
         body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
 
-        /* APPLE WELCOME ANIMATION SCREEN */
+        /* WELCOME ANIMATION OVERLAY */
         #welcome-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color); z-index: 9999;
             flex-direction: column; justify-content: center; align-items: center; text-align: center;
             opacity: 1; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .welcome-content {
-            animation: welcomeScaleUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .welcome-title {
-            font-size: 2.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.5rem;
-        }
-
-        .welcome-subtitle {
-            font-size: 1.1rem; color: var(--text-sub); font-weight: 400; margin-bottom: 2rem;
-        }
-
-        /* Apple Loading Spinner */
-        .apple-spinner {
-            width: 32px; height: 32px; border: 3px solid var(--input-border);
-            border-top: 3px solid var(--accent-blue); border-radius: 50%;
-            animation: spin 0.8s linear infinite; margin: 0 auto;
-        }
-
+        .welcome-content { animation: welcomeScaleUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .welcome-title { font-size: 2.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.5rem; }
+        .welcome-subtitle { font-size: 1.1rem; color: var(--text-sub); font-weight: 400; margin-bottom: 2rem; }
+        .apple-spinner { width: 32px; height: 32px; border: 3px solid var(--input-border); border-top: 3px solid var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes welcomeScaleUp { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 
-        /* Glassmorphism Utility */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            transition: background 0.3s ease, border 0.3s ease;
-        }
+        /* Glassmorphism Panel */
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; transition: background 0.3s ease, border 0.3s ease; }
 
         /* Auth Screen Cards */
-        .auth-card { 
-            max-width: 440px; margin: 100px auto; padding: 3rem 2.5rem; 
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-        }
+        .auth-card { max-width: 440px; margin: 100px auto; padding: 3rem 2.5rem; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .auth-card h2 { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--text-main); margin-bottom: 0.4rem; }
         .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; font-weight: 400; }
         
@@ -132,7 +104,7 @@
         .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
         .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
 
-        /* Navigation Header & Three Dot Menu */
+        /* Navigation Header & Profile Avatar */
         #main-site { display: none; }
         navbar { 
             position: sticky; top: 0; z-index: 100;
@@ -141,14 +113,19 @@
             padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; 
             border-bottom: 1px solid var(--glass-border); transition: background 0.3s ease;
         }
-        .brand-container { display: flex; align-items: center; gap: 10px; position: relative; }
+        .brand-container { display: flex; align-items: center; gap: 12px; position: relative; }
         .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: var(--text-sub); font-weight: 400; }
         
-        .dots-btn {
-            background: none; border: none; color: var(--text-sub); font-size: 1.3rem; 
-            cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s;
+        /* Avatar & User Controls */
+        .user-nav-controls { display: flex; align-items: center; gap: 16px; }
+        .profile-avatar {
+            width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s;
         }
+        .profile-avatar:hover { transform: scale(1.08); }
+
+        .dots-btn { background: none; border: none; color: var(--text-sub); font-size: 1.3rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s; }
         .dots-btn:hover { color: var(--text-main); background: var(--input-bg); }
 
         .theme-dropdown {
@@ -157,11 +134,7 @@
             border-radius: 12px; padding: 8px; width: 170px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 200;
         }
-        .theme-option {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 8px 12px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); 
-            border-radius: 8px; cursor: pointer; transition: 0.2s;
-        }
+        .theme-option { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); border-radius: 8px; cursor: pointer; transition: 0.2s; }
         .theme-option:hover { background: var(--accent-blue); color: #ffffff; }
 
         #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
@@ -187,68 +160,53 @@
         summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
         details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
 
-        .folder-content { 
-            padding: 1.75rem; border-top: 1px solid var(--glass-border); 
-            animation: folderSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .folder-content { padding: 1.75rem; border-top: 1px solid var(--glass-border); animation: folderSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes folderSlideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes folderSlideDown {
-            from { opacity: 0; transform: translateY(-12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* GROUP CHAT & COMMENTS STYLES */
+        .chat-box { display: flex; flex-direction: column; height: 320px; }
+        .chat-messages { flex: 1; overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+        .chat-msg { display: flex; gap: 10px; align-items: flex-start; }
+        .chat-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+        .msg-bubble { background: var(--input-bg); border: 1px solid var(--input-border); padding: 10px 14px; border-radius: 14px; max-width: 80%; }
+        .msg-user { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 2px; }
+        .msg-text { font-size: 0.9rem; color: var(--text-main); word-break: break-word; }
+        .chat-input-row { display: flex; gap: 8px; }
+        .chat-input { flex: 1; margin-bottom: 0 !important; }
+        .chat-send-btn { background: #0071e3; color: white; border: none; padding: 0 18px; border-radius: 12px; font-weight: 500; cursor: pointer; }
 
-        /* Dual Pane Professional Translator Suite */
+        /* Profile Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem; }
+        .modal-body { max-width: 400px; width: 100%; padding: 2rem; text-align: center; }
+        .modal-avatar-preview { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
+
+        /* Dual Pane Translator Suite */
         .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
         .lang-select-box { flex: 1; min-width: 140px; position: relative; }
-        .lang-select { 
-            width: 100%; padding: 12px 16px; background: var(--input-bg); 
-            border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; 
-            border-radius: 12px; font-size: 0.95rem; outline: none; cursor: pointer; appearance: none;
-        }
+        .lang-select { width: 100%; padding: 12px 16px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; font-size: 0.95rem; outline: none; cursor: pointer; appearance: none; }
         .lang-select option { background: var(--dropdown-bg); color: var(--text-main); }
         .lang-select-box::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--accent-blue); pointer-events: none; }
-        
-        .swap-btn { 
-            background: var(--input-bg); border: 1px solid var(--input-border); 
-            color: var(--text-sub); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
-        }
+        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s; }
         .swap-btn:hover { background: var(--card-bg); color: var(--text-main); transform: rotate(180deg); }
 
         .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
-
         .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 16px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
         .trans-pane.output-pane { background: var(--input-bg); border-color: var(--glass-border); }
-
-        .trans-textarea { 
-            width: 100%; height: 120px; background: transparent; border: none; 
-            color: var(--text-main); font-size: 1.1rem; outline: none; resize: none; font-weight: 400;
-        }
+        .trans-textarea { width: 100%; height: 120px; background: transparent; border: none; color: var(--text-main); font-size: 1.1rem; outline: none; resize: none; font-weight: 400; }
         .trans-textarea::placeholder { color: var(--text-sub); font-weight: 400; }
-
         .trans-output-text { font-size: 1.15rem; color: var(--accent-blue); font-weight: 500; min-height: 120px; word-break: break-word; line-height: 1.5; }
-
         .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid var(--glass-border); }
         .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
         .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
         .mic-listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
 
-        /* Authentic Apple Style Calculator */
+        /* Calculator */
         .apple-calc-wrapper { max-width: 300px; margin: 0 auto; padding: 12px; }
-        .apple-calc-display { 
-            width: 100%; padding: 16px 8px; font-size: 2.8rem; text-align: right; 
-            border: none; background: transparent; font-weight: 300; color: var(--text-main); 
-            outline: none; letter-spacing: -1px; margin-bottom: 8px;
-        }
+        .apple-calc-display { width: 100%; padding: 16px 8px; font-size: 2.8rem; text-align: right; border: none; background: transparent; font-weight: 300; color: var(--text-main); outline: none; letter-spacing: -1px; margin-bottom: 8px; }
         .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .apple-calc-btn { 
-            aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.25rem; 
-            font-weight: 500; cursor: pointer; transition: filter 0.15s, transform 0.1s; 
-            display: flex; align-items: center; justify-content: center; outline: none; user-select: none;
-        }
+        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.25rem; font-weight: 500; cursor: pointer; transition: filter 0.15s, transform 0.1s; display: flex; align-items: center; justify-content: center; outline: none; user-select: none; }
         .apple-calc-btn:active { filter: brightness(1.3); transform: scale(0.96); }
-        
         .btn-num { background: var(--calc-num-bg); color: var(--calc-num-text); }
         .btn-control { background: var(--calc-ctrl-bg); color: var(--calc-ctrl-text); }
         .btn-op { background: #ff9f0a; color: #ffffff; font-size: 1.5rem; }
@@ -264,11 +222,9 @@
         .mode-btn { flex: 1; padding: 10px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; transition: 0.2s; }
         .mode-active { background: #0071e3; color: white; border-color: #0071e3; }
         .mode-inactive { background: var(--input-bg); color: var(--text-sub); }
-
         .difficulty-buttons { display: flex; gap: 6px; margin-bottom: 14px; }
         .diff-btn { flex: 1; padding: 6px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 8px; font-weight: 500; font-size: 0.75rem; transition: 0.2s; background: var(--card-bg); color: var(--text-sub); }
         .diff-active { background: rgba(41, 151, 255, 0.2); color: var(--accent-blue); border-color: var(--accent-blue); }
-
         .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 240px; margin: 12px auto; }
         .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 600; cursor: pointer; border-radius: 12px; }
         .cell:hover { background: var(--card-bg); }
@@ -278,31 +234,43 @@
 </head>
 <body class="theme-dark">
 
-    <!-- WELCOME OVERLAY SCREEN -->
+    <!-- WELCOME ANIMATION OVERLAY -->
     <div id="welcome-overlay">
         <div class="welcome-content">
             <h1 class="welcome-title">Welcome</h1>
-            <p id="welcome-user-email" class="welcome-subtitle">Preparing your portal...</p>
+            <p id="welcome-user-display" class="welcome-subtitle">Preparing your portal...</p>
             <div class="apple-spinner"></div>
         </div>
     </div>
 
-    <!-- STEP 1: LOGIN SCREEN -->
+    <!-- PROFILE PICTURE UPDATE MODAL -->
+    <div id="profile-modal" class="modal-overlay">
+        <div class="modal-body glass-panel">
+            <h3 style="color:var(--text-main); font-size:1.3rem;">Update Profile Picture</h3>
+            <img id="modal-avatar-preview" src="https://via.placeholder.com/150" class="modal-avatar-preview">
+            <input type="text" id="avatar-url-input" placeholder="Paste Image URL or Base64 link...">
+            <button id="btn-save-avatar" class="btn btn-primary">Save Picture</button>
+            <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:6px;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- STEP 1: USERNAME OR EMAIL LOGIN SCREEN -->
     <div id="login-screen" class="auth-card glass-panel">
         <h2>Akash Portal</h2>
-        <p>Sign in to access your luxury suite.</p>
-        <input type="email" id="login-email" placeholder="Email address" required>
+        <p>Sign in using your Username or Email.</p>
+        <input type="text" id="login-identifier" placeholder="Username or Gmail address" required>
         <input type="password" id="login-password" placeholder="Password" required>
         <button id="btn-login" class="btn btn-primary">Log In</button>
         <button id="btn-goto-register" class="btn btn-secondary">Create Account</button>
         <p id="login-error" class="error-msg"></p>
     </div>
 
-    <!-- STEP 2: REGISTRATION - EMAIL STEP -->
+    <!-- STEP 2: REGISTRATION - USERNAME & EMAIL STEP -->
     <div id="reg-email-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Create Account</h2>
-        <p>Enter your email address to get started.</p>
-        <input type="email" id="reg-email" placeholder="Enter new email address" required>
+        <p>Set a Unique Username and enter your Gmail address.</p>
+        <input type="text" id="reg-username" placeholder="Choose unique username (e.g. akash99)" required>
+        <input type="email" id="reg-email" placeholder="Enter Gmail address" required>
         <button id="btn-reg-next" class="btn btn-primary">Continue →</button>
         <button id="btn-back-login1" class="btn-link">← Return to Log In</button>
         <p id="reg-email-error" class="error-msg"></p>
@@ -311,11 +279,11 @@
     <!-- STEP 3: REGISTRATION - PASSWORD STEP -->
     <div id="reg-pass-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Set Password</h2>
-        <p id="reg-email-display" style="color:var(--accent-blue); font-weight:500; margin-bottom:12px;"></p>
+        <p id="reg-user-display" style="color:var(--accent-blue); font-weight:500; margin-bottom:12px;"></p>
         <input type="password" id="reg-password" placeholder="Password (min 6 characters)" required>
         <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
         <button id="btn-reg-finish" class="btn btn-primary">Create Account</button>
-        <button id="btn-back-reg-email" class="btn-link">← Change Email</button>
+        <button id="btn-back-reg-email" class="btn-link">← Change Info</button>
         <p id="reg-pass-error" class="error-msg"></p>
     </div>
 
@@ -344,7 +312,11 @@
                     <div class="theme-option" onclick="switchTheme('gray')">🩶 Gray Mode</div>
                 </div>
             </div>
-            <button id="btn-logout">Sign Out</button>
+
+            <div class="user-nav-controls">
+                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Click to change profile picture">
+                <button id="btn-logout">Sign Out</button>
+            </div>
         </navbar>
         
         <main class="dashboard-container">
@@ -379,7 +351,6 @@
                         </div>
 
                         <div class="translator-grid">
-                            <!-- Left Pane: Input Text -->
                             <div class="trans-pane">
                                 <textarea id="input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea>
                                 <div class="pane-toolbar">
@@ -388,7 +359,6 @@
                                 </div>
                             </div>
 
-                            <!-- Right Pane: Output Translation -->
                             <div class="trans-pane output-pane">
                                 <div id="output-text" class="trans-output-text">Translation</div>
                                 <div class="pane-toolbar" style="justify-content: flex-end; gap: 8px;">
@@ -435,7 +405,7 @@
                     </div>
                 </details>
 
-                <!-- Folder 3: Game with Multi-Difficulty Robot AI -->
+                <!-- Folder 3: Game -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🎮 Tic-Tac-Toe</summary>
                     <div class="folder-content">
@@ -471,7 +441,23 @@
             <!-- RIGHT MAIN CONTENT -->
             <div class="main-right">
                 
-                <!-- Google Search Card -->
+                <!-- LIVE GROUP CHAT / COMMENT SECTION -->
+                <section class="card glass-panel">
+                    <div class="card-header">
+                        <h2>💬 Portal Group Community Chat</h2>
+                    </div>
+                    <div class="chat-box">
+                        <div id="chat-messages" class="chat-messages">
+                            <!-- Messages will load dynamically -->
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="chat-input-text" class="chat-input" placeholder="Type a message or comment...">
+                            <button id="btn-send-msg" class="chat-send-btn">Send</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Search Cards -->
                 <section class="card glass-panel">
                     <div class="card-header">
                         <img src="https://www.google.com/favicon.ico" alt="Google Logo">
@@ -483,7 +469,6 @@
                     </form>
                 </section>
 
-                <!-- YouTube Search Card -->
                 <section class="card glass-panel">
                     <div class="card-header">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube Logo">
@@ -495,22 +480,16 @@
                     </form>
                 </section>
 
-                <section class="card glass-panel">
-                    <div class="card-header">
-                        <h2>Portal Updates</h2>
-                    </div>
-                    <p style="color:var(--text-sub); font-size:0.95rem;">Day 23 Update: Added Apple-inspired post-login splash welcome animation sequence.</p>
-                </section>
-
             </div>
 
         </main>
     </div>
 
-    <!-- FIREBASE LOGIC & WELCOME ANIMATION -->
+    <!-- FIREBASE & PROFILE / CHAT LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
@@ -524,16 +503,19 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Screens & Welcome Elements
+        // Screens & Elements
         const loginScreen = document.getElementById('login-screen');
         const regEmailScreen = document.getElementById('reg-email-screen');
         const regPassScreen = document.getElementById('reg-pass-screen');
         const regSentScreen = document.getElementById('reg-sent-screen');
         const mainSite = document.getElementById('main-site');
         const welcomeOverlay = document.getElementById('welcome-overlay');
-        const welcomeUserEmail = document.getElementById('welcome-user-email');
+        const welcomeUserDisplay = document.getElementById('welcome-user-display');
+        const navAvatar = document.getElementById('nav-avatar');
 
+        let currentUserObj = null;
         let hasShownWelcome = false;
 
         function hideAllScreens() {
@@ -544,10 +526,10 @@
             mainSite.style.display = 'none';
         }
 
-        // Apple Welcome Animation Routine
-        function triggerWelcomeAnimation(email, callback) {
+        // Apple Welcome Routine
+        function triggerWelcomeAnimation(displayName, callback) {
             hideAllScreens();
-            welcomeUserEmail.innerText = email;
+            welcomeUserDisplay.innerText = `Welcome back, ${displayName}`;
             welcomeOverlay.style.display = 'flex';
             welcomeOverlay.style.opacity = '1';
 
@@ -560,17 +542,34 @@
             }, 2000);
         }
 
+        // Modal Control
+        window.openProfileModal = function() {
+            document.getElementById('profile-modal').style.display = 'flex';
+        };
+        window.closeProfileModal = function() {
+            document.getElementById('profile-modal').style.display = 'none';
+        };
+
+        // Save Profile Avatar
+        document.getElementById('btn-save-avatar').addEventListener('click', () => {
+            const url = document.getElementById('avatar-url-input').value.trim();
+            if (url && currentUserObj) {
+                updateProfile(currentUserObj, { photoURL: url }).then(() => {
+                    navAvatar.src = url;
+                    closeProfileModal();
+                });
+            }
+        });
+
         // Navigation Handlers
         document.getElementById('btn-goto-register').addEventListener('click', () => {
             hideAllScreens();
             regEmailScreen.style.display = 'block';
-            regEmailError.innerText = '';
         });
 
         document.getElementById('btn-back-login1').addEventListener('click', () => {
             hideAllScreens();
             loginScreen.style.display = 'block';
-            loginError.innerText = '';
         });
 
         document.getElementById('btn-back-reg-email').addEventListener('click', () => {
@@ -583,11 +582,18 @@
             loginScreen.style.display = 'block';
         });
 
-        // Step 1: Check if Email Exists & Validate Format
+        // Step 1: Validate Registration Username & Email
         document.getElementById('btn-reg-next').addEventListener('click', async () => {
-            const emailVal = regEmail.value.trim();
-            if (!emailVal || !emailVal.includes('@') || !emailVal.includes('.')) {
-                regEmailError.innerText = "Please enter a valid email address.";
+            const usernameVal = document.getElementById('reg-username').value.trim();
+            const emailVal = document.getElementById('reg-email').value.trim();
+            const regEmailError = document.getElementById('reg-email-error');
+
+            if (!usernameVal || usernameVal.length < 3) {
+                regEmailError.innerText = "Please enter a valid username (min 3 chars).";
+                return;
+            }
+            if (!emailVal || !emailVal.includes('@')) {
+                regEmailError.innerText = "Please enter a valid Gmail address.";
                 return;
             }
 
@@ -598,90 +604,135 @@
                 const methods = await fetchSignInMethodsForEmail(auth, emailVal);
                 if (methods.length > 0) {
                     regEmailError.style.color = "#ff453a";
-                    regEmailError.innerText = "An account with this email already exists. Please log in instead.";
+                    regEmailError.innerText = "An account with this email already exists.";
                     return;
                 }
 
                 regEmailError.innerText = '';
-                regEmailDisplay.innerText = emailVal;
+                document.getElementById('reg-user-display').innerText = `@${usernameVal} (${emailVal})`;
                 hideAllScreens();
                 regPassScreen.style.display = 'block';
 
             } catch (err) {
                 regEmailError.innerText = '';
-                regEmailDisplay.innerText = emailVal;
+                document.getElementById('reg-user-display').innerText = `@${usernameVal} (${emailVal})`;
                 hideAllScreens();
                 regPassScreen.style.display = 'block';
             }
         });
 
-        // Step 2: Validate Passwords & Create Account
+        // Step 2: Create Account & Save Username
         document.getElementById('btn-reg-finish').addEventListener('click', () => {
-            const emailVal = regEmail.value.trim();
-            const passVal = regPassword.value;
-            const confirmVal = regConfirmPassword.value;
+            const usernameVal = document.getElementById('reg-username').value.trim();
+            const emailVal = document.getElementById('reg-email').value.trim();
+            const passVal = document.getElementById('reg-password').value;
+            const confirmVal = document.getElementById('reg-confirm-password').value;
+            const regPassError = document.getElementById('reg-pass-error');
 
-            if (passVal.length < 6) {
-                regPassError.innerText = "Password must be at least 6 characters long.";
-                return;
-            }
-            if (passVal !== confirmVal) {
-                regPassError.innerText = "Passwords do not match. Please re-enter.";
-                return;
-            }
+            if (passVal.length < 6) { regPassError.innerText = "Password must be at least 6 characters."; return; }
+            if (passVal !== confirmVal) { regPassError.innerText = "Passwords do not match."; return; }
 
             regPassError.innerText = "Creating account...";
             
             createUserWithEmailAndPassword(auth, emailVal, passVal)
                 .then((userCredential) => {
-                    sendEmailVerification(userCredential.user).then(() => {
-                        auth.signOut();
-                        hideAllScreens();
-                        regSentScreen.style.display = 'block';
+                    updateProfile(userCredential.user, { 
+                        displayName: usernameVal,
+                        photoURL: "https://ui-avatars.com/api/?name=" + encodeURIComponent(usernameVal) + "&background=0071e3&color=fff"
+                    }).then(() => {
+                        sendEmailVerification(userCredential.user).then(() => {
+                            auth.signOut();
+                            hideAllScreens();
+                            regSentScreen.style.display = 'block';
+                        });
                     });
                 })
                 .catch((error) => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        hideAllScreens();
-                        regEmailScreen.style.display = 'block';
-                        regEmailError.style.color = "#ff453a";
-                        regEmailError.innerText = "An account with this email already exists. Please log in instead.";
-                    } else {
-                        regPassError.innerText = error.message;
-                    }
+                    regPassError.innerText = error.message;
                 });
         });
 
-        // Login Handler
+        // Login via Username or Email
         document.getElementById('btn-login').addEventListener('click', () => {
+            const identifier = document.getElementById('login-identifier').value.trim();
+            const pass = document.getElementById('login-password').value;
+            const loginError = document.getElementById('login-error');
+
             loginError.innerText = "Signing in...";
-            signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value)
+
+            const emailToUse = identifier.includes('@') ? identifier : `${identifier}@akashportal.com`;
+
+            signInWithEmailAndPassword(auth, emailToUse, pass)
                 .catch((error) => {
-                    loginError.innerText = "Login failed: " + error.message;
+                    loginError.innerText = "Login failed: Invalid credentials.";
                 });
         });
 
-        // Logout Handler
+        // Logout
         document.getElementById('btn-logout').addEventListener('click', () => {
             hasShownWelcome = false;
             signOut(auth);
         });
 
-        // Auth State Observer with Welcome Animation
+        // Group Chat Real-Time Listener
+        function initRealtimeGroupChat() {
+            const chatMessages = document.getElementById('chat-messages');
+            const q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
+
+            onSnapshot(q, (snapshot) => {
+                chatMessages.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'chat-msg';
+                    msgDiv.innerHTML = `
+                        <img src="${data.photoURL || 'https://via.placeholder.com/150'}" class="chat-avatar">
+                        <div class="msg-bubble">
+                            <div class="msg-user">@${data.username || 'User'}</div>
+                            <div class="msg-text">${data.text}</div>
+                        </div>
+                    `;
+                    chatMessages.appendChild(msgDiv);
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        }
+
+        // Send Chat Message
+        document.getElementById('btn-send-msg').addEventListener('click', async () => {
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if (text && currentUserObj) {
+                input.value = '';
+                await addDoc(collection(db, "group_messages"), {
+                    text: text,
+                    username: currentUserObj.displayName || currentUserObj.email.split('@')[0],
+                    photoURL: currentUserObj.photoURL || 'https://via.placeholder.com/150',
+                    timestamp: serverTimestamp()
+                });
+            }
+        });
+
+        // Auth Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                currentUserObj = user;
+                navAvatar.src = user.photoURL || ("https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "A"));
+
                 if (user.emailVerified) {
                     if (!hasShownWelcome) {
                         hasShownWelcome = true;
-                        triggerWelcomeAnimation(user.email, () => {
+                        triggerWelcomeAnimation(user.displayName || user.email.split('@')[0], () => {
                             mainSite.style.display = 'block';
+                            initRealtimeGroupChat();
                         });
                     } else {
                         hideAllScreens();
                         mainSite.style.display = 'block';
+                        initRealtimeGroupChat();
                     }
                 } else {
-                    loginError.innerText = "Please check your email inbox to verify your account before logging in.";
+                    document.getElementById('login-error').innerText = "Please verify your email address before logging in.";
                     auth.signOut();
                     hideAllScreens();
                     loginScreen.style.display = 'block';
@@ -697,7 +748,7 @@
         });
     </script>
 
-    <!-- THEME SWITCHER & TOOLS LOGIC -->
+    <!-- TOOLS & THEME SWITCHER -->
     <script>
         function toggleThemeMenu(event) {
             event.stopPropagation();
@@ -721,7 +772,6 @@
         let isListening = false;
         let recognition = null;
 
-        // Auto-Translate Function
         function autoTranslate() {
             clearTimeout(debounceTimer);
             const inputVal = document.getElementById('input-text').value.trim();
@@ -766,7 +816,6 @@
             }, 300);
         }
 
-        // Swap Languages
         function swapLanguages() {
             const src = document.getElementById('src-lang');
             const target = document.getElementById('target-lang');
@@ -782,20 +831,16 @@
             autoTranslate();
         }
 
-        // Microphone Voice Input
         function toggleVoiceInput() {
             const micBtn = document.getElementById('mic-btn');
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
             if (!SpeechRecognition) {
-                alert("Voice recognition is not supported in this browser. Please try Google Chrome.");
+                alert("Voice recognition is not supported in this browser.");
                 return;
             }
 
-            if (isListening) {
-                recognition.stop();
-                return;
-            }
+            if (isListening) { recognition.stop(); return; }
 
             recognition = new SpeechRecognition();
             const srcLang = document.getElementById('src-lang').value;
@@ -815,7 +860,6 @@
             recognition.start();
         }
 
-        // Speech Audio Output
         function playSpeech(pane) {
             let text = pane === 'input' ? document.getElementById('input-text').value.trim() : document.getElementById('output-text').innerText.trim();
             let lang = pane === 'input' ? document.getElementById('src-lang').value : document.getElementById('target-lang').value;
@@ -836,37 +880,27 @@
             });
         }
 
-        // Copy Translation
         function copyTranslation() {
             const txt = document.getElementById('output-text').innerText;
             if (txt && txt !== "Translation") navigator.clipboard.writeText(txt);
         }
 
-        // Apple Calculator Engine Logic
+        // Apple Calculator Engine
         const calcDisplay = document.getElementById('calc-display');
         let currentCalc = '0';
 
         function appendCalc(val) {
-            if (currentCalc === '0' && val !== '.') {
-                currentCalc = val;
-            } else {
-                currentCalc += val;
-            }
+            if (currentCalc === '0' && val !== '.') { currentCalc = val; } 
+            else { currentCalc += val; }
             calcDisplay.value = currentCalc;
         }
 
-        function clearCalc() {
-            currentCalc = '0';
-            calcDisplay.value = currentCalc;
-        }
+        function clearCalc() { currentCalc = '0'; calcDisplay.value = currentCalc; }
 
         function toggleSign() {
             if (currentCalc !== '0' && currentCalc !== 'Error') {
-                if (currentCalc.startsWith('-')) {
-                    currentCalc = currentCalc.substring(1);
-                } else {
-                    currentCalc = '-' + currentCalc;
-                }
+                if (currentCalc.startsWith('-')) { currentCalc = currentCalc.substring(1); } 
+                else { currentCalc = '-' + currentCalc; }
                 calcDisplay.value = currentCalc;
             }
         }
@@ -882,7 +916,7 @@
             }
         }
 
-        // Tic-Tac-Toe AI Engine Logic (Easy, Medium, Minimax Hard)
+        // Tic-Tac-Toe AI Engine
         let board = ["", "", "", "", "", "", "", "", ""];
         let currentPlayer = "X";
         let gameActive = true;
@@ -922,17 +956,11 @@
             if (!gameActive) return;
             let moveIndex;
 
-            if (difficulty === "easy") {
-                moveIndex = getRandomMove();
-            } else if (difficulty === "medium") {
-                moveIndex = Math.random() < 0.6 ? getBestMove() : getRandomMove();
-            } else {
-                moveIndex = getBestMove();
-            }
+            if (difficulty === "easy") { moveIndex = getRandomMove(); } 
+            else if (difficulty === "medium") { moveIndex = Math.random() < 0.6 ? getBestMove() : getRandomMove(); } 
+            else { moveIndex = getBestMove(); }
 
-            if (moveIndex !== undefined && moveIndex !== null) {
-                playTurn(moveIndex);
-            }
+            if (moveIndex !== undefined && moveIndex !== null) { playTurn(moveIndex); }
         }
 
         function getRandomMove() {
@@ -941,7 +969,6 @@
             return available.length > 0 ? available[Math.floor(Math.random() * available.length)] : null;
         }
 
-        // Minimax Hard AI
         function getBestMove() {
             let bestScore = -Infinity;
             let move;
