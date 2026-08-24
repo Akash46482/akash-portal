@@ -3,81 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash - Welcome</title>
+    <title>Akash - Professional Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; line-height: 1.5; min-height: 100vh; }
+
         /* Login Screen */
-        #login-screen { max-width: 400px; margin: 100px auto; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        #login-screen h2 { margin-bottom: 1rem; color: #2563eb; }
-        input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
-        .btn { width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
-        #btn-login { background-color: #2563eb; }
-        #btn-register { background-color: #10b981; }
-        .error-msg { color: red; font-size: 0.9rem; margin-top: 10px; }
+        #login-screen { 
+            max-width: 420px; margin: 80px auto; padding: 2.5rem; 
+            background: #ffffff; border-radius: 12px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
+            border: 1px solid #e2e8f0; text-align: center; 
+        }
+        #login-screen h2 { margin-bottom: 0.5rem; color: #0f172a; font-weight: 700; font-size: 1.75rem; }
+        #login-screen p { color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        input[type="email"], input[type="password"] { 
+            width: 100%; padding: 12px 16px; margin-bottom: 12px; 
+            border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: all 0.2s;
+        }
+        input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+        .btn { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
+        #btn-login { background-color: #2563eb; color: white; }
+        #btn-login:hover { background-color: #1d4ed8; }
+        #btn-register { background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+        #btn-register:hover { background-color: #e2e8f0; }
+        .error-msg { color: #ef4444; font-size: 0.875rem; margin-top: 14px; }
 
-        /* Main Website Header */
+        /* Top Navigation Header */
         #main-site { display: none; }
-        header { background: #1e293b; color: white; padding: 2rem 1rem; text-align: center; }
-        #btn-logout { background-color: #ef4444; width: auto; padding: 8px 16px; margin-top: 20px; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        
-        /* Dashboard Layout */
-        .dashboard-container { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
-        .sidebar-left { flex: 1; min-width: 300px; }
+        navbar { background: #0f172a; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+        .brand-logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 1px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .brand-logo span { color: #38bdf8; }
+        #btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.875rem; transition: 0.2s; }
+        #btn-logout:hover { background: #dc2626; }
+
+        /* Main App Grid Container */
+        .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .sidebar-left { flex: 1; min-width: 320px; }
         .main-right { flex: 2; min-width: 400px; }
-        @media (max-width: 768px) { .main-right { min-width: 100%; } }
+        @media (max-width: 850px) { .sidebar-left, .main-right { min-width: 100%; } }
 
-        /* Card Styles */
-        .card { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        /* Card System */
+        .card { background: #ffffff; padding: 1.75rem; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -2px rgba(0,0,0,0.02); }
+        .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+        .card-header img { height: 22px; width: auto; }
+        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: #0f172a; }
+
+        /* Accordion Collapsible Folders */
+        details.folder { background: #ffffff; border-radius: 12px; margin-bottom: 1rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden; transition: border-color 0.2s; }
+        details.folder[open] { border-color: #cbd5e1; }
+        summary.folder-tab { background: #f8fafc; padding: 14px 18px; font-weight: 600; font-size: 0.95rem; color: #334155; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        summary.folder-tab:hover { background: #f1f5f9; color: #0f172a; }
+        summary.folder-tab::-webkit-details-marker { display: none; }
+        summary.folder-tab::after { content: '›'; font-size: 1.2rem; transform: rotate(90deg); transition: transform 0.2s; }
+        details[open] summary.folder-tab::after { transform: rotate(-90deg); }
+        .folder-content { padding: 1.5rem; border-top: 1px solid #f1f5f9; }
+
+        /* Unified Search Bar Elements */
+        .search-form { display: flex; gap: 8px; }
+        .search-input { flex-grow: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .search-input:focus { border-color: #2563eb; }
+        .search-btn { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+        .yt-btn { background-color: #ff0000; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+
+        /* Modern Calculator */
+        .calc-display { width: 100%; padding: 12px 16px; font-size: 1.5rem; text-align: right; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .calc-btn { padding: 14px; font-size: 1.1rem; border: 1px solid #e2e8f0; background: #ffffff; border-radius: 8px; cursor: pointer; font-weight: 600; color: #334155; transition: 0.15s; }
+        .calc-btn:hover { background: #f1f5f9; }
+        .calc-btn.op { background: #fef3c7; color: #d97706; border-color: #fde68a; }
+        .calc-btn.op:hover { background: #fde68a; }
+        .calc-btn.clear { background: #fee2e2; color: #dc2626; border-color: #fca5a5; grid-column: span 2; }
+        .calc-btn.eq { background: #10b981; color: white; border-color: #10b981; grid-column: span 2; }
+
+        /* Tic-Tac-Toe Game */
+        .mode-buttons { display: flex; gap: 6px; margin-bottom: 12px; }
+        .mode-btn { flex: 1; padding: 8px; border: 1px solid #cbd5e1; cursor: pointer; border-radius: 6px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
+        .mode-active { background: #0f172a; color: white; border-color: #0f172a; }
+        .mode-inactive { background: #ffffff; color: #64748b; }
         
-        /* Folder Styles (Collapsible) */
-        details.folder { background: white; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; }
-        summary.folder-tab { background: #e2e8f0; padding: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-        summary.folder-tab:hover { background: #cbd5e1; }
-        summary.folder-tab::-webkit-details-marker { display: none; } 
-        summary.folder-tab::after { content: '▼'; font-size: 0.8rem; }
-        details[open] summary.folder-tab::after { content: '▲'; }
-        .folder-content { padding: 1.5rem; }
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 240px; margin: 12px auto; }
+        .cell { aspect-ratio: 1; background: #f8fafc; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .cell:hover { background: #f1f5f9; }
+        #game-status { text-align: center; font-weight: 600; font-size: 0.95rem; color: #475569; }
+        .reset-btn { display: block; margin: 12px auto 0; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
 
-        /* Search Bar & Logos */
-        .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-        .card-header img { height: 24px; width: auto; }
-        .search-form { display: flex; gap: 10px; margin-top: 10px; }
-        .search-input { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        .search-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .yt-btn { background-color: #ff0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-
-        /* Calculator Styles */
-        .calc-display { width: 100%; padding: 15px; font-size: 1.5rem; text-align: right; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f8fafc; }
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .calc-btn { padding: 15px; font-size: 1.2rem; border: none; background: #e2e8f0; border-radius: 4px; cursor: pointer; }
-        .calc-btn:active { background: #cbd5e1; }
-        .calc-btn.op { background: #f59e0b; color: white; }
-        .calc-btn.clear { background: #ef4444; color: white; grid-column: span 2; }
-        .calc-btn.eq { background: #10b981; color: white; grid-column: span 2; }
-
-        /* Tic-Tac-Toe Styles */
-        .mode-buttons { display: flex; gap: 5px; margin-bottom: 15px; }
-        .mode-btn { flex: 1; padding: 8px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
-        .mode-active { background: #10b981; color: white; }
-        .mode-inactive { background: #e2e8f0; color: #333; }
-        
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 250px; margin: 10px auto; }
-        .cell { aspect-ratio: 1; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
-        .cell:hover { background: #cbd5e1; }
-        #game-status { text-align: center; font-weight: bold; margin-bottom: 10px; }
-        .reset-btn { display: block; margin: 10px auto 0; background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-
-        /* Dictionary & Translator Styles */
-        .dict-box { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-        .dict-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem; }
-        .dict-btn { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
-        .dict-result { font-size: 1rem; margin-top: 10px; padding: 12px; background: #f8fafc; border-radius: 4px; border-left: 4px solid #10b981; }
-        .bangla-text { font-size: 1.4rem; color: #0f172a; font-weight: bold; margin-top: 5px; display: block; }
+        /* Dictionary & Speech */
+        .dict-box { display: flex; flex-direction: column; gap: 8px; }
+        .dict-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .dict-btn { background: #0f172a; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+        .dict-result { font-size: 0.95rem; margin-top: 12px; padding: 14px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #10b981; }
+        .bangla-text { font-size: 1.35rem; color: #0f172a; font-weight: 700; margin: 4px 0 8px 0; display: block; }
         .audio-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .audio-btn { background: #e2e8f0; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
-        .audio-btn-bn { background: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+        .audio-btn { background: #e2e8f0; color: #334155; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .audio-btn-bn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -85,33 +105,32 @@
     <!-- 1. LOGIN SCREEN -->
     <div id="login-screen">
         <h2>Akash Portal</h2>
-        <p>Login or register to access the site.</p>
-        <input type="email" id="email" placeholder="Enter your Email" required>
-        <input type="password" id="password" placeholder="Enter a password" required>
+        <p>Sign in to access your dashboard.</p>
+        <input type="email" id="email" placeholder="Email address" required>
+        <input type="password" id="password" placeholder="Password" required>
         <button id="btn-login" class="btn">Log In</button>
-        <button id="btn-register" class="btn">Register New Account</button>
+        <button id="btn-register" class="btn">Create Account</button>
         <p id="error-message" class="error-msg"></p>
     </div>
 
     <!-- 2. MAIN DASHBOARD -->
     <div id="main-site">
-        <header>
-            <h1>AKASH</h1>
-            <p>Welcome to my official dashboard. Updated daily!</p>
-            <button id="btn-logout">Log Out</button>
-        </header>
+        <navbar>
+            <div class="brand-logo">AKASH <span>PORTAL</span></div>
+            <button id="btn-logout">Sign Out</button>
+        </navbar>
         
         <main class="dashboard-container">
             
-            <!-- LEFT SIDEBAR (Folders) -->
+            <!-- LEFT SIDEBAR -->
             <div class="sidebar-left">
                 
-                <!-- Folder 1: Live English to Bangla Translator -->
+                <!-- Folder 1: Live Translator -->
                 <details class="folder" open>
                     <summary class="folder-tab">📖 English to Bangla Dictionary</summary>
                     <div class="folder-content">
                         <div class="dict-box">
-                            <input type="text" id="dict-input" class="dict-input" placeholder="Enter English word or sentence...">
+                            <input type="text" id="dict-input" class="dict-input" placeholder="Type English word or sentence...">
                             <button class="dict-btn" onclick="translateToBangla()">Translate to Bangla</button>
                         </div>
                         <div id="dict-result" style="display:none;" class="dict-result"></div>
@@ -169,7 +188,7 @@
                             <div class="cell" onclick="makeMove(7)"></div>
                             <div class="cell" onclick="makeMove(8)"></div>
                         </div>
-                        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+                        <button class="reset-btn" onclick="resetGame()">Reset Board</button>
                     </div>
                 </details>
 
@@ -203,8 +222,10 @@
                 </section>
 
                 <section class="card">
-                    <h2>Today's Update</h2>
-                    <p>Welcome to Akash! Day 9 Update: Added Bangla speech audio playback directly inside the translator tool.</p>
+                    <div class="card-header">
+                        <h2>Portal Updates</h2>
+                    </div>
+                    <p style="color:#64748b; font-size:0.95rem;">Day 11 Update: Upgraded to a modern, professional SaaS UI template with polished typography and responsive layouts.</p>
                 </section>
 
             </div>
@@ -241,17 +262,17 @@
             createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
                 .then((userCredential) => {
                     sendEmailVerification(userCredential.user).then(() => {
-                        errorMsg.style.color = "green";
-                        errorMsg.innerText = "Success! Please check your email to verify.";
+                        errorMsg.style.color = "#10b981";
+                        errorMsg.innerText = "Success! Please check your email inbox to verify.";
                         auth.signOut();
                     });
-                }).catch((error) => { errorMsg.style.color = "red"; errorMsg.innerText = error.message; });
+                }).catch((error) => { errorMsg.style.color = "#ef4444"; errorMsg.innerText = error.message; });
         });
 
         document.getElementById('btn-login').addEventListener('click', () => {
             errorMsg.innerText = "Logging in...";
             signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-                .catch((error) => { errorMsg.style.color = "red"; errorMsg.innerText = "Login failed: " + error.message; });
+                .catch((error) => { errorMsg.style.color = "#ef4444"; errorMsg.innerText = "Login failed: " + error.message; });
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
@@ -261,7 +282,7 @@
                 if (user.emailVerified) {
                     loginScreen.style.display = 'none'; mainSite.style.display = 'block'; errorMsg.innerText = "";
                 } else {
-                    errorMsg.style.color = "red"; errorMsg.innerText = "Please verify your email first."; auth.signOut();
+                    errorMsg.style.color = "#ef4444"; errorMsg.innerText = "Please verify your email before logging in."; auth.signOut();
                 }
             } else {
                 loginScreen.style.display = 'block'; mainSite.style.display = 'none'; emailInput.value = ''; passwordInput.value = '';
@@ -271,6 +292,8 @@
 
     <!-- 4. TOOLS & TRANSLATION LOGIC -->
     <script>
+        let currentAudio = null;
+
         async function translateToBangla() {
             const inputField = document.getElementById('dict-input');
             const resultDiv = document.getElementById('dict-result');
@@ -286,33 +309,36 @@
                 const data = await response.json();
                 const translatedText = data.responseData.translatedText;
 
-                // Escape quotes for audio functions
                 const safeEnglish = text.replace(/'/g, "\\'");
                 const safeBangla = translatedText.replace(/'/g, "\\'");
 
                 resultDiv.innerHTML = `
-                    <div style="font-size:0.85rem; color:#64748b;">English Text:</div>
-                    <div style="font-weight:600;">${text}</div>
-                    <div style="font-size:0.85rem; color:#64748b; margin-top:8px;">Bangla Translation (বাংলা):</div>
+                    <div style="font-size:0.8rem; color:#64748b; font-weight:600;">ENGLISH TEXT</div>
+                    <div style="font-weight:500; color:#334155;">${text}</div>
+                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:10px;">BANGLA TRANSLATION (বাংলা)</div>
                     <span class="bangla-text">${translatedText}</span>
                     <div class="audio-group">
-                        <button class="audio-btn" onclick="speakText('${safeEnglish}', 'en-US')">🔊 Listen English</button>
-                        <button class="audio-btn-bn" onclick="speakText('${safeBangla}', 'bn-BD')">🔊 Listen Bangla (বাংলা)</button>
+                        <button class="audio-btn" onclick="playOnlineAudio('${safeEnglish}', 'en')">🔊 English</button>
+                        <button class="audio-btn-bn" onclick="playOnlineAudio('${safeBangla}', 'bn')">🔊 Bangla (বাংলা)</button>
                     </div>
                 `;
             } catch (err) {
-                resultDiv.innerHTML = `<p style="color:red;">Error fetching translation. Please try again.</p>`;
+                resultDiv.innerHTML = `<p style="color:#ef4444;">Error fetching translation. Please try again.</p>`;
             }
         }
 
-        // Dual Speech Engine (English & Bangla)
-        function speakText(text, langCode) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Stop any active speech
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = langCode; // Sets language to English (en-US) or Bangla (bn-BD)
-                window.speechSynthesis.speak(utterance);
-            }
+        function playOnlineAudio(text, lang) {
+            if (currentAudio) { currentAudio.pause(); }
+            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+            currentAudio = new Audio(audioUrl);
+            currentAudio.play().catch(e => {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang === 'bn' ? 'bn-BD' : 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                }
+            });
         }
 
         // --- Calculator Logic ---
@@ -349,7 +375,7 @@
             if (board[cellIndex] !== "" || !gameActive || (gameMode === "AI" && currentPlayer === "O")) return;
             playTurn(cellIndex);
             if (gameActive && gameMode === "AI" && currentPlayer === "O") {
-                statusDisplay.innerText = "Robot is thinking...";
+                statusDisplay.innerText = "Robot thinking...";
                 setTimeout(robotMove, 600);
             }
         }
