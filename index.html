@@ -14,7 +14,407 @@
         input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
         .btn { width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
         #btn-login { background-color: #2563eb; }
+        #btn-register { background-color: #10b981; }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akash - Welcome</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        
+        /* Login Screen */
+        #login-screen { max-width: 400px; margin: 100px auto; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        #login-screen h2 { margin-bottom: 1rem; color: #2563eb; }
+        input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
+        #btn-login { background-color: #2563eb; }
         #btn-register { background-color: #10b981; }
+        .error-msg { color: red; font-size: 0.9rem; margin-top: 10px; }
+
+        /* Main Website Header */
+        #main-site { display: none; }
+        header { background: #1e293b; color: white; padding: 2rem 1rem; text-align: center; }
+        #btn-logout { background-color: #ef4444; width: auto; padding: 8px 16px; margin-top: 20px; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        
+        /* Dashboard Layout */
+        .dashboard-container { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+        .sidebar-left { flex: 1; min-width: 300px; }
+        .main-right { flex: 2; min-width: 400px; }
+        @media (max-width: 768px) { .main-right { min-width: 100%; } }
+
+        /* Card Styles */
+        .card { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        
+        /* Folder Styles (Collapsible) */
+        details.folder { background: white; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; }
+        summary.folder-tab { background: #e2e8f0; padding: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary.folder-tab:hover { background: #cbd5e1; }
+        summary.folder-tab::-webkit-details-marker { display: none; } 
+        summary.folder-tab::after { content: '▼'; font-size: 0.8rem; }
+        details[open] summary.folder-tab::after { content: '▲'; }
+        .folder-content { padding: 1.5rem; }
+
+        /* Search Bar & Logos */
+        .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .card-header img { height: 24px; width: auto; }
+        .search-form { display: flex; gap: 10px; margin-top: 10px; }
+        .search-input { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .search-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .yt-btn { background-color: #ff0000; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* Calculator Styles */
+        .calc-display { width: 100%; padding: 15px; font-size: 1.5rem; text-align: right; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f8fafc; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .calc-btn { padding: 15px; font-size: 1.2rem; border: none; background: #e2e8f0; border-radius: 4px; cursor: pointer; }
+        .calc-btn:active { background: #cbd5e1; }
+        .calc-btn.op { background: #f59e0b; color: white; }
+        .calc-btn.clear { background: #ef4444; color: white; grid-column: span 2; }
+        .calc-btn.eq { background: #10b981; color: white; grid-column: span 2; }
+
+        /* Tic-Tac-Toe Styles */
+        .mode-buttons { display: flex; gap: 5px; margin-bottom: 15px; }
+        .mode-btn { flex: 1; padding: 8px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+        .mode-active { background: #10b981; color: white; }
+        .mode-inactive { background: #e2e8f0; color: #333; }
+        
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 250px; margin: 10px auto; }
+        .cell { aspect-ratio: 1; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .cell:hover { background: #cbd5e1; }
+        #game-status { text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .reset-btn { display: block; margin: 10px auto 0; background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+
+        /* Dictionary & Translator Styles */
+        .dict-box { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .dict-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem; }
+        .dict-btn { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+        .dict-result { font-size: 1rem; margin-top: 10px; padding: 12px; background: #f8fafc; border-radius: 4px; border-left: 4px solid #10b981; }
+        .bangla-text { font-size: 1.4rem; color: #0f172a; font-weight: bold; margin-top: 5px; display: block; }
+        .audio-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .audio-btn { background: #e2e8f0; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+        .audio-btn-bn { background: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-screen">
+        <h2>Akash Portal</h2>
+        <p>Login or register to access the site.</p>
+        <input type="email" id="email" placeholder="Enter your Email" required>
+        <input type="password" id="password" placeholder="Enter a password" required>
+        <button id="btn-login" class="btn">Log In</button>
+        <button id="btn-register" class="btn">Register New Account</button>
+        <p id="error-message" class="error-msg"></p>
+    </div>
+
+    <!-- 2. MAIN DASHBOARD -->
+    <div id="main-site">
+        <header>
+            <h1>AKASH</h1>
+            <p>Welcome to my official dashboard. Updated daily!</p>
+            <button id="btn-logout">Log Out</button>
+        </header>
+        
+        <main class="dashboard-container">
+            
+            <!-- LEFT SIDEBAR (Folders) -->
+            <div class="sidebar-left">
+                
+                <!-- Folder 1: Live English to Bangla Translator -->
+                <details class="folder" open>
+                    <summary class="folder-tab">📖 English to Bangla Dictionary</summary>
+                    <div class="folder-content">
+                        <div class="dict-box">
+                            <input type="text" id="dict-input" class="dict-input" placeholder="Enter English word or sentence...">
+                            <button class="dict-btn" onclick="translateToBangla()">Translate to Bangla</button>
+                        </div>
+                        <div id="dict-result" style="display:none;" class="dict-result"></div>
+                    </div>
+                </details>
+
+                <!-- Folder 2: Calculator -->
+                <details class="folder">
+                    <summary class="folder-tab">🧮 Calculator</summary>
+                    <div class="folder-content">
+                        <input type="text" id="calc-display" class="calc-display" disabled value="0">
+                        <div class="calc-buttons">
+                            <button class="calc-btn clear" onclick="clearCalc()">C</button>
+                            <button class="calc-btn op" onclick="appendCalc('/')">÷</button>
+                            <button class="calc-btn op" onclick="appendCalc('*')">×</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                            <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                            <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                            <button class="calc-btn op" onclick="appendCalc('-')">-</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                            <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                            <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                            <button class="calc-btn op" onclick="appendCalc('+')">+</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                            <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                            <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                            <button class="calc-btn eq" onclick="calculate()">=</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('0')" style="grid-column: span 3;">0</button>
+                            <button class="calc-btn" onclick="appendCalc('.')">.</button>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Folder 3: Game -->
+                <details class="folder">
+                    <summary class="folder-tab">🎮 Tic-Tac-Toe</summary>
+                    <div class="folder-content">
+                        <div class="mode-buttons">
+                            <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
+                            <button id="btn-ai" class="mode-btn mode-inactive" onclick="setMode('AI')">Vs Robot</button>
+                        </div>
+                        <p id="game-status">Player X's Turn</p>
+                        <div class="board" id="board">
+                            <div class="cell" onclick="makeMove(0)"></div>
+                            <div class="cell" onclick="makeMove(1)"></div>
+                            <div class="cell" onclick="makeMove(2)"></div>
+                            <div class="cell" onclick="makeMove(3)"></div>
+                            <div class="cell" onclick="makeMove(4)"></div>
+                            <div class="cell" onclick="makeMove(5)"></div>
+                            <div class="cell" onclick="makeMove(6)"></div>
+                            <div class="cell" onclick="makeMove(7)"></div>
+                            <div class="cell" onclick="makeMove(8)"></div>
+                        </div>
+                        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+                    </div>
+                </details>
+
+            </div>
+
+            <!-- RIGHT MAIN CONTENT -->
+            <div class="main-right">
+                
+                <!-- Google Search Card -->
+                <section class="card">
+                    <div class="card-header">
+                        <img src="https://www.google.com/favicon.ico" alt="Google Logo">
+                        <h2>Search Google</h2>
+                    </div>
+                    <form class="search-form" action="https://www.google.com/search" method="get" target="_blank">
+                        <input class="search-input" type="text" name="q" placeholder="Search Google..." required>
+                        <button class="search-btn" type="submit">Search</button>
+                    </form>
+                </section>
+
+                <!-- YouTube Search Card -->
+                <section class="card">
+                    <div class="card-header">
+                        <img src="https://www.youtube.com/s/desktop/f5af05a4/img/favicon.ico" alt="YouTube Logo">
+                        <h2>Search YouTube</h2>
+                    </div>
+                    <form class="search-form" action="https://www.youtube.com/results" method="get" target="_blank">
+                        <input class="search-input" type="text" name="search_query" placeholder="Search videos on YouTube..." required>
+                        <button class="yt-btn" type="submit">YouTube</button>
+                    </form>
+                </section>
+
+                <section class="card">
+                    <h2>Today's Update</h2>
+                    <p>Welcome to Akash! Day 9 Update: Added Bangla speech audio playback directly inside the translator tool.</p>
+                </section>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 3. FIREBASE LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
+            authDomain: "an46-7d0f3.firebaseapp.com",
+            projectId: "an46-7d0f3",
+            storageBucket: "an46-7d0f3.firebasestorage.app",
+            messagingSenderId: "265002186410",
+            appId: "1:265002186410:web:0ba24a52e883c013e4c2d3",
+            measurementId: "G-EZBC6KBV1F"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginScreen = document.getElementById('login-screen');
+        const mainSite = document.getElementById('main-site');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('error-message');
+
+        document.getElementById('btn-register').addEventListener('click', () => {
+            errorMsg.innerText = "Registering...";
+            createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+                .then((userCredential) => {
+                    sendEmailVerification(userCredential.user).then(() => {
+                        errorMsg.style.color = "green";
+                        errorMsg.innerText = "Success! Please check your email to verify.";
+                        auth.signOut();
+                    });
+                }).catch((error) => { errorMsg.style.color = "red"; errorMsg.innerText = error.message; });
+        });
+
+        document.getElementById('btn-login').addEventListener('click', () => {
+            errorMsg.innerText = "Logging in...";
+            signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+                .catch((error) => { errorMsg.style.color = "red"; errorMsg.innerText = "Login failed: " + error.message; });
+        });
+
+        document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                if (user.emailVerified) {
+                    loginScreen.style.display = 'none'; mainSite.style.display = 'block'; errorMsg.innerText = "";
+                } else {
+                    errorMsg.style.color = "red"; errorMsg.innerText = "Please verify your email first."; auth.signOut();
+                }
+            } else {
+                loginScreen.style.display = 'block'; mainSite.style.display = 'none'; emailInput.value = ''; passwordInput.value = '';
+            }
+        });
+    </script>
+
+    <!-- 4. TOOLS & TRANSLATION LOGIC -->
+    <script>
+        async function translateToBangla() {
+            const inputField = document.getElementById('dict-input');
+            const resultDiv = document.getElementById('dict-result');
+            const text = inputField.value.trim();
+
+            if (!text) return;
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = "Translating...";
+
+            try {
+                const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|bn`);
+                const data = await response.json();
+                const translatedText = data.responseData.translatedText;
+
+                // Escape quotes for audio functions
+                const safeEnglish = text.replace(/'/g, "\\'");
+                const safeBangla = translatedText.replace(/'/g, "\\'");
+
+                resultDiv.innerHTML = `
+                    <div style="font-size:0.85rem; color:#64748b;">English Text:</div>
+                    <div style="font-weight:600;">${text}</div>
+                    <div style="font-size:0.85rem; color:#64748b; margin-top:8px;">Bangla Translation (বাংলা):</div>
+                    <span class="bangla-text">${translatedText}</span>
+                    <div class="audio-group">
+                        <button class="audio-btn" onclick="speakText('${safeEnglish}', 'en-US')">🔊 Listen English</button>
+                        <button class="audio-btn-bn" onclick="speakText('${safeBangla}', 'bn-BD')">🔊 Listen Bangla (বাংলা)</button>
+                    </div>
+                `;
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color:red;">Error fetching translation. Please try again.</p>`;
+            }
+        }
+
+        // Dual Speech Engine (English & Bangla)
+        function speakText(text, langCode) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop any active speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = langCode; // Sets language to English (en-US) or Bangla (bn-BD)
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- Calculator Logic ---
+        const calcDisplay = document.getElementById('calc-display');
+        let currentCalc = '0';
+        function appendCalc(val) {
+            if (currentCalc === '0' && val !== '.') currentCalc = val;
+            else currentCalc += val;
+            calcDisplay.value = currentCalc;
+        }
+        function clearCalc() { currentCalc = '0'; calcDisplay.value = currentCalc; }
+        function calculate() {
+            try { currentCalc = eval(currentCalc).toString(); calcDisplay.value = currentCalc; } 
+            catch (e) { calcDisplay.value = 'Error'; currentCalc = '0'; }
+        }
+
+        // --- Tic-Tac-Toe Logic ---
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameActive = true;
+        let gameMode = "2P";
+        const statusDisplay = document.getElementById('game-status');
+        const cells = document.querySelectorAll('.cell');
+        const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
+
+        function setMode(mode) {
+            gameMode = mode;
+            document.getElementById('btn-2p').className = mode === '2P' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
+            document.getElementById('btn-ai').className = mode === 'AI' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
+            resetGame();
+        }
+
+        function makeMove(cellIndex) {
+            if (board[cellIndex] !== "" || !gameActive || (gameMode === "AI" && currentPlayer === "O")) return;
+            playTurn(cellIndex);
+            if (gameActive && gameMode === "AI" && currentPlayer === "O") {
+                statusDisplay.innerText = "Robot is thinking...";
+                setTimeout(robotMove, 600);
+            }
+        }
+
+        function robotMove() {
+            if (!gameActive) return;
+            let availableSpots = [];
+            for (let i = 0; i < 9; i++) { if (board[i] === "") availableSpots.push(i); }
+            if (availableSpots.length > 0) {
+                let randomSpot = availableSpots[Math.floor(Math.random() * availableSpots.length)];
+                playTurn(randomSpot);
+            }
+        }
+
+        function playTurn(index) {
+            board[index] = currentPlayer;
+            cells[index].innerText = currentPlayer;
+            cells[index].style.color = currentPlayer === "X" ? "#2563eb" : "#ef4444";
+            checkWin();
+        }
+
+        function checkWin() {
+            let roundWon = false;
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) { roundWon = true; break; }
+            }
+            if (roundWon) { 
+                let winnerName = (gameMode === "AI" && currentPlayer === "O") ? "Robot" : `Player ${currentPlayer}`;
+                statusDisplay.innerText = `${winnerName} Wins! 🎉`; 
+                gameActive = false; 
+                return; 
+            }
+            if (!board.includes("")) { statusDisplay.innerText = "It's a Draw!"; gameActive = false; return; }
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            statusDisplay.innerText = (gameMode === "AI" && currentPlayer === "O") ? "Robot's Turn" : `Player ${currentPlayer}'s Turn`;
+        }
+
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            currentPlayer = "X";
+            gameActive = true;
+            statusDisplay.innerText = `Player X's Turn`;
+            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "#333"; });
+        }
+    </script>
+</body>
+</html>
+
         .error-msg { color: red; font-size: 0.9rem; margin-top: 10px; }
 
         /* Main Website Header */
