@@ -66,7 +66,37 @@
 
         body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
 
-        /* Apple Glassmorphism Utility */
+        /* APPLE WELCOME ANIMATION SCREEN */
+        #welcome-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 9999;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            opacity: 1; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .welcome-content {
+            animation: welcomeScaleUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem; color: var(--text-sub); font-weight: 400; margin-bottom: 2rem;
+        }
+
+        /* Apple Loading Spinner */
+        .apple-spinner {
+            width: 32px; height: 32px; border: 3px solid var(--input-border);
+            border-top: 3px solid var(--accent-blue); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes welcomeScaleUp { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+        /* Glassmorphism Utility */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
@@ -115,14 +145,12 @@
         .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: var(--text-sub); font-weight: 400; }
         
-        /* Three Dots Button */
         .dots-btn {
             background: none; border: none; color: var(--text-sub); font-size: 1.3rem; 
             cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s;
         }
         .dots-btn:hover { color: var(--text-main); background: var(--input-bg); }
 
-        /* Theme Dropdown Menu */
         .theme-dropdown {
             display: none; position: absolute; top: 40px; left: 0; 
             background: var(--dropdown-bg); border: 1px solid var(--glass-border); 
@@ -205,7 +233,6 @@
         .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
         .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
         .mic-listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* Authentic Apple Style Calculator */
         .apple-calc-wrapper { max-width: 300px; margin: 0 auto; padding: 12px; }
@@ -232,7 +259,7 @@
         .search-btn { background-color: #0071e3; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
         .yt-btn { background-color: #ff3b30; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
 
-        /* Tic-Tac-Toe Game with Difficulty Controls */
+        /* Tic-Tac-Toe Game */
         .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
         .mode-btn { flex: 1; padding: 10px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; transition: 0.2s; }
         .mode-active { background: #0071e3; color: white; border-color: #0071e3; }
@@ -250,6 +277,15 @@
     </style>
 </head>
 <body class="theme-dark">
+
+    <!-- WELCOME OVERLAY SCREEN -->
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <h1 class="welcome-title">Welcome</h1>
+            <p id="welcome-user-email" class="welcome-subtitle">Preparing your portal...</p>
+            <div class="apple-spinner"></div>
+        </div>
+    </div>
 
     <!-- STEP 1: LOGIN SCREEN -->
     <div id="login-screen" class="auth-card glass-panel">
@@ -302,7 +338,6 @@
                 <div class="brand-logo">AKASH <span>PORTAL</span></div>
                 <button class="dots-btn" onclick="toggleThemeMenu(event)" title="Theme Settings">⋮</button>
                 
-                <!-- Theme Dropdown -->
                 <div id="theme-menu" class="theme-dropdown">
                     <div class="theme-option" onclick="switchTheme('dark')">🌙 Dark Mode</div>
                     <div class="theme-option" onclick="switchTheme('white')">☀️ White Mode</div>
@@ -464,7 +499,7 @@
                     <div class="card-header">
                         <h2>Portal Updates</h2>
                     </div>
-                    <p style="color:var(--text-sub); font-size:0.95rem;">Day 22 Update: Added a three-dot menu beside AKASH PORTAL logo to switch between Dark Mode, White Mode, and Gray Mode.</p>
+                    <p style="color:var(--text-sub); font-size:0.95rem;">Day 23 Update: Added Apple-inspired post-login splash welcome animation sequence.</p>
                 </section>
 
             </div>
@@ -472,7 +507,7 @@
         </main>
     </div>
 
-    <!-- FIREBASE LOGIC -->
+    <!-- FIREBASE LOGIC & WELCOME ANIMATION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -490,25 +525,16 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Screens
+        // Screens & Welcome Elements
         const loginScreen = document.getElementById('login-screen');
         const regEmailScreen = document.getElementById('reg-email-screen');
         const regPassScreen = document.getElementById('reg-pass-screen');
         const regSentScreen = document.getElementById('reg-sent-screen');
         const mainSite = document.getElementById('main-site');
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+        const welcomeUserEmail = document.getElementById('welcome-user-email');
 
-        // Inputs & Errors
-        const loginEmail = document.getElementById('login-email');
-        const loginPassword = document.getElementById('login-password');
-        const loginError = document.getElementById('login-error');
-
-        const regEmail = document.getElementById('reg-email');
-        const regEmailError = document.getElementById('reg-email-error');
-        const regEmailDisplay = document.getElementById('reg-email-display');
-
-        const regPassword = document.getElementById('reg-password');
-        const regConfirmPassword = document.getElementById('reg-confirm-password');
-        const regPassError = document.getElementById('reg-pass-error');
+        let hasShownWelcome = false;
 
         function hideAllScreens() {
             loginScreen.style.display = 'none';
@@ -516,6 +542,22 @@
             regPassScreen.style.display = 'none';
             regSentScreen.style.display = 'none';
             mainSite.style.display = 'none';
+        }
+
+        // Apple Welcome Animation Routine
+        function triggerWelcomeAnimation(email, callback) {
+            hideAllScreens();
+            welcomeUserEmail.innerText = email;
+            welcomeOverlay.style.display = 'flex';
+            welcomeOverlay.style.opacity = '1';
+
+            setTimeout(() => {
+                welcomeOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeOverlay.style.display = 'none';
+                    callback();
+                }, 800);
+            }, 2000);
         }
 
         // Navigation Handlers
@@ -620,14 +662,24 @@
         });
 
         // Logout Handler
-        document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            hasShownWelcome = false;
+            signOut(auth);
+        });
 
-        // Auth State Observer
+        // Auth State Observer with Welcome Animation
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 if (user.emailVerified) {
-                    hideAllScreens();
-                    mainSite.style.display = 'block';
+                    if (!hasShownWelcome) {
+                        hasShownWelcome = true;
+                        triggerWelcomeAnimation(user.email, () => {
+                            mainSite.style.display = 'block';
+                        });
+                    } else {
+                        hideAllScreens();
+                        mainSite.style.display = 'block';
+                    }
                 } else {
                     loginError.innerText = "Please check your email inbox to verify your account before logging in.";
                     auth.signOut();
@@ -647,7 +699,6 @@
 
     <!-- THEME SWITCHER & TOOLS LOGIC -->
     <script>
-        // Theme Menu Handlers
         function toggleThemeMenu(event) {
             event.stopPropagation();
             const menu = document.getElementById('theme-menu');
@@ -661,7 +712,6 @@
             document.getElementById('theme-menu').style.display = 'none';
         }
 
-        // Close dropdown when clicking outside
         window.addEventListener('click', () => {
             document.getElementById('theme-menu').style.display = 'none';
         });
