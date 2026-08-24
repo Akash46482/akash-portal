@@ -7,54 +7,135 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
-        body { background: #000000; color: #f5f5f7; line-height: 1.47; min-height: 100vh; overflow-x: hidden; }
+        
+        /* THEME VARIABLES SYSTEM */
+        :root {
+            /* Default Dark Mode */
+            --bg-color: #000000;
+            --text-main: #f5f5f7;
+            --text-sub: #86868b;
+            --glass-bg: rgba(22, 24, 29, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --accent-blue: #2997ff;
+            --calc-num-bg: #333333;
+            --calc-num-text: #ffffff;
+            --calc-ctrl-bg: #a5a5a5;
+            --calc-ctrl-text: #000000;
+            --dropdown-bg: #1e242d;
+        }
+
+        body.theme-white {
+            --bg-color: #f2f2f7;
+            --text-main: #1d1d1f;
+            --text-sub: #6e6e73;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --nav-bg: rgba(242, 242, 247, 0.8);
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --input-border: rgba(0, 0, 0, 0.12);
+            --accent-blue: #0071e3;
+            --calc-num-bg: #e5e5ea;
+            --calc-num-text: #000000;
+            --calc-ctrl-bg: #d1d1d6;
+            --calc-ctrl-text: #000000;
+            --dropdown-bg: #ffffff;
+        }
+
+        body.theme-gray {
+            --bg-color: #1c1c1e;
+            --text-main: #f2f2f7;
+            --text-sub: #98989d;
+            --glass-bg: rgba(44, 44, 46, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(28, 28, 30, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --accent-blue: #64d2ff;
+            --calc-num-bg: #3a3a3c;
+            --calc-num-text: #ffffff;
+            --calc-ctrl-bg: #636366;
+            --calc-ctrl-text: #ffffff;
+            --dropdown-bg: #2c2c2e;
+        }
+
+        body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
 
         /* Apple Glassmorphism Utility */
         .glass-panel {
-            background: rgba(22, 24, 29, 0.82);
+            background: var(--glass-bg);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
+            transition: background 0.3s ease, border 0.3s ease;
         }
 
         /* Auth Screen Cards */
         .auth-card { 
             max-width: 440px; margin: 100px auto; padding: 3rem 2.5rem; 
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
-        .auth-card h2 { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.015em; color: #f5f5f7; margin-bottom: 0.4rem; }
-        .auth-card p { color: #86868b; font-size: 0.95rem; margin-bottom: 2rem; font-weight: 400; }
+        .auth-card h2 { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--text-main); margin-bottom: 0.4rem; }
+        .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; font-weight: 400; }
         
         input[type="text"], input[type="email"], input[type="password"] { 
             width: 100%; padding: 14px 16px; margin-bottom: 14px; 
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); 
-            color: #f5f5f7; border-radius: 12px; font-size: 0.95rem; outline: none; transition: all 0.3s;
+            background: var(--input-bg); border: 1px solid var(--input-border); 
+            color: var(--text-main); border-radius: 12px; font-size: 0.95rem; outline: none; transition: all 0.3s;
         }
-        input:focus { border-color: #2997ff; box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25); background: rgba(255, 255, 255, 0.08); }
+        input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25); }
         
         .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
         .btn-primary { background: #0071e3; color: #ffffff; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.01); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #f5f5f7; border: 1px solid rgba(255, 255, 255, 0.15); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.18); }
-        .btn-link { background: none; border: none; color: #2997ff; cursor: pointer; margin-top: 16px; font-size: 0.9rem; text-decoration: none; }
+        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--input-border); }
+        .btn-secondary:hover { background: var(--input-bg); }
+        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 16px; font-size: 0.9rem; text-decoration: none; }
         .btn-link:hover { text-decoration: underline; }
         
         .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
         .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
 
-        /* Navigation Header */
+        /* Navigation Header & Three Dot Menu */
         #main-site { display: none; }
         navbar { 
             position: sticky; top: 0; z-index: 100;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+            border-bottom: 1px solid var(--glass-border); transition: background 0.3s ease;
         }
-        .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: #f5f5f7; display: flex; align-items: center; gap: 8px; }
-        .brand-logo span { color: #86868b; font-weight: 400; }
+        .brand-container { display: flex; align-items: center; gap: 10px; position: relative; }
+        .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .brand-logo span { color: var(--text-sub); font-weight: 400; }
+        
+        /* Three Dots Button */
+        .dots-btn {
+            background: none; border: none; color: var(--text-sub); font-size: 1.3rem; 
+            cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s;
+        }
+        .dots-btn:hover { color: var(--text-main); background: var(--input-bg); }
+
+        /* Theme Dropdown Menu */
+        .theme-dropdown {
+            display: none; position: absolute; top: 40px; left: 0; 
+            background: var(--dropdown-bg); border: 1px solid var(--glass-border); 
+            border-radius: 12px; padding: 8px; width: 170px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 200;
+        }
+        .theme-option {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 12px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); 
+            border-radius: 8px; cursor: pointer; transition: 0.2s;
+        }
+        .theme-option:hover { background: var(--accent-blue); color: #ffffff; }
+
         #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
         #btn-logout:hover { background: #ff453a; color: white; }
 
@@ -68,18 +149,18 @@
         .card { padding: 1.75rem; border-radius: 20px; margin-bottom: 1.25rem; }
         .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
         .card-header img { height: 24px; width: auto; object-fit: contain; }
-        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: #f5f5f7; }
+        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
 
         /* Animated Accordion Folders */
         details.folder { margin-bottom: 1.25rem; overflow: hidden; border-radius: 20px; transition: all 0.3s ease; }
-        summary.folder-tab { background: rgba(255, 255, 255, 0.03); padding: 18px 22px; font-weight: 500; font-size: 1rem; color: #f5f5f7; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-        summary.folder-tab:hover { background: rgba(255, 255, 255, 0.06); }
+        summary.folder-tab { background: var(--card-bg); padding: 18px 22px; font-weight: 500; font-size: 1rem; color: var(--text-main); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        summary.folder-tab:hover { background: var(--input-bg); }
         summary.folder-tab::-webkit-details-marker { display: none; }
-        summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: #86868b; transform: rotate(90deg); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
-        details[open] summary.folder-tab::after { transform: rotate(-90deg); color: #2997ff; }
+        summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
 
         .folder-content { 
-            padding: 1.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 1.75rem; border-top: 1px solid var(--glass-border); 
             animation: folderSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -92,45 +173,45 @@
         .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
         .lang-select-box { flex: 1; min-width: 140px; position: relative; }
         .lang-select { 
-            width: 100%; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.15); color: #2997ff; font-weight: 600; 
+            width: 100%; padding: 12px 16px; background: var(--input-bg); 
+            border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; 
             border-radius: 12px; font-size: 0.95rem; outline: none; cursor: pointer; appearance: none;
         }
-        .lang-select option { background: #1e242d; color: #f5f5f7; }
-        .lang-select-box::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #2997ff; pointer-events: none; }
+        .lang-select option { background: var(--dropdown-bg); color: var(--text-main); }
+        .lang-select-box::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--accent-blue); pointer-events: none; }
         
         .swap-btn { 
-            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); 
-            color: #86868b; width: 44px; height: 44px; border-radius: 12px; cursor: pointer; 
+            background: var(--input-bg); border: 1px solid var(--input-border); 
+            color: var(--text-sub); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
         }
-        .swap-btn:hover { background: rgba(255, 255, 255, 0.15); color: #f5f5f7; transform: rotate(180deg); }
+        .swap-btn:hover { background: var(--card-bg); color: var(--text-main); transform: rotate(180deg); }
 
         .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
 
-        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .trans-pane.output-pane { background: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.06); }
+        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 16px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
+        .trans-pane.output-pane { background: var(--input-bg); border-color: var(--glass-border); }
 
         .trans-textarea { 
             width: 100%; height: 120px; background: transparent; border: none; 
-            color: #f5f5f7; font-size: 1.1rem; outline: none; resize: none; font-weight: 400;
+            color: var(--text-main); font-size: 1.1rem; outline: none; resize: none; font-weight: 400;
         }
-        .trans-textarea::placeholder { color: #6e6e73; font-weight: 400; }
+        .trans-textarea::placeholder { color: var(--text-sub); font-weight: 400; }
 
-        .trans-output-text { font-size: 1.15rem; color: #2997ff; font-weight: 500; min-height: 120px; word-break: break-word; line-height: 1.5; }
+        .trans-output-text { font-size: 1.15rem; color: var(--accent-blue); font-weight: 500; min-height: 120px; word-break: break-word; line-height: 1.5; }
 
-        .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
-        .icon-btn { background: none; border: none; color: #86868b; font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
-        .icon-btn:hover { color: #f5f5f7; background: rgba(255, 255, 255, 0.1); }
+        .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid var(--glass-border); }
+        .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
+        .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
         .mic-listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* Authentic Apple iOS/macOS Style Calculator */
+        /* Authentic Apple Style Calculator */
         .apple-calc-wrapper { max-width: 300px; margin: 0 auto; padding: 12px; }
         .apple-calc-display { 
             width: 100%; padding: 16px 8px; font-size: 2.8rem; text-align: right; 
-            border: none; background: transparent; font-weight: 300; color: #ffffff; 
+            border: none; background: transparent; font-weight: 300; color: var(--text-main); 
             outline: none; letter-spacing: -1px; margin-bottom: 8px;
         }
         .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -139,11 +220,10 @@
             font-weight: 500; cursor: pointer; transition: filter 0.15s, transform 0.1s; 
             display: flex; align-items: center; justify-content: center; outline: none; user-select: none;
         }
-        .apple-calc-btn:active { filter: brightness(1.4); transform: scale(0.96); }
+        .apple-calc-btn:active { filter: brightness(1.3); transform: scale(0.96); }
         
-        /* Apple Calculator Button Color Schemes */
-        .btn-num { background: #333333; color: #ffffff; }
-        .btn-control { background: #a5a5a5; color: #000000; }
+        .btn-num { background: var(--calc-num-bg); color: var(--calc-num-text); }
+        .btn-control { background: var(--calc-ctrl-bg); color: var(--calc-ctrl-text); }
         .btn-op { background: #ff9f0a; color: #ffffff; font-size: 1.5rem; }
         .btn-zero { grid-column: span 2; aspect-ratio: auto; border-radius: 35px; justify-content: flex-start; padding-left: 22px; }
 
@@ -152,20 +232,24 @@
         .search-btn { background-color: #0071e3; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
         .yt-btn { background-color: #ff3b30; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
 
-        /* Tic-Tac-Toe Game */
-        .mode-buttons { display: flex; gap: 8px; margin-bottom: 14px; }
-        .mode-btn { flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; transition: 0.2s; }
+        /* Tic-Tac-Toe Game with Difficulty Controls */
+        .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
+        .mode-btn { flex: 1; padding: 10px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; transition: 0.2s; }
         .mode-active { background: #0071e3; color: white; border-color: #0071e3; }
-        .mode-inactive { background: rgba(255,255,255,0.05); color: #86868b; }
-        
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 240px; margin: 16px auto; }
-        .cell { aspect-ratio: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 600; cursor: pointer; border-radius: 12px; }
-        .cell:hover { background: rgba(255,255,255,0.08); }
-        #game-status { text-align: center; font-weight: 500; font-size: 0.95rem; color: #86868b; }
-        .reset-btn { display: block; margin: 14px auto 0; background: rgba(255,255,255,0.08); color: #f5f5f7; border: 1px solid rgba(255,255,255,0.12); padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.85rem; }
+        .mode-inactive { background: var(--input-bg); color: var(--text-sub); }
+
+        .difficulty-buttons { display: flex; gap: 6px; margin-bottom: 14px; }
+        .diff-btn { flex: 1; padding: 6px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 8px; font-weight: 500; font-size: 0.75rem; transition: 0.2s; background: var(--card-bg); color: var(--text-sub); }
+        .diff-active { background: rgba(41, 151, 255, 0.2); color: var(--accent-blue); border-color: var(--accent-blue); }
+
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 240px; margin: 12px auto; }
+        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 600; cursor: pointer; border-radius: 12px; }
+        .cell:hover { background: var(--card-bg); }
+        #game-status { text-align: center; font-weight: 500; font-size: 0.95rem; color: var(--text-sub); }
+        .reset-btn { display: block; margin: 14px auto 0; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.85rem; }
     </style>
 </head>
-<body>
+<body class="theme-dark">
 
     <!-- STEP 1: LOGIN SCREEN -->
     <div id="login-screen" class="auth-card glass-panel">
@@ -191,7 +275,7 @@
     <!-- STEP 3: REGISTRATION - PASSWORD STEP -->
     <div id="reg-pass-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Set Password</h2>
-        <p id="reg-email-display" style="color:#2997ff; font-weight:500; margin-bottom:12px;"></p>
+        <p id="reg-email-display" style="color:var(--accent-blue); font-weight:500; margin-bottom:12px;"></p>
         <input type="password" id="reg-password" placeholder="Password (min 6 characters)" required>
         <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
         <button id="btn-reg-finish" class="btn btn-primary">Create Account</button>
@@ -205,7 +289,7 @@
         <div class="success-box">
             A verification link has been sent to your email address.
         </div>
-        <p style="margin-top:15px; font-size:0.9rem; color:#86868b;">
+        <p style="margin-top:15px; font-size:0.9rem; color:var(--text-sub);">
             Please check your inbox, click the verification link, and sign in.
         </p>
         <button id="btn-sent-to-login" class="btn btn-primary">Return to Sign In</button>
@@ -214,7 +298,17 @@
     <!-- MAIN DASHBOARD -->
     <div id="main-site">
         <navbar>
-            <div class="brand-logo">AKASH <span>PORTAL</span></div>
+            <div class="brand-container">
+                <div class="brand-logo">AKASH <span>PORTAL</span></div>
+                <button class="dots-btn" onclick="toggleThemeMenu(event)" title="Theme Settings">⋮</button>
+                
+                <!-- Theme Dropdown -->
+                <div id="theme-menu" class="theme-dropdown">
+                    <div class="theme-option" onclick="switchTheme('dark')">🌙 Dark Mode</div>
+                    <div class="theme-option" onclick="switchTheme('white')">☀️ White Mode</div>
+                    <div class="theme-option" onclick="switchTheme('gray')">🩶 Gray Mode</div>
+                </div>
+            </div>
             <button id="btn-logout">Sign Out</button>
         </navbar>
         
@@ -306,7 +400,7 @@
                     </div>
                 </details>
 
-                <!-- Folder 3: Game -->
+                <!-- Folder 3: Game with Multi-Difficulty Robot AI -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🎮 Tic-Tac-Toe</summary>
                     <div class="folder-content">
@@ -314,6 +408,13 @@
                             <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
                             <button id="btn-ai" class="mode-btn mode-inactive" onclick="setMode('AI')">Vs Robot</button>
                         </div>
+                        
+                        <div id="difficulty-wrapper" class="difficulty-buttons" style="display: none;">
+                            <button id="diff-easy" class="diff-btn diff-active" onclick="setDifficulty('easy')">Easy</button>
+                            <button id="diff-medium" class="diff-btn" onclick="setDifficulty('medium')">Medium</button>
+                            <button id="diff-hard" class="diff-btn" onclick="setDifficulty('hard')">Hard</button>
+                        </div>
+
                         <p id="game-status">Player X's Turn</p>
                         <div class="board" id="board">
                             <div class="cell" onclick="makeMove(0)"></div>
@@ -363,7 +464,7 @@
                     <div class="card-header">
                         <h2>Portal Updates</h2>
                     </div>
-                    <p style="color:#86868b; font-size:0.95rem;">Day 20 Update: Redesigned the calculator with an authentic Apple iOS/macOS layout and styling.</p>
+                    <p style="color:var(--text-sub); font-size:0.95rem;">Day 22 Update: Added a three-dot menu beside AKASH PORTAL logo to switch between Dark Mode, White Mode, and Gray Mode.</p>
                 </section>
 
             </div>
@@ -448,7 +549,7 @@
                 return;
             }
 
-            regEmailError.style.color = "#2997ff";
+            regEmailError.style.color = "var(--accent-blue)";
             regEmailError.innerText = "Checking availability...";
 
             try {
@@ -544,8 +645,27 @@
         });
     </script>
 
-    <!-- TOOLS & APPLE CALCULATOR LOGIC -->
+    <!-- THEME SWITCHER & TOOLS LOGIC -->
     <script>
+        // Theme Menu Handlers
+        function toggleThemeMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('theme-menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function switchTheme(themeName) {
+            document.body.className = '';
+            if (themeName === 'white') document.body.classList.add('theme-white');
+            else if (themeName === 'gray') document.body.classList.add('theme-gray');
+            document.getElementById('theme-menu').style.display = 'none';
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            document.getElementById('theme-menu').style.display = 'none';
+        });
+
         let debounceTimer = null;
         let activeAudio = null;
         let isListening = false;
@@ -559,11 +679,11 @@
 
             if (!inputVal) {
                 outputDiv.innerText = "Translation";
-                outputDiv.style.color = "#6e6e73";
+                outputDiv.style.color = "var(--text-sub)";
                 return;
             }
 
-            outputDiv.style.color = "#2997ff";
+            outputDiv.style.color = "var(--accent-blue)";
             outputDiv.innerText = "Translating...";
 
             debounceTimer = setTimeout(async () => {
@@ -712,11 +832,13 @@
             }
         }
 
-        // Tic-Tac-Toe Logic
+        // Tic-Tac-Toe AI Engine Logic (Easy, Medium, Minimax Hard)
         let board = ["", "", "", "", "", "", "", "", ""];
         let currentPlayer = "X";
         let gameActive = true;
         let gameMode = "2P";
+        let difficulty = "easy";
+
         const statusDisplay = document.getElementById('game-status');
         const cells = document.querySelectorAll('.cell');
         const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
@@ -725,6 +847,15 @@
             gameMode = mode;
             document.getElementById('btn-2p').className = mode === '2P' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
             document.getElementById('btn-ai').className = mode === 'AI' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
+            document.getElementById('difficulty-wrapper').style.display = mode === 'AI' ? 'flex' : 'none';
+            resetGame();
+        }
+
+        function setDifficulty(diff) {
+            difficulty = diff;
+            document.getElementById('diff-easy').className = diff === 'easy' ? 'diff-btn diff-active' : 'diff-btn';
+            document.getElementById('diff-medium').className = diff === 'medium' ? 'diff-btn diff-active' : 'diff-btn';
+            document.getElementById('diff-hard').className = diff === 'hard' ? 'diff-btn diff-active' : 'diff-btn';
             resetGame();
         }
 
@@ -733,24 +864,95 @@
             playTurn(cellIndex);
             if (gameActive && gameMode === "AI" && currentPlayer === "O") {
                 statusDisplay.innerText = "Robot thinking...";
-                setTimeout(robotMove, 600);
+                setTimeout(robotMove, 500);
             }
         }
 
         function robotMove() {
             if (!gameActive) return;
-            let availableSpots = [];
-            for (let i = 0; i < 9; i++) { if (board[i] === "") availableSpots.push(i); }
-            if (availableSpots.length > 0) {
-                let randomSpot = availableSpots[Math.floor(Math.random() * availableSpots.length)];
-                playTurn(randomSpot);
+            let moveIndex;
+
+            if (difficulty === "easy") {
+                moveIndex = getRandomMove();
+            } else if (difficulty === "medium") {
+                moveIndex = Math.random() < 0.6 ? getBestMove() : getRandomMove();
+            } else {
+                moveIndex = getBestMove();
             }
+
+            if (moveIndex !== undefined && moveIndex !== null) {
+                playTurn(moveIndex);
+            }
+        }
+
+        function getRandomMove() {
+            let available = [];
+            for (let i = 0; i < 9; i++) { if (board[i] === "") available.push(i); }
+            return available.length > 0 ? available[Math.floor(Math.random() * available.length)] : null;
+        }
+
+        // Minimax Hard AI
+        function getBestMove() {
+            let bestScore = -Infinity;
+            let move;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] === "") {
+                    board[i] = "O";
+                    let score = minimax(board, 0, false);
+                    board[i] = "";
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            return move;
+        }
+
+        const scores = { O: 10, X: -10, tie: 0 };
+
+        function minimax(currBoard, depth, isMaximizing) {
+            let result = checkBoardWinner(currBoard);
+            if (result !== null) return scores[result];
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (currBoard[i] === "") {
+                        currBoard[i] = "O";
+                        let score = minimax(currBoard, depth + 1, false);
+                        currBoard[i] = "";
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (currBoard[i] === "") {
+                        currBoard[i] = "X";
+                        let score = minimax(currBoard, depth + 1, true);
+                        currBoard[i] = "";
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        function checkBoardWinner(b) {
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [x, y, z] = winningConditions[i];
+                if (b[x] && b[x] === b[y] && b[x] === b[z]) return b[x];
+            }
+            if (!b.includes("")) return "tie";
+            return null;
         }
 
         function playTurn(index) {
             board[index] = currentPlayer;
             cells[index].innerText = currentPlayer;
-            cells[index].style.color = currentPlayer === "X" ? "#2997ff" : "#ff453a";
+            cells[index].style.color = currentPlayer === "X" ? "var(--accent-blue)" : "#ff453a";
             checkWin();
         }
 
@@ -776,7 +978,7 @@
             currentPlayer = "X";
             gameActive = true;
             statusDisplay.innerText = `Player X's Turn`;
-            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "#f5f5f7"; });
+            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "var(--text-main)"; });
         }
     </script>
 </body>
