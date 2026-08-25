@@ -3,1661 +3,713 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash — Executive Portal Pro 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Akash — Executive Portal Pro</title>
     
-    <!-- jsPDF Library for Image to PDF conversion -->
+    <!-- Fonts for Apple Aesthetic & Arabic Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries: PDF, QR Generator, QR Scanner -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
+        /* BASE APPLE-STYLE CSS */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
         
-        /* MULTI-THEME SYSTEM */
         :root {
-            --bg-color: #050608; --text-main: #f5f5f7; --text-sub: #86868b;
-            --glass-bg: rgba(22, 24, 29, 0.75); --glass-border: rgba(255, 255, 255, 0.12);
-            --nav-bg: rgba(5, 6, 8, 0.85); --card-bg: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.05); --input-border: rgba(255, 255, 255, 0.15);
-            --accent-blue: #2997ff; --3d-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.15);
-            --calc-num-bg: #2c2c2e; --calc-num-text: #ffffff; --calc-ctrl-bg: #a5a5a5; --calc-ctrl-text: #000000;
+            --bg-color: #000000; --text-main: #f5f5f7; --text-sub: #86868b;
+            --glass-bg: rgba(28, 28, 30, 0.65); --glass-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(18, 18, 18, 0.85); --card-bg: rgba(255, 255, 255, 0.05);
+            --input-bg: rgba(255, 255, 255, 0.08); --input-border: rgba(255, 255, 255, 0.12);
+            --accent-blue: #0A84FF; --3d-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            --calc-num-bg: #333336; --calc-num-text: #ffffff; --calc-ctrl-bg: #a5a5a5; --calc-ctrl-text: #000000;
         }
 
         body.theme-light {
-            --bg-color: #e5e5ea; --text-main: #1d1d1f; --text-sub: #6e6e73;
-            --glass-bg: rgba(255, 255, 255, 0.82); --glass-border: rgba(0, 0, 0, 0.1);
-            --nav-bg: rgba(229, 225, 234, 0.85); --card-bg: rgba(0, 0, 0, 0.02);
-            --input-bg: rgba(0, 0, 0, 0.04); --input-border: rgba(0, 0, 0, 0.15);
-            --accent-blue: #0071e3; --3d-shadow: 0 20px 35px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8);
-            --calc-num-bg: #d1d1d6; --calc-num-text: #000000; --calc-ctrl-bg: #e5e5ea; --calc-ctrl-text: #000000;
+            --bg-color: #f5f5f7; --text-main: #1d1d1f; --text-sub: #86868b;
+            --glass-bg: rgba(255, 255, 255, 0.7); --glass-border: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.85); --card-bg: rgba(0, 0, 0, 0.03);
+            --input-bg: rgba(0, 0, 0, 0.05); --input-border: rgba(0, 0, 0, 0.1);
+            --accent-blue: #0071e3; --3d-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            --calc-num-bg: #e5e5ea; --calc-num-text: #000000; --calc-ctrl-bg: #d1d1d6; --calc-ctrl-text: #000000;
         }
 
         body.theme-moonlight {
             --bg-color: #0b132b; --text-main: #e0e1dd; --text-sub: #778da9;
-            --glass-bg: rgba(27, 38, 59, 0.75); --glass-border: rgba(119, 141, 169, 0.25);
-            --nav-bg: rgba(11, 19, 43, 0.88); --card-bg: rgba(255, 255, 255, 0.04);
-            --input-bg: rgba(255, 255, 255, 0.06); --input-border: rgba(119, 141, 169, 0.3);
-            --accent-blue: #64dfdf; --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8), inset 0 1px 1px rgba(100, 223, 223, 0.2);
+            --glass-bg: rgba(27, 38, 59, 0.65); --glass-border: rgba(119, 141, 169, 0.2);
+            --nav-bg: rgba(11, 19, 43, 0.88); --card-bg: rgba(255, 255, 255, 0.03);
+            --input-bg: rgba(255, 255, 255, 0.05); --input-border: rgba(119, 141, 169, 0.25);
+            --accent-blue: #64dfdf; --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8);
             --calc-num-bg: #1b263b; --calc-num-text: #ffffff; --calc-ctrl-bg: #415a77; --calc-ctrl-text: #ffffff;
         }
 
-        body.theme-starlight {
-            --bg-color: #120924; --text-main: #f3e8ff; --text-sub: #a855f7;
-            --glass-bg: rgba(30, 16, 58, 0.75); --glass-border: rgba(168, 85, 247, 0.25);
-            --nav-bg: rgba(18, 9, 36, 0.88); --card-bg: rgba(255, 255, 255, 0.04);
-            --input-bg: rgba(255, 255, 255, 0.06); --input-border: rgba(168, 85, 247, 0.3);
-            --accent-blue: #c084fc; --3d-shadow: 0 20px 45px rgba(10, 3, 25, 0.85), inset 0 1px 1px rgba(192, 132, 252, 0.25);
-            --calc-num-bg: #2e1065; --calc-num-text: #ffffff; --calc-ctrl-bg: #581c87; --calc-ctrl-text: #ffffff;
-        }
+        body { background: var(--bg-color); color: var(--text-main); line-height: 1.5; min-height: 100vh; overflow-x: hidden; transition: background 0.4s ease; }
 
-        body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; perspective: 1000px; transition: background 0.4s ease, color 0.4s ease; }
-
-        /* 3D GLASS PANEL SYSTEM */
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--3d-shadow); transform-style: preserve-3d; transition: transform 0.3s ease, border-color 0.3s ease; }
-        .glass-panel:hover { transform: translateY(-3px) rotateX(1deg); border-color: rgba(255, 255, 255, 0.25); }
-
-        /* 3D THEME SELECTOR */
-        .theme-select-badge { display: flex; align-items: center; gap: 6px; background: var(--input-bg); border: 1px solid var(--input-border); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .theme-select-dropdown { background: transparent; border: none; color: var(--accent-blue); font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer; }
-        .theme-select-dropdown option { background: #1e242d; color: #ffffff; }
-
-        /* WELCOME OVERLAY */
-        #welcome-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 1; transition: opacity 0.8s ease; }
-        .welcome-content { animation: welcomeScaleUp 1s ease forwards; }
-        .welcome-title { font-size: 2.5rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
-        .welcome-subtitle { font-size: 1.1rem; color: var(--text-sub); margin-bottom: 2rem; }
-        .apple-spinner { width: 32px; height: 32px; border: 3px solid var(--input-border); border-top: 3px solid var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes welcomeScaleUp { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-
-        /* Auth Screen Cards */
-        .auth-card { max-width: 440px; margin: 80px auto; padding: 3rem 2.5rem; text-align: center; }
-        .auth-card h2 { font-size: 2.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.4rem; }
-        .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; }
-        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 14px 16px; margin-bottom: 14px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 12px; font-size: 0.95rem; outline: none; transition: all 0.3s; }
-        input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25); }
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
-        .btn-primary { background: #0071e3; color: #ffffff; box-shadow: 0 8px 20px rgba(0, 113, 227, 0.4); }
-        .btn-primary:hover { background: #0077ed; transform: translateY(-2px) scale(1.01); }
-        .btn-primary:disabled { background: var(--input-border); color: var(--text-sub); cursor: not-allowed; box-shadow: none; }
-        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--input-border); }
-        .btn-secondary:hover { background: var(--input-bg); }
-        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 14px; font-size: 0.9rem; display: inline-block; }
-        .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
-        .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
-
-        /* Navigation Header */
-        #main-site { display: none; }
-        navbar { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); }
-        .brand-container { display: flex; align-items: center; gap: 14px; }
-        .profile-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-        .profile-avatar:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent-blue); }
-        .brand-logo { font-size: 1.15rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .brand-logo span { color: var(--text-sub); font-weight: 400; }
-        .digital-clock-badge { background: var(--input-bg); border: 1px solid var(--input-border); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; }
-        #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; }
-
-        /* Dashboard Grid */
-        .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1280px; margin: 2rem auto; padding: 0 1.5rem; }
-        .sidebar-left { flex: 1; min-width: 360px; }
-        .main-right { flex: 2; min-width: 420px; }
-        @media (max-width: 880px) { .sidebar-left, .main-right { min-width: 100%; } }
-
-        /* Folders */
-        .card { padding: 1.75rem; border-radius: 20px; margin-bottom: 1.25rem; }
-        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-        .card-header h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
-        details.folder { margin-bottom: 1.25rem; overflow: hidden; border-radius: 20px; }
-        summary.folder-tab { background: var(--card-bg); padding: 18px 22px; font-weight: 500; font-size: 1rem; color: var(--text-main); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-        summary.folder-tab:hover { background: var(--input-bg); }
-        summary.folder-tab::-webkit-details-marker { display: none; }
-        summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s ease; }
-        details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
-        .folder-content { padding: 1.5rem; border-top: 1px solid var(--glass-border); animation: folderSlide 0.4s ease forwards; }
-        @keyframes folderSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* QURAN PRO APP */
-        .quran-pro-box { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
-        .quran-select { width: 100%; padding: 10px; background: var(--bg-color); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 10px; font-weight: 500; font-size: 0.85rem; outline: none; cursor: pointer; margin-bottom: 10px; }
-        .quran-select option { background: var(--dropdown-bg); color: var(--text-main); }
-        .audio-player-container { margin-top: 15px; background: var(--bg-color); padding: 10px; border-radius: 12px; border: 1px solid var(--input-border); box-shadow: inset 0 2px 8px rgba(0,0,0,0.3); }
-        .quran-audio-player { width: 100%; outline: none; height: 40px; }
-
-        /* TRANSLATOR SUITE */
-        .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-        .lang-select-box { flex: 1; min-width: 130px; position: relative; }
-        .lang-select { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; outline: none; }
-        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 40px; height: 40px; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: 0.2s; }
-        .swap-btn:hover { background: var(--card-bg); color: var(--text-main); transform: rotate(180deg); }
-        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
-        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; padding: 14px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
-        .trans-textarea { width: 100%; height: 100px; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; outline: none; resize: none; }
-        .trans-output-text { font-size: 1.05rem; color: var(--text-sub); font-weight: 500; min-height: 100px; word-break: break-word; }
-        .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid var(--glass-border); }
-        .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
-        .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
-
-        /* ISLAMIC PRAYER TIMES */
-        .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; margin-top: 12px; }
-        .prayer-card { background: var(--input-bg); border: 1px solid var(--input-border); padding: 10px; border-radius: 12px; }
-        .prayer-name { font-size: 0.75rem; font-weight: 600; color: var(--text-sub); }
-        .prayer-time { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-        /* LIVE SPORTS */
-        .sports-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-        .sports-tab-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-sub); border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
-        .sports-tab-btn.active { background: #0071e3; color: white; border-color: #0071e3; }
-        .score-card { background: var(--input-bg); border: 1px solid var(--input-border); padding: 12px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .live-tag { background: #ff3b30; color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
-
-        /* Profile & Call Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem; }
-        .modal-body { max-width: 400px; width: 100%; padding: 2rem; text-align: center; }
-        .modal-avatar-preview { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
-        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; text-align: center; }
-
-        /* GAMES */
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 260px; margin: 10px auto; }
-        .memory-card { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; user-select: none; transition: transform 0.3s; }
-        .memory-card.flipped { background: var(--accent-blue); transform: rotateY(180deg); }
-        .c4-board { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; max-width: 280px; margin: 10px auto; background: var(--input-bg); padding: 8px; border-radius: 12px; border: 1px solid var(--input-border); }
-        .c4-cell { aspect-ratio: 1; border-radius: 50%; background: var(--bg-color); cursor: pointer; }
-        .c4-cell.p1 { background: #ff3b30; } .c4-cell.p2 { background: #ffcc00; }
-        .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
-        .mode-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; }
-        .mode-active { background: #0071e3; color: white; }
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 220px; margin: 10px auto; }
-        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; cursor: pointer; border-radius: 10px; }
+        /* APPLE FROSTED GLASS PANELS */
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--3d-shadow); transition: transform 0.3s ease; }
         
-        /* Apple Calculator */
-        .apple-calc-wrapper { max-width: 280px; margin: 0 auto; padding: 8px; }
-        .apple-calc-display { width: 100%; padding: 12px 8px; font-size: 2.5rem; text-align: right; border: none; background: transparent; font-weight: 300; color: var(--text-main); outline: none; margin-bottom: 8px; }
-        .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.2rem; font-weight: 500; cursor: pointer; transition: transform 0.1s; }
-        .apple-calc-btn:active { transform: scale(0.95); }
-        .btn-num { background: var(--calc-num-bg); color: var(--calc-num-text); }
-        .btn-control { background: var(--calc-ctrl-bg); color: var(--calc-ctrl-text); }
-        .btn-op { background: #ff9f0a; color: #ffffff; }
-        .btn-zero { grid-column: span 2; aspect-ratio: auto; border-radius: 30px; padding-left: 20px; text-align: left; }
+        /* GENERAL UI */
+        .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: 0.2s; }
+        .btn-primary { background: var(--accent-blue); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-secondary { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); }
+        .btn-secondary:hover { background: var(--card-bg); }
+        .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 10px; font-weight: 500; }
+        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 14px; font-size: 0.9rem; display: inline-block; font-weight: 500; }
+        input[type="text"], input[type="email"], input[type="password"], textarea, select { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 12px; padding: 14px; outline: none; transition: 0.2s; width: 100%; font-size: 0.95rem; }
+        input:focus, textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2); }
+        
+        /* OVERLAYS */
+        #welcome-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .apple-spinner { width: 36px; height: 36px; border: 3px solid var(--input-border); border-top: 3px solid var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Search Forms */
-        .search-form { display: flex; gap: 8px; }
-        .search-btn { background-color: #0071e3; color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 500; }
+        /* AUTH CARDS */
+        .auth-card { max-width: 400px; margin: 100px auto; padding: 40px; text-align: center; }
+        .auth-card h2 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; }
 
-        /* ==========================================
-           MODERN LINKEDIN-STYLE CHAT CSS
-           ========================================== */
-        .chat-tabs { display: flex; gap: 8px; }
-        .chat-tab-btn { background: transparent; border: 1px solid var(--input-border); color: var(--text-sub); padding: 4px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.2s; }
-        .chat-tab-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+        /* NAVBAR */
+        #main-site { display: none; }
+        navbar { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); }
+        .profile-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; }
+        
+        /* DASHBOARD LAYOUT */
+        .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1400px; margin: 30px auto; padding: 0 20px; align-items: flex-start; }
+        .sidebar-left { flex: 1; min-width: 360px; display: flex; flex-direction: column; gap: 20px; }
+        .main-right { flex: 2.2; min-width: 440px; display: flex; flex-direction: column; gap: 20px; }
+        @media (max-width: 900px) { .sidebar-left, .main-right { min-width: 100%; } }
 
-        .dm-user-list { width: 30%; border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 10px; }
-        .dm-user-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-radius: 8px; transition: background 0.2s; margin-bottom: 4px; }
-        .dm-user-item:hover, .dm-user-item.active { background: var(--input-bg); border: 1px solid var(--glass-border); }
+        /* FOLDERS / ACCORDIONS */
+        details.folder { border-radius: 20px; overflow: hidden; background: var(--glass-bg); }
+        summary.folder-tab { padding: 20px; font-weight: 600; font-size: 1.1rem; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; user-select: none; }
+        summary.folder-tab::-webkit-details-marker { display: none; }
+        summary.folder-tab::after { content: '›'; font-size: 1.5rem; color: var(--text-sub); transform: rotate(90deg); transition: 0.3s; }
+        details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
+        .folder-content { padding: 20px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.1); }
 
-        .messages-scroll-area { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 16px; }
+        /* PRAYER TIMES & COUNTDOWN */
+        .next-prayer-box { display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); border:1px solid var(--input-border); border-radius:14px; padding:12px 16px; margin:10px 0 16px; }
+        .next-prayer-label { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; color:var(--text-sub); }
+        .next-prayer-name { font-size:1.05rem; font-weight:600; color:var(--text-main); }
+        .next-prayer-count { font-size:1.5rem; font-weight:700; color:var(--accent-blue); font-variant-numeric:tabular-nums; }
+        .prayer-card.is-next { border-color:var(--accent-blue); box-shadow:0 0 0 2px rgba(41,151,255,0.25); }
+        .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; }
+        .prayer-card { background: var(--input-bg); padding: 10px; border-radius: 12px; border: 1px solid transparent; transition: 0.3s; }
+        .prayer-name { font-size: 0.75rem; color: var(--text-sub); font-weight: 600; }
+        .prayer-time { font-size: 0.95rem; font-weight: 700; margin-top: 5px; }
 
-        /* Message Items */
+        /* QURAN READER TAB */
+        .q-tabs { display:flex; gap:8px; margin-bottom:12px; }
+        .q-tab { flex:1; padding:8px; border-radius:10px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--text-sub); font-weight:600; font-size:0.85rem; cursor:pointer; }
+        .q-tab.active { background:#0071e3; color:#fff; border-color:#0071e3; }
+        .quran-reader { max-height:340px; overflow-y:auto; padding:14px 16px; border-radius:14px; background:var(--bg-color); border:1px solid var(--input-border); box-shadow:inset 0 2px 10px rgba(0,0,0,0.25); margin-top:10px;}
+        .ayah-row { padding:12px 0; border-bottom:1px solid var(--glass-border); }
+        .ayah-row:last-child { border-bottom:none; }
+        .ayah-ar { font-family:'Amiri', 'Traditional Arabic', serif; font-size:1.6rem; line-height:2.3; direction:rtl; text-align:right; color:var(--text-main); }
+        .ayah-num { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:26px; border-radius:50%; background:var(--input-bg); border:1px solid var(--accent-blue); color:var(--accent-blue); font-family:inherit; font-size:0.75rem; margin-right:6px; }
+        .ayah-tr { font-size:0.85rem; color:var(--text-sub); margin-top:8px; line-height:1.5; }
+
+        /* QR STUDIO */
+        .qr-field { width:100%; padding:12px 14px; margin-bottom:10px; background:var(--input-bg); border:1px solid var(--input-border); color:var(--text-main); border-radius:12px; font-size:0.9rem; outline:none; }
+        .qr-out { text-align:center; margin-top:14px; padding:14px; background:#fff; border-radius:14px; display:flex; justify-content:center;}
+        .qr-scan-result { margin-top:12px; padding:14px; background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; font-size:0.9rem; word-break:break-word; }
+        .qr-secret { font-family:ui-monospace,Menlo,monospace; font-size:1.05rem; font-weight:700; color:#30d158; letter-spacing:0.04em; }
+
+        /* MODERN CHAT UI */
+        details.chat-shutter { overflow: visible; }
+        .chat-container-modern { display: flex; flex-direction: column; height: 650px; padding: 0 !important; background: transparent; }
+        .chat-body-split { display: flex; flex: 1; overflow: hidden; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .dm-user-list { width: 30%; border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); }
+        .dm-user-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-radius: 12px; margin-bottom: 5px; transition: 0.2s; }
+        .dm-user-item:hover, .dm-user-item.active { background: var(--input-bg); }
+        .dm-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        
+        .messages-scroll-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .li-msg-item { display: flex; gap: 12px; align-items: flex-start; }
-        .li-msg-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--input-border); }
         .li-msg-content { flex: 1; }
-        .li-msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
-        .li-msg-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
-        .li-msg-time { font-size: 0.75rem; color: var(--text-sub); }
-        .li-msg-text { font-size: 0.95rem; color: var(--text-main); line-height: 1.4; word-break: break-word; }
-        .li-msg-img { max-width: 250px; border-radius: 8px; margin-top: 8px; border: 1px solid var(--glass-border); }
-
-        /* Quick Replies */
-        .quick-replies { padding: 0 1.5rem 10px; display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; }
-        .quick-replies button { background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue); border-radius: 20px; padding: 6px 14px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.2s; }
-        .quick-replies button:hover { background: rgba(41, 151, 255, 0.1); }
-
-        /* Input Area */
-        .chat-input-wrapper { background: var(--input-bg); border-top: 1px solid var(--glass-border); padding: 12px 1.5rem; display: flex; flex-direction: column; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
-        .chat-input-wrapper textarea { width: 100%; background: transparent; border: none; color: var(--text-main); font-size: 0.95rem; outline: none; resize: none; min-height: 24px; font-family: inherit; }
-        .chat-toolbar { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-        .toolbar-icons { display: flex; gap: 16px; align-items: center; color: var(--text-sub); font-size: 1.2rem; }
-        .toolbar-icons span, .toolbar-icons label { cursor: pointer; transition: color 0.2s; }
-        .toolbar-icons span:hover, .toolbar-icons label:hover { color: var(--text-main); }
-        .send-btn-modern { background: var(--input-border); color: var(--text-sub); border: none; padding: 6px 16px; border-radius: 16px; font-weight: 600; cursor: not-allowed; transition: 0.2s; }
+        .li-msg-header { margin-bottom: 4px; font-size: 0.9rem; }
+        .li-msg-name { font-weight: 600; color: var(--text-main); }
+        .li-msg-time { font-size: 0.75rem; color: var(--text-sub); margin-left: 8px; }
+        .li-msg-text { font-size: 1rem; line-height: 1.4; word-break: break-word; }
+        .li-msg-img { max-width: 250px; border-radius: 12px; margin-top: 8px; }
+        
+        .msg-actions { display: none; gap: 10px; margin-left: auto; padding-left: 10px; }
+        .li-msg-item:hover .msg-actions { display: flex; }
+        .action-btn { background: none; border: none; cursor: pointer; color: var(--text-sub); font-size: 1rem; }
+        
+        .chat-input-wrapper { background: var(--input-bg); border-top: 1px solid var(--glass-border); padding: 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;}
+        .toolbar-icons { display: flex; gap: 18px; align-items: center; color: var(--text-sub); font-size: 1.3rem; margin-top: 10px; cursor: pointer; }
+        .send-btn-modern { background: var(--input-border); color: var(--text-sub); border: none; padding: 8px 24px; border-radius: 20px; font-weight: 600; cursor: not-allowed; transition: 0.2s;}
         .send-btn-modern.active { background: var(--accent-blue); color: white; cursor: pointer; }
 
-        /* Emoji Picker */
-        .emoji-picker { position: absolute; bottom: 120px; left: 24px; background: var(--dropdown-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; box-shadow: var(--3d-shadow); z-index: 150; }
-        .emoji-picker span { font-size: 1.4rem; cursor: pointer; text-align: center; transition: transform 0.1s; user-select: none; }
+        .emoji-picker { position: absolute; bottom: 130px; right: 20px; background: var(--nav-bg); padding: 15px; border-radius: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; z-index: 150; border: 1px solid var(--glass-border); backdrop-filter: blur(20px); }
+        .emoji-picker span, .emoji-picker img { cursor: pointer; transition: 0.2s; }
         .emoji-picker span:hover { transform: scale(1.2); }
 
-        /* MESSAGE ACTIONS (EDIT / DELETE) */
-        .li-msg-item:hover .msg-actions { display: flex; }
-        .msg-actions { display: none; gap: 8px; margin-left: auto; align-items: center; padding-left: 10px; }
-        .action-btn { background: none; border: none; font-size: 0.9rem; cursor: pointer; color: var(--text-sub); transition: 0.2s; }
-        .action-btn:hover { color: var(--accent-blue); transform: scale(1.1); }
-        .action-btn.delete:hover { color: #ff453a; }
-        .deleted-msg { color: var(--text-sub); font-style: italic; font-size: 0.9rem; margin-top: 4px; padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed var(--glass-border); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 2000; justify-content: center; align-items: center; }
+        
+        /* MISC COMPONENTS */
+        .translator-bar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center;}
+        .trans-pane { flex: 1; padding: 14px; border-radius: 14px; background: var(--input-bg); border: 1px solid var(--input-border); min-height:160px; display:flex; flex-direction:column;}
+        .score-card { background: var(--input-bg); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width:280px; margin:0 auto; }
+        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.2rem; font-weight: 500; cursor: pointer; }
+        
+        .file-upload-label { display: block; padding: 12px; background: rgba(10,132,255,0.1); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 600; text-align: center; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="theme-dark">
 
-    <!-- CALL OVERLAY (Audio / Video Call) -->
-    <div id="call-overlay" class="modal-overlay" style="z-index: 2000; flex-direction: column;">
-        <div class="glass-panel" style="padding: 30px; width: 400px; text-align: center; position: relative;">
-            <h3 id="call-status" style="margin-bottom: 10px; color: var(--text-main); font-size: 1.5rem;">Calling...</h3>
-            <p id="call-target-name" style="color: var(--accent-blue); margin-bottom: 20px; font-weight: 600;">User</p>
-            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; position: relative;">
-                <video id="local-video" autoplay muted playsinline style="width: 150px; height: 150px; background: #000; border-radius: 12px; object-fit: cover; display: none;"></video>
-                <video id="remote-video" autoplay playsinline style="width: 150px; height: 150px; background: #222; border-radius: 12px; object-fit: cover; display: none;"></video>
-                <div id="audio-call-avatar" style="width: 120px; height: 120px; border-radius: 50%; background: var(--input-bg); border: 2px solid var(--accent-blue); margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 3.5rem;">👤</div>
+    <!-- CALL OVERLAY -->
+    <div id="call-overlay" class="modal-overlay">
+        <div class="glass-panel" style="padding: 40px; width: 350px; text-align: center;">
+            <h3 id="call-status" style="font-size:1.5rem; margin-bottom:10px;">Calling...</h3>
+            <p id="call-target-name" style="color:var(--accent-blue); font-weight:600; margin-bottom:20px;">User</p>
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px;">
+                <video id="local-video" autoplay muted playsinline style="width:120px; height:120px; background:#000; border-radius:12px; display:none;"></video>
+                <video id="remote-video" autoplay playsinline style="width:120px; height:120px; background:#222; border-radius:12px; display:none;"></video>
+                <div id="audio-call-avatar" style="width:100px; height:100px; border-radius:50%; background:var(--input-bg); border:2px solid var(--accent-blue); display:none; align-items:center; justify-content:center; font-size:3rem;">👤</div>
             </div>
-            <button onclick="endCall()" style="background: #ff453a; color: white; border: none; padding: 12px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255, 69, 58, 0.4);">End Call</button>
+            <button onclick="endCall()" class="btn" style="background:#ff453a; color:white;">End Call</button>
         </div>
     </div>
 
     <!-- WELCOME OVERLAY -->
-    <div id="welcome-overlay">
-        <div class="welcome-content">
-            <h1 class="welcome-title">Welcome</h1>
-            <p id="welcome-user-display" class="welcome-subtitle">Preparing your portal...</p>
-            <div class="apple-spinner"></div>
-        </div>
-    </div>
+    <div id="welcome-overlay"><div class="welcome-content"><h1 class="welcome-title">Welcome</h1><p class="welcome-subtitle">Preparing portal...</p><div class="apple-spinner"></div></div></div>
 
     <!-- PROFILE MODAL -->
     <div id="profile-modal" class="modal-overlay">
-        <div class="modal-body glass-panel">
-            <h3 style="color:var(--text-main); font-size:1.3rem; margin-bottom:6px;">Update Profile Picture</h3>
-            <p style="color:var(--text-sub); font-size:0.85rem; margin-bottom:12px;">Select an image file from your device.</p>
-            <img id="modal-avatar-preview" src="https://via.placeholder.com/150" class="modal-avatar-preview">
-            <label for="device-file-input" class="file-upload-label">📁 Choose Image File</label>
+        <div class="glass-panel" style="max-width: 400px; padding: 30px; text-align: center;">
+            <h3 style="margin-bottom:10px;">Profile Picture</h3>
+            <img id="modal-avatar-preview" src="https://via.placeholder.com/150" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin:10px auto; border:2px solid var(--accent-blue);">
+            <label for="device-file-input" class="btn btn-secondary" style="display:block; margin-top:10px;">📁 Choose Image File</label>
             <input type="file" id="device-file-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-            <button id="btn-save-avatar" class="btn btn-primary" disabled>Save Profile Picture</button>
-            <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:6px;">Cancel</button>
+            <button id="btn-save-avatar" class="btn btn-primary" disabled>Save</button>
+            <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:10px;">Cancel</button>
         </div>
     </div>
 
-    <!-- STEP 1: LOGIN SCREEN -->
+    <!-- AUTH SCREENS -->
     <div id="login-screen" class="auth-card glass-panel">
-        <h2>Akash Portal</h2>
-        <p>Sign in using your Username or Email.</p>
-        <input type="text" id="login-identifier" placeholder="Username or Gmail address" required>
+        <h2>Akash Portal</h2><p>Sign in to access your secure environment.</p>
+        <input type="text" id="login-identifier" placeholder="Username or Email" required>
         <input type="password" id="login-password" placeholder="Password" required>
         <button id="btn-login" class="btn btn-primary">Log In</button>
-        <button id="btn-goto-forgot" class="btn-link">Forgot Password?</button>
+        <button id="btn-goto-forgot" class="btn-link" style="margin-bottom:10px;">Forgot Password?</button>
         <button id="btn-goto-register" class="btn btn-secondary">Create Account</button>
         <p id="login-error" class="error-msg"></p>
     </div>
 
-    <!-- FORGOT PASSWORD SCREEN -->
-    <div id="forgot-screen" class="auth-card glass-panel" style="display: none;">
-        <h2>Reset Password 🔑</h2>
-        <p>Enter your Gmail address to receive a reset link.</p>
+    <div id="forgot-screen" class="auth-card glass-panel" style="display:none;">
+        <h2>Reset Password</h2>
         <input type="email" id="forgot-email" placeholder="Enter registered Gmail" required>
         <button id="btn-send-reset" class="btn btn-primary">Send Reset Link</button>
         <button id="btn-back-login-forgot" class="btn-link">← Return to Sign In</button>
-        <p id="forgot-status" class="error-msg"></p>
     </div>
 
-    <!-- STEP 2: REGISTRATION -->
-    <div id="reg-email-screen" class="auth-card glass-panel" style="display: none;">
+    <div id="reg-email-screen" class="auth-card glass-panel" style="display:none;">
         <h2>Create Account</h2>
-        <p>Set a Unique Username and Gmail address.</p>
-        <input type="text" id="reg-username" placeholder="Choose unique username" required>
+        <input type="text" id="reg-username" placeholder="Choose username" required>
         <input type="email" id="reg-email" placeholder="Enter Gmail address" required>
         <button id="btn-reg-next" class="btn btn-primary">Continue →</button>
         <button id="btn-back-login1" class="btn-link">← Return to Log In</button>
-        <p id="reg-email-error" class="error-msg"></p>
     </div>
 
-    <!-- STEP 3: PASSWORD -->
-    <div id="reg-pass-screen" class="auth-card glass-panel" style="display: none;">
+    <div id="reg-pass-screen" class="auth-card glass-panel" style="display:none;">
         <h2>Set Password</h2>
-        <p id="reg-user-display" style="color:var(--accent-blue); font-weight:500; margin-bottom:12px;"></p>
-        <input type="password" id="reg-password" placeholder="Password (min 6 characters)" required>
-        <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
-        <button id="btn-reg-finish" class="btn btn-primary">Create Account</button>
-        <button id="btn-back-reg-email" class="btn-link">← Change Info</button>
-        <p id="reg-pass-error" class="error-msg"></p>
+        <input type="password" id="reg-password" placeholder="Password (min 6 chars)" required>
+        <button id="btn-reg-finish" class="btn btn-primary">Complete</button>
     </div>
 
-    <!-- STEP 4: VERIFICATION SENT -->
-    <div id="reg-sent-screen" class="auth-card glass-panel" style="display: none;">
-        <h2>Verify Your Email ✉️</h2>
-        <div class="success-box">A verification link has been sent to your email address.</div>
-        <button id="btn-sent-to-login" class="btn btn-primary" style="margin-top:20px;">Return to Sign In</button>
+    <div id="reg-sent-screen" class="auth-card glass-panel" style="display:none;">
+        <h2>Verify Email</h2>
+        <div style="color:#30d158; padding:15px; background:rgba(48,209,88,0.1); border-radius:12px;">Verification link sent.</div>
+        <button id="btn-sent-to-login" class="btn btn-primary">Return to Sign In</button>
     </div>
 
     <!-- MAIN DASHBOARD -->
     <div id="main-site">
         <navbar>
             <div class="brand-container">
-                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Upload Profile Picture">
-                <div class="brand-logo">AKASH <span>PORTAL</span></div>
-                
-                <div class="theme-select-badge" title="Select Theme Style">
-                    <span>🎨</span>
-                    <select id="theme-dropdown-select" class="theme-select-dropdown" onchange="changeThemeMode(this.value)">
-                        <option value="dark">🌙 Dark Mode</option>
-                        <option value="light">☀️ Light Mode</option>
-                        <option value="moonlight">🌌 Moonlight</option>
-                        <option value="starlight">✨ Starlight</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="digital-clock-badge">
-                <span>⏱️</span>
-                <span id="live-digital-clock">00:00:00 AM</span>
-                <select id="clock-timezone-select" onchange="updateDigitalClock()" style="background:none; border:none; color:inherit; font-size:0.8rem; outline:none; cursor:pointer;">
-                    <option value="Asia/Riyadh">Riyadh (GMT+3)</option>
-                    <option value="Asia/Dhaka">Dhaka (GMT+6)</option>
-                    <option value="America/New_York">New York (EST)</option>
+                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()">
+                <div class="brand-logo">AKASH <span style="font-weight:400; color:var(--text-sub);">PORTAL</span></div>
+                <select id="theme-dropdown" style="background:var(--input-bg); border:none; color:var(--text-main); padding:6px 12px; border-radius:12px; outline:none;" onchange="document.body.className = this.value === 'dark' ? '' : 'theme-'+this.value;">
+                    <option value="dark">Dark Mode</option><option value="light">Light Mode</option><option value="moonlight">Moonlight</option>
                 </select>
             </div>
-
-            <button id="btn-logout">Sign Out</button>
+            <div style="display:flex; gap:15px; align-items:center;">
+                <div style="font-weight:600; color:var(--accent-blue);" id="live-digital-clock">00:00:00</div>
+                <button id="btn-logout" style="background:rgba(255,69,58,0.1); color:#ff453a; border:none; padding:8px 16px; border-radius:12px; font-weight:600; cursor:pointer;">Sign Out</button>
+            </div>
         </navbar>
         
         <main class="dashboard-container">
-            
             <!-- LEFT SIDEBAR -->
             <div class="sidebar-left">
-                
-                <!-- Folder 1: Islamic Prayer Times -->
+                <!-- 1: PRAYER TIMES WITH COUNTDOWN -->
                 <details class="folder glass-panel" open>
-                    <summary class="folder-tab">🕋 Islamic Daily Prayer Times</summary>
+                    <summary class="folder-tab">🕋 Islamic Daily Prayer</summary>
                     <div class="folder-content">
-                        <p id="prayer-location-title" style="font-size:0.85rem; color:var(--text-sub); font-weight:500;">Detecting location...</p>
+                        <div class="next-prayer-box">
+                            <div>
+                                <div class="next-prayer-label">NEXT PRAYER</div>
+                                <div class="next-prayer-name" id="next-prayer-name">—</div>
+                            </div>
+                            <div class="next-prayer-count" id="next-prayer-count">--:--:--</div>
+                        </div>
                         <div class="prayer-grid">
-                            <div class="prayer-card"><div class="prayer-name">Fajr</div><div class="prayer-time" id="t-fajr">--:--</div></div>
-                            <div class="prayer-card"><div class="prayer-name">Dhuhr</div><div class="prayer-time" id="t-dhuhr">--:--</div></div>
-                            <div class="prayer-card"><div class="prayer-name">Asr</div><div class="prayer-time" id="t-asr">--:--</div></div>
-                            <div class="prayer-card"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="t-maghrib">--:--</div></div>
-                            <div class="prayer-card"><div class="prayer-name">Isha</div><div class="prayer-time" id="t-isha">--:--</div></div>
+                            <div class="prayer-card" id="card-Fajr"><div class="prayer-name">Fajr</div><div class="prayer-time" id="t-fajr">--:--</div></div>
+                            <div class="prayer-card" id="card-Dhuhr"><div class="prayer-name">Dhuhr</div><div class="prayer-time" id="t-dhuhr">--:--</div></div>
+                            <div class="prayer-card" id="card-Asr"><div class="prayer-name">Asr</div><div class="prayer-time" id="t-asr">--:--</div></div>
+                            <div class="prayer-card" id="card-Maghrib"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="t-maghrib">--:--</div></div>
+                            <div class="prayer-card" id="card-Isha"><div class="prayer-name">Isha</div><div class="prayer-time" id="t-isha">--:--</div></div>
                         </div>
                     </div>
                 </details>
 
-                <!-- Folder 2: Holy Quran Audio Player -->
+                <!-- 2: QURAN ARABIC READER -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">📖 Holy Quran Player</summary>
+                    <summary class="folder-tab">📖 Holy Quran Suite</summary>
                     <div class="folder-content">
-                        <div class="quran-pro-box">
-                            <div style="text-align: center; margin-bottom: 15px; font-size: 2.2rem; color: var(--accent-blue); font-family: 'Amiri', 'Traditional Arabic', serif;">
-                                ﷽
-                            </div>
-                            <div style="display:flex; gap: 10px; margin-bottom: 12px;">
-                                <div style="flex: 1;">
-                                    <label style="color:var(--text-sub); font-size:0.75rem; font-weight:600; display:block; margin-bottom:4px;">RECITER</label>
-                                    <select id="quran-reciter" class="quran-select" onchange="loadQuranSurah()">
-                                        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
-                                        <option value="ar.sudais">Abdur-Rahman As-Sudais</option>
-                                        <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
-                                        <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
-                                    </select>
-                                </div>
-                                <div style="flex: 1;">
-                                    <label style="color:var(--text-sub); font-size:0.75rem; font-weight:600; display:block; margin-bottom:4px;">SURAH</label>
-                                    <select id="quran-surah" class="quran-select" onchange="loadQuranSurah()">
-                                        <option value="1">1. Al-Fatihah (الفاتحة)</option>
-                                        <option value="2">2. Al-Baqarah (البقرة)</option>
-                                        <option value="18">18. Al-Kahf (الكهف)</option>
-                                        <option value="36">36. Ya-Sin (يس)</option>
-                                        <option value="55">55. Ar-Rahman (الرحمن)</option>
-                                        <option value="56">56. Al-Waqi'ah (الواقعة)</option>
-                                        <option value="67">67. Al-Mulk (الملك)</option>
-                                        <option value="109">109. Al-Kafirun (الكافرون)</option>
-                                        <option value="112">112. Al-Ikhlas (الإخلاص)</option>
-                                        <option value="113">113. Al-Falaq (الفلق)</option>
-                                        <option value="114">114. An-Nas (الناس)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="audio-player-container">
-                                <audio id="quran-audio-player" class="quran-audio-player" controls preload="metadata">
-                                    Your browser does not support playing audio.
-                                </audio>
-                            </div>
+                        <div class="q-tabs">
+                            <button id="q-tab-audio" class="q-tab active" onclick="switchQuranTab('audio')">🔊 Listen</button>
+                            <button id="q-tab-read" class="q-tab" onclick="switchQuranTab('read')">📜 Read</button>
+                        </div>
+                        <select id="quran-surah" class="qr-field" onchange="loadQuranSurah()">
+                            <option value="1">1. Al-Fatihah</option>
+                            <option value="2">2. Al-Baqarah</option>
+                            <option value="18">18. Al-Kahf</option>
+                            <option value="36">36. Ya-Sin</option>
+                            <option value="55">55. Ar-Rahman</option>
+                            <option value="67">67. Al-Mulk</option>
+                            <option value="112">112. Al-Ikhlas</option>
+                        </select>
+                        <div id="quran-audio-view">
+                            <select id="quran-reciter" class="qr-field" onchange="loadQuranSurah()">
+                                <option value="ar.alafasy">Alafasy</option>
+                                <option value="ar.sudais">Sudais</option>
+                            </select>
+                            <audio id="quran-audio-player" style="width:100%; margin-top:10px;" controls></audio>
+                        </div>
+                        <div id="quran-read-view" style="display:none;">
+                            <p id="quran-surah-title" style="font-size:0.8rem; font-weight:600; color:var(--accent-blue); margin-bottom:8px; text-align:center;"></p>
+                            <div id="quran-text-box" class="quran-reader"></div>
                         </div>
                     </div>
                 </details>
 
-                <!-- Folder 3: Translator Suite -->
+                <!-- 3: TRANSLATOR -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">🌐 Pro Translator Suite</summary>
+                    <summary class="folder-tab">🌐 Pro Translator</summary>
                     <div class="folder-content">
                         <div class="translator-bar">
-                            <div class="lang-select-box">
-                                <select id="src-lang" class="lang-select" onchange="autoTranslate()">
-                                    <option value="en">English</option>
-                                    <option value="bn">Bangla (বাংলা)</option>
-                                    <option value="ar">Arabic (العربية)</option>
-                                </select>
-                            </div>
-                            <button class="swap-btn" onclick="swapLanguages()">⇄</button>
-                            <div class="lang-select-box">
-                                <select id="target-lang" class="lang-select" onchange="autoTranslate()">
-                                    <option value="bn">Bangla (বাংলা)</option>
-                                    <option value="en">English</option>
-                                    <option value="ar">Arabic (العربية)</option>
-                                </select>
-                            </div>
+                            <select id="src-lang" class="qr-field" style="flex:1; margin:0;" onchange="autoTranslate()"><option value="en">English</option><option value="bn">Bangla</option><option value="ar">Arabic</option></select>
+                            <button onclick="swapLanguages()" style="background:transparent; border:none; color:var(--accent-blue); font-size:1.5rem; cursor:pointer;">⇄</button>
+                            <select id="target-lang" class="qr-field" style="flex:1; margin:0;" onchange="autoTranslate()"><option value="bn">Bangla</option><option value="en">English</option><option value="ar">Arabic</option></select>
                         </div>
-                        <div class="translator-grid">
-                            <div class="trans-pane">
-                                <textarea id="trans-input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea>
-                                <div class="pane-toolbar">
-                                    <button id="mic-btn" class="icon-btn" onclick="toggleVoiceInput()" title="Voice Input">🎙️</button>
-                                    <button class="icon-btn" onclick="playSpeech('input')" title="Listen">🔊</button>
-                                </div>
-                            </div>
-                            <div class="trans-pane output-pane">
-                                <div id="trans-output-text" class="trans-output-text">Translation</div>
-                                <div class="pane-toolbar" style="justify-content: flex-end; gap: 8px;">
-                                    <button class="icon-btn" onclick="copyTranslation()" title="Copy">📋</button>
-                                    <button class="icon-btn" onclick="playSpeech('output')" title="Listen">🔊</button>
-                                </div>
-                            </div>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <textarea id="trans-input-text" class="qr-field" placeholder="Enter text..." oninput="autoTranslate()" style="flex:1; height:100px; resize:none;"></textarea>
+                            <div class="qr-field" id="trans-output-text" style="flex:1; height:100px; overflow-y:auto; background:var(--bg-color);">Translation</div>
                         </div>
                     </div>
                 </details>
 
-                <!-- Folder 4: Live Sports Hub -->
+                <!-- 4: SPORTS -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">⚽ Live Sports Hub</summary>
+                    <summary class="folder-tab">⚽ Live Sports</summary>
                     <div class="folder-content">
-                        <div class="sports-tabs">
-                            <button id="tab-cricket" class="sports-tab-btn active" onclick="switchSportsTab('cricket')">Cricket 🏏</button>
-                            <button id="tab-football" class="sports-tab-btn" onclick="switchSportsTab('football')">Football ⚽</button>
+                        <div class="q-tabs">
+                            <button id="tab-cricket" class="q-tab active" onclick="switchSportsTab('cricket')">Cricket 🏏</button>
+                            <button id="tab-football" class="q-tab" onclick="switchSportsTab('football')">Football ⚽</button>
                         </div>
-                        <div id="sports-scores-container"></div>
+                        <div id="sports-scores-container">
+                            <div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>IND vs AUS</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 210/4 (18.2 ov)</span></div></div>
+                        </div>
                     </div>
                 </details>
 
-                <!-- Folder 5: Game Suite -->
+                <!-- 5: QR GENERATOR & WIFI SCANNER -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">🎮 3D Arcade Game Suite</summary>
+                    <summary class="folder-tab">🔳 QR Studio & WiFi Scanner</summary>
                     <div class="folder-content">
-                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">1. Tic-Tac-Toe</p>
-                        <div class="mode-buttons">
-                            <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
-                            <button id="btn-ai" class="mode-btn" onclick="setMode('AI')">Vs Robot</button>
+                        <select id="qr-mode" class="qr-field" onchange="toggleQrMode()">
+                            <option value="text">Text / URL QR</option>
+                            <option value="wifi">WiFi Network QR</option>
+                        </select>
+                        <div id="qr-text-fields">
+                            <input type="text" id="qr-text" class="qr-field" placeholder="example.com or any text">
                         </div>
-                        <div class="board" id="board">
-                            <div class="cell" onclick="makeMove(0)"></div><div class="cell" onclick="makeMove(1)"></div><div class="cell" onclick="makeMove(2)"></div>
-                            <div class="cell" onclick="makeMove(3)"></div><div class="cell" onclick="makeMove(4)"></div><div class="cell" onclick="makeMove(5)"></div>
-                            <div class="cell" onclick="makeMove(6)"></div><div class="cell" onclick="makeMove(7)"></div><div class="cell" onclick="makeMove(8)"></div>
+                        <div id="qr-wifi-fields" style="display:none;">
+                            <input type="text" id="qr-wifi-ssid" class="qr-field" placeholder="Network name (SSID)">
+                            <input type="text" id="qr-wifi-pass" class="qr-field" placeholder="WiFi password">
+                            <select id="qr-wifi-enc" class="qr-field">
+                                <option value="WPA">WPA / WPA2 / WPA3</option>
+                                <option value="WEP">WEP</option>
+                                <option value="nopass">Open (no password)</option>
+                            </select>
                         </div>
-                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
-                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">2. 3D Memory Match</p>
-                        <div class="memory-grid" id="memory-grid"></div>
-                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
-                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">3. Connect 4 Grid</p>
-                        <div class="c4-board" id="c4-board"></div>
+                        <button class="btn btn-primary" onclick="buildQR()">Generate QR Code</button>
+                        <div id="qr-output-wrap" style="display:none;">
+                            <div class="qr-out"><img id="qr-output-img" src="" alt="QR code" style="width:220px; height:220px;"></div>
+                            <a id="qr-download" href="#" download="akash-portal-qr.png" class="btn btn-secondary" style="display:block; text-decoration:none; text-align:center; margin-top:10px;">Download PNG ⬇️</a>
+                        </div>
+                        
+                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:18px 0;">
+                        
+                        <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Upload a WiFi QR screenshot to reveal the hidden password.</p>
+                        <label for="qr-scan-input" class="file-upload-label">🔍 Upload QR Image to Decode</label>
+                        <input type="file" id="qr-scan-input" accept="image/*" style="display:none;" onchange="scanQRFile(event)">
+                        <div id="qr-scan-result" class="qr-scan-result" style="display:none;"></div>
                     </div>
                 </details>
-
-                <!-- Folder 6: Apple Calculator -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">🧮 Calculator</summary>
-                    <div class="folder-content">
-                        <div class="apple-calc-wrapper">
-                            <input type="text" id="calc-display" class="apple-calc-display" disabled value="0">
-                            <div class="apple-calc-grid">
-                                <button class="apple-calc-btn btn-control" onclick="clearCalc()">AC</button>
-                                <button class="apple-calc-btn btn-control" onclick="toggleSign()">±</button>
-                                <button class="apple-calc-btn btn-control" onclick="appendCalc('%')">%</button>
-                                <button class="apple-calc-btn btn-op" onclick="appendCalc('/')">÷</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('7')">7</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('8')">8</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('9')">9</button>
-                                <button class="apple-calc-btn btn-op" onclick="appendCalc('*')">×</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('4')">4</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('5')">5</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('6')">6</button>
-                                <button class="apple-calc-btn btn-op" onclick="appendCalc('-')">−</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('1')">1</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('2')">2</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('3')">3</button>
-                                <button class="apple-calc-btn btn-op" onclick="appendCalc('+')">+</button>
-                                <button class="apple-calc-btn btn-num btn-zero" onclick="appendCalc('0')">0</button>
-                                <button class="apple-calc-btn btn-num" onclick="appendCalc('.')">.</button>
-                                <button class="apple-calc-btn btn-op" onclick="calculate()">=</button>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- Folder 7: Image to PDF Converter -->
+                
+                <!-- 6: PDF CONVERTER -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">📄 Image to PDF Converter</summary>
                     <div class="folder-content">
-                        <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Upload images to instantly convert them into a single PDF document.</p>
-                        <label for="img-pdf-input" class="file-upload-label" style="text-align: center;">
-                            📁 Select Images (JPG, PNG)
-                        </label>
-                        <input type="file" id="img-pdf-input" accept="image/png, image/jpeg, image/jpg" multiple style="display:none;" onchange="handleImageToPdfSelect(event)">
-                        <div id="pdf-preview-container" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px;"></div>
-                        <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()">Download PDF ⬇️</button>
+                        <label for="img-pdf-input" class="file-upload-label">🖼️ Select Images</label>
+                        <input type="file" id="img-pdf-input" accept="image/*" multiple style="display:none;" onchange="handleImageToPdfSelect(event)">
+                        <div id="pdf-preview-container" style="display:flex; gap:8px; overflow-x:auto; margin-top:10px;"></div>
+                        <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()" style="margin-top:10px;">Download PDF</button>
                     </div>
                 </details>
 
             </div>
 
-            <!-- RIGHT MAIN CONTENT -->
+            <!-- RIGHT SIDEBAR: CHAT SHUTTER -->
             <div class="main-right">
                 
-                <!-- LIVE COMMUNITY & PRIVATE CHAT (PROFESSIONAL UI) -->
-                <section class="card glass-panel chat-container-modern" style="padding: 0; display: flex; flex-direction: column; height: 650px;">
-                    
-                    <!-- Header & Tabs -->
-                    <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <h2 style="font-size: 1.15rem; font-weight: 600; margin: 0;">💬 Portal Messaging</h2>
-                            <div class="chat-tabs">
-                                <button id="tab-global-chat" class="chat-tab-btn active" onclick="switchChatMode('global')">Global</button>
-                                <button id="tab-private-chat" class="chat-tab-btn" onclick="switchChatMode('private')">Private DMs</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Dynamic Header for Private DMs with Call Buttons -->
-                        <div id="dm-active-user-header" style="display: none; align-items: center; gap: 12px; margin-top: 10px; position: relative;">
-                            <img id="dm-header-avatar" src="https://via.placeholder.com/150" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
-                            <div>
-                                <div style="font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 4px;">
-                                    <span id="dm-header-name">Select a user</span> <span style="color: #30d158;">●</span>
-                                </div>
-                                <div style="font-size: 0.75rem; color: var(--text-sub);">Executive Portal Member | Online</div>
-                            </div>
-                            <!-- Apple-style Audio / Video Call Buttons -->
-                            <div style="margin-left: auto; display: flex; gap: 18px; color: var(--accent-blue); align-items: center;">
-                                <span style="cursor:pointer;" onclick="startCall('audio')" title="Audio Call">
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-                                </span>
-                                <span style="cursor:pointer;" onclick="startCall('video')" title="Video Call">
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Chat Body Layout -->
-                    <div style="display: flex; flex: 1; overflow: hidden;">
-                        
-                        <!-- Private User List Sidebar -->
-                        <div id="dm-user-list" class="dm-user-list" style="display: none;">
-                            <p style="font-size: 0.75rem; color: var(--text-sub); text-align: center; margin: 8px 0;">Connections</p>
-                        </div>
-
-                        <!-- Messages Area -->
-                        <div style="flex: 1; display: flex; flex-direction: column; position: relative;">
-                            <div id="chat-messages-container" class="messages-scroll-area"></div>
-
-                            <!-- Quick Replies -->
-                            <div class="quick-replies" id="quick-replies">
-                                <button onclick="sendQuickReply('How are you?')">How are you?</button>
-                                <button onclick="sendQuickReply('Hello')">Hello</button>
-                                <button onclick="sendQuickReply('Hi')">Hi</button>
-                                <button onclick="sendQuickReply('Great presentation today!')">Great presentation today!</button>
-                            </div>
-
-                            <!-- Input Area -->
-                            <div class="chat-input-wrapper">
-                                <!-- Image Upload Preview -->
-                                <div id="chat-image-preview-container" style="display: none; padding-bottom: 8px; position: relative;">
-                                    <img id="chat-image-preview" src="" style="max-height: 80px; border-radius: 8px; border: 1px solid var(--input-border);">
-                                    <button onclick="clearChatImage()" style="position: absolute; top: -5px; left: 70px; background: #ff453a; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
-                                </div>
-
-                                <textarea id="chat-input-text" placeholder="Write a message..." rows="1"></textarea>
+                <!-- CHAT WRAPPED IN SHUTTER -->
+                <details class="folder glass-panel" open style="margin-bottom:1.25rem;">
+                  <summary class="folder-tab">
+                      <div style="display:flex; align-items:center; gap:15px;">
+                          <span>💬 Portal Messaging</span>
+                          <div style="display:flex; gap:8px;" onclick="event.preventDefault()">
+                              <button id="tab-global" style="background:var(--accent-blue); color:#fff; border:none; padding:4px 12px; border-radius:12px; cursor:pointer;" onclick="switchChat('global')">Global</button>
+                              <button id="tab-private" style="background:transparent; color:var(--text-sub); border:1px solid var(--input-border); padding:4px 12px; border-radius:12px; cursor:pointer;" onclick="switchChat('private')">DMs</button>
+                          </div>
+                      </div>
+                      <div id="dm-call-icons" style="display:none; gap:15px; color:var(--accent-blue); align-items:center;" onclick="event.preventDefault()">
+                          <span id="dm-head-name" style="color:var(--text-main); font-weight:600; font-size:0.9rem; margin-right:10px;">User</span>
+                          <span style="cursor:pointer;" onclick="startCall('audio')">📞</span>
+                          <span style="cursor:pointer;" onclick="startCall('video')">📹</span>
+                      </div>
+                  </summary>
+                  
+                  <div class="folder-content" style="padding:0;">
+                    <section class="chat-container-modern" style="padding:0; display:flex; flex-direction:column; height:650px; background:transparent;">
+                        <div class="chat-body-split">
+                            <div id="dm-list" class="dm-user-list" style="display:none;"></div>
+                            
+                            <div style="flex:1; display:flex; flex-direction:column; position:relative;">
+                                <div id="chat-messages" class="messages-scroll-area"></div>
                                 
-                                <div class="chat-toolbar">
-                                    <div class="toolbar-icons" style="display: flex; gap: 18px; align-items: center; color: var(--text-sub);">
-                                        <!-- Image Upload -->
-                                        <label for="chat-img-upload" title="Attach Image" style="cursor: pointer; display: flex;">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                                        </label>
-                                        <input type="file" id="chat-img-upload" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)">
-                                        
-                                        <!-- File Attachment -->
-                                        <label for="chat-file-upload" title="Attach File" style="cursor: pointer; display: flex;">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 015 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 005 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
-                                        </label>
-                                        <input type="file" id="chat-file-upload" accept=".pdf,.doc,.docx,.txt,.zip" style="display: none;" onchange="handleChatFileUpload(event)">
-                                        
-                                        <!-- GIF Selector -->
-                                        <span style="font-weight: 700; font-size: 0.8rem; cursor: pointer; border: 2px solid currentColor; border-radius: 4px; padding: 0 3px;" onclick="toggleGifPicker()" title="Send GIF">GIF</span>
-                                        
-                                        <!-- Emoji Picker -->
-                                        <span onclick="toggleEmojiPicker()" title="Emojis" style="cursor: pointer; display: flex;">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 8c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 13 8.5 13 7 12.33 7 11.5 7.67 10 8.5 10zm3.5 9.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>
-                                        </span>
-
-                                        <!-- Voice Recording Button -->
-                                        <span id="btn-record-voice" onclick="toggleVoiceRecord()" title="Record Voice Audio" style="cursor: pointer; display: flex;">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-                                        </span>
-                                        <span id="recording-indicator" style="display:none; color: #ff453a; font-size: 0.75rem; font-weight: bold; animation: pulse 1s infinite;">Recording...</span>
+                                <div class="chat-input-wrapper">
+                                    <div id="img-preview-box" style="display:none; position:relative; margin-bottom:10px;">
+                                        <img id="img-preview" src="" style="height:60px; border-radius:8px;">
+                                        <button onclick="clearChatMedia()" style="position:absolute; top:-5px; left:50px; background:#ff453a; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;">×</button>
                                     </div>
-                                    <button id="btn-send-msg" class="send-btn-modern">Send</button>
+                                    <textarea id="chat-input-text" placeholder="Type a message..."></textarea>
+                                    
+                                    <div class="chat-toolbar">
+                                        <div class="toolbar-icons">
+                                            <label for="img-up" title="Attach Image">🖼️</label><input type="file" id="img-up" accept="image/*" style="display:none;" onchange="attachImage(event)">
+                                            <span style="font-weight:bold; font-size:0.8rem; border:2px solid currentColor; border-radius:4px; padding:0 3px;" onclick="toggleP('gif')">GIF</span>
+                                            <span onclick="toggleP('emoji')">😊</span>
+                                            <span id="btn-mic" onclick="toggleMic()">🎙️</span>
+                                            <span id="mic-status" style="display:none; color:#ff453a; font-size:0.8rem; animation:pulse 1s infinite;">Rec...</span>
+                                        </div>
+                                        <button id="btn-send-msg" class="btn btn-primary" style="width:auto; margin:0; padding:8px 20px;">Send</button>
+                                    </div>
+                                </div>
+
+                                <!-- Pickers -->
+                                <div id="emoji-picker" class="emoji-picker" style="display:none;">
+                                    <span onclick="addE('😀')">😀</span><span onclick="addE('😂')">😂</span><span onclick="addE('🔥')">🔥</span><span onclick="addE('👍')">👍</span>
+                                </div>
+                                <div id="gif-picker" class="emoji-picker" style="display:none; width:220px; grid-template-columns:1fr 1fr;">
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWwxY2pxZHp3ejlhNnh2cnd4aWZub3pveGlqY3R4Z2EycTVpZDNkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0AM4154T6T25w9mU/giphy.gif" style="width:100%; height:60px; border-radius:6px;" onclick="addG(this.src)">
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcHVwbTBmNWszM281bGlveWptMnA2MmhxcWhnMGlubzBicnI2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKsjLu23I3p99pC/giphy.gif" style="width:100%; height:60px; border-radius:6px;" onclick="addG(this.src)">
                                 </div>
                             </div>
-
-                            <!-- GIF PICKER POPUP -->
-                            <div id="gif-picker" class="emoji-picker" style="display: none; grid-template-columns: repeat(2, 1fr); width: 220px; bottom: 60px;">
-                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWwxY2pxZHp3ejlhNnh2cnd4aWZub3pveGlqY3R4Z2EycTVpZDNkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0AM4154T6T25w9mU/giphy.gif" style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" onclick="sendGif('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWwxY2pxZHp3ejlhNnh2cnd4aWZub3pveGlqY3R4Z2EycTVpZDNkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0AM4154T6T25w9mU/giphy.gif')">
-                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcHVwbTBmNWszM281bGlveWptMnA2MmhxcWhnMGlubzBicnI2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKsjLu23I3p99pC/giphy.gif" style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" onclick="sendGif('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcHVwbTBmNWszM281bGlveWptMnA2MmhxcWhnMGlubzBicnI2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKsjLu23I3p99pC/giphy.gif')">
-                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bHFyMzJqY3RmbXN0c2FxbWVjcXZoZTR4MWc3bmRxcXVic29hcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dzaUX7CAG0Ihi/giphy.gif" style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" onclick="sendGif('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bHFyMzJqY3RmbXN0c2FxbWVjcXZoZTR4MWc3bmRxcXVic29hcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dzaUX7CAG0Ihi/giphy.gif')">
-                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2dnFwbWVhcTlnbTZicGF4Mno5eWdpNDNxbDN4NmNreW9ydzEydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xezQGU5xCDJuCPe/giphy.gif" style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" onclick="sendGif('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2dnFwbWVhcTlnbTZicGF4Mno5eWdpNDNxbDN4NmNreW9ydzEydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xezQGU5xCDJuCPe/giphy.gif')">
-                            </div>
-
-                            <!-- EMOJI PICKER POPUP -->
-                            <div id="emoji-picker" class="emoji-picker" style="display: none; bottom: 60px;">
-                                <span onclick="insertEmoji('😀')">😀</span><span onclick="insertEmoji('😂')">😂</span><span onclick="insertEmoji('😊')">😊</span><span onclick="insertEmoji('😍')">😍</span>
-                                <span onclick="insertEmoji('🙏')">🙏</span><span onclick="insertEmoji('👍')">👍</span><span onclick="insertEmoji('🔥')">🔥</span><span onclick="insertEmoji('🎉')">🎉</span>
-                                <span onclick="insertEmoji('✔️')">✔️</span><span onclick="insertEmoji('💡')">💡</span><span onclick="insertEmoji('🚀')">🚀</span><span onclick="insertEmoji('💼')">💼</span>
-                            </div>
                         </div>
-                    </div>
-                </section>
-
-                <!-- SEARCH CARDS -->
-                <section class="card glass-panel">
-                    <div class="card-header">
-                        <h2>Search Google</h2>
-                    </div>
-                    <form class="search-form" action="https://www.google.com/search" method="get" target="_blank">
-                        <input class="search-input" type="text" name="q" placeholder="Search Google..." required>
-                        <button class="search-btn" type="submit">Search</button>
-                    </form>
-                </section>
+                    </section>
+                  </div>
+                </details>
             </div>
         </main>
     </div>
 
-    <!-- SCRIPT 1: FIREBASE ENGINE & COMPLETE CHAT LOGIC -->
+    <!-- FIREBASE AND CORE LOGIC SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = {
+        const app = initializeApp({
             apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
             authDomain: "an46-7d0f3.firebaseapp.com",
             projectId: "an46-7d0f3",
             storageBucket: "an46-7d0f3.firebasestorage.app",
             messagingSenderId: "265002186410",
-            appId: "1:265002186410:web:0ba24a52e883c013e4c2d3",
-            measurementId: "G-EZBC6KBV1F"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        function sanitizeText(str) {
-            const temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        }
-
-        const loginScreen = document.getElementById('login-screen');
-        const forgotScreen = document.getElementById('forgot-screen');
-        const regEmailScreen = document.getElementById('reg-email-screen');
-        const regPassScreen = document.getElementById('reg-pass-screen');
-        const regSentScreen = document.getElementById('reg-sent-screen');
-        const mainSite = document.getElementById('main-site');
-        const welcomeOverlay = document.getElementById('welcome-overlay');
-        const welcomeUserDisplay = document.getElementById('welcome-user-display');
-        const navAvatar = document.getElementById('nav-avatar');
-
+            appId: "1:265002186410:web:0ba24a52e883c013e4c2d3"
+        });
+        const auth = getAuth(app); const db = getFirestore(app);
         window.currentUserObj = null;
-        let hasShownWelcome = false;
-        let selectedBase64Image = null;
+
+        function sanitizeText(str) { const t = document.createElement('div'); t.textContent = str; return t.innerHTML; }
 
         function hideAllScreens() {
-            loginScreen.style.display = 'none';
-            forgotScreen.style.display = 'none';
-            regEmailScreen.style.display = 'none';
-            regPassScreen.style.display = 'none';
-            regSentScreen.style.display = 'none';
-            mainSite.style.display = 'none';
+            document.querySelectorAll('.auth-card').forEach(c => c.style.display='none');
+            document.getElementById('main-site').style.display = 'none';
         }
 
-        function triggerWelcomeAnimation(displayName, callback) {
-            hideAllScreens();
-            welcomeUserDisplay.innerText = `Welcome back, ${displayName}`;
-            welcomeOverlay.style.display = 'flex';
-            welcomeOverlay.style.opacity = '1';
-            setTimeout(() => {
-                welcomeOverlay.style.opacity = '0';
-                setTimeout(() => {
-                    welcomeOverlay.style.display = 'none';
-                    callback();
-                }, 800);
-            }, 2000);
-        }
+        // AUTHENTICATION
+        document.getElementById('btn-goto-register').onclick = () => { hideAllScreens(); document.getElementById('reg-email-screen').style.display='block'; };
+        document.getElementById('btn-reg-next').onclick = () => { hideAllScreens(); document.getElementById('reg-pass-screen').style.display='block'; };
+        document.getElementById('btn-goto-forgot').onclick = () => { hideAllScreens(); document.getElementById('forgot-screen').style.display='block'; };
+        document.getElementById('btn-back-login1').onclick = () => { hideAllScreens(); document.getElementById('login-screen').style.display='block'; };
+        document.getElementById('btn-back-login-forgot').onclick = () => { hideAllScreens(); document.getElementById('login-screen').style.display='block'; };
 
-        window.openProfileModal = function() {
-            document.getElementById('profile-modal').style.display = 'flex';
-            if (window.currentUserObj) {
-                document.getElementById('modal-avatar-preview').src = window.currentUserObj.photoURL || "https://via.placeholder.com/150";
-            }
-        };
-        
-        window.closeProfileModal = function() {
-            document.getElementById('profile-modal').style.display = 'none';
-            selectedBase64Image = null;
-            document.getElementById('btn-save-avatar').disabled = true;
-        };
-
-        window.handleFileSelect = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = 80;
-                        canvas.height = 80;
-                        ctx.drawImage(img, 0, 0, 80, 80);
-                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.4);
-                        document.getElementById('modal-avatar-preview').src = selectedBase64Image;
-                        document.getElementById('btn-save-avatar').disabled = false;
-                    };
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        document.getElementById('btn-save-avatar').addEventListener('click', () => {
-            if (selectedBase64Image && window.currentUserObj) {
-                const saveBtn = document.getElementById('btn-save-avatar');
-                saveBtn.innerText = "Saving...";
-                saveBtn.disabled = true;
-
-                updateProfile(window.currentUserObj, { photoURL: selectedBase64Image })
-                    .then(() => {
-                        navAvatar.src = selectedBase64Image;
-                        localStorage.setItem('localAvatar', selectedBase64Image); 
-                        setDoc(doc(db, "users", window.currentUserObj.uid), {
-                            photoURL: selectedBase64Image
-                        }, { merge: true });
-                        saveBtn.innerText = "Save Profile Picture";
-                        closeProfileModal();
-                    })
-                    .catch((err) => {
-                        navAvatar.src = selectedBase64Image;
-                        localStorage.setItem('localAvatar', selectedBase64Image);
-                        saveBtn.innerText = "Save Profile Picture";
-                        closeProfileModal();
-                    });
-            }
-        });
-
-        document.getElementById('btn-goto-forgot').addEventListener('click', () => { hideAllScreens(); forgotScreen.style.display = 'block'; });
-        document.getElementById('btn-back-login-forgot').addEventListener('click', () => { hideAllScreens(); loginScreen.style.display = 'block'; });
-
-        document.getElementById('btn-send-reset').addEventListener('click', () => {
-            const email = document.getElementById('forgot-email').value.trim();
-            const status = document.getElementById('forgot-status');
-            if (!email) { status.innerText = "Please enter your Gmail address."; return; }
-            status.style.color = "var(--accent-blue)";
-            status.innerText = "Sending reset email...";
-            sendPasswordResetEmail(auth, email)
-                .then(() => { status.style.color = "#30d158"; status.innerText = "Reset link sent! Please check your inbox."; })
-                .catch((err) => { status.style.color = "#ff453a"; status.innerText = "Error: " + err.message; });
-        });
-
-        document.getElementById('btn-goto-register').addEventListener('click', () => { hideAllScreens(); regEmailScreen.style.display = 'block'; });
-        document.getElementById('btn-back-login1').addEventListener('click', () => { hideAllScreens(); loginScreen.style.display = 'block'; });
-
-        document.getElementById('btn-reg-next').addEventListener('click', async () => {
-            const usernameVal = sanitizeText(document.getElementById('reg-username').value.trim());
-            if (!usernameVal || usernameVal.length < 3) return;
-            hideAllScreens();
-            regPassScreen.style.display = 'block';
-        });
-
-        document.getElementById('btn-reg-finish').addEventListener('click', () => {
-            const usernameVal = sanitizeText(document.getElementById('reg-username').value.trim());
-            const emailVal = sanitizeText(document.getElementById('reg-email').value.trim());
-            const passVal = document.getElementById('reg-password').value;
-
-            createUserWithEmailAndPassword(auth, emailVal, passVal)
-                .then((userCredential) => {
-                    const defaultPhoto = "https://ui-avatars.com/api/?name=" + encodeURIComponent(usernameVal) + "&background=0071e3&color=fff";
-                    updateProfile(userCredential.user, { 
-                        displayName: usernameVal,
-                        photoURL: defaultPhoto
-                    }).then(() => {
-                        sendEmailVerification(userCredential.user).then(() => {
-                            auth.signOut();
-                            hideAllScreens();
-                            regSentScreen.style.display = 'block';
-                        });
-                    });
+        document.getElementById('btn-reg-finish').onclick = () => {
+            const u = sanitizeText(document.getElementById('reg-username').value.trim()); 
+            const e = sanitizeText(document.getElementById('reg-email').value.trim()); 
+            const p = document.getElementById('reg-password').value;
+            createUserWithEmailAndPassword(auth, e, p).then(c => {
+                updateProfile(c.user, { displayName: u, photoURL: `https://ui-avatars.com/api/?name=${u}&background=0A84FF&color=fff` }).then(() => {
+                    sendEmailVerification(c.user).then(() => { auth.signOut(); hideAllScreens(); document.getElementById('reg-sent-screen').style.display='block'; });
                 });
-        });
-
-        document.getElementById('btn-login').addEventListener('click', () => {
-            const identifier = sanitizeText(document.getElementById('login-identifier').value.trim());
-            const pass = document.getElementById('login-password').value;
-            const emailToUse = identifier.includes('@') ? identifier : `${identifier}@akashportal.com`;
-            signInWithEmailAndPassword(auth, emailToUse, pass);
-        });
-
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            hasShownWelcome = false;
-            signOut(auth);
-        });
-
-        // ==========================================
-        // MODERN CHAT ENGINE
-        // ==========================================
-        let currentChatMode = 'global';
-        let currentPrivateTargetId = null;
-        let chatUnsubscribe = null;
-        window.chatAttachedBase64 = null;
-        window.chatAttachedAudioBase64 = null;
-
-        window.switchChatMode = function(mode) {
-            currentChatMode = mode;
-            document.getElementById('tab-global-chat').classList.toggle('active', mode === 'global');
-            document.getElementById('tab-private-chat').classList.toggle('active', mode === 'private');
-            
-            document.getElementById('dm-user-list').style.display = mode === 'private' ? 'block' : 'none';
-            document.getElementById('dm-active-user-header').style.display = mode === 'private' && currentPrivateTargetId ? 'flex' : 'none';
-            
-            if (mode === 'private') {
-                loadUserList();
-                if(!currentPrivateTargetId) {
-                    document.getElementById('chat-messages-container').innerHTML = '<p style="text-align: center; color: var(--text-sub); margin-top: 20px; font-size: 0.9rem;">Select a connection to start messaging.</p>';
-                } else {
-                    loadMessages();
-                }
-            } else {
-                loadMessages();
-            }
+            }).catch(er => alert(er.message));
         };
 
-        const chatInput = document.getElementById('chat-input-text');
-        const sendBtn = document.getElementById('btn-send-msg');
-        
-        window.checkSendButton = function() {
-            if (chatInput.value.trim().length > 0 || window.chatAttachedBase64 || window.chatAttachedAudioBase64) {
-                sendBtn.classList.add('active');
-            } else {
-                sendBtn.classList.remove('active');
-            }
+        document.getElementById('btn-login').onclick = () => {
+            const i = sanitizeText(document.getElementById('login-identifier').value.trim()); const p = document.getElementById('login-password').value;
+            signInWithEmailAndPassword(auth, i.includes('@') ? i : `${i}@akashportal.com`, p).catch(() => document.getElementById('login-error').innerText = "Invalid credentials.");
         };
-        chatInput.addEventListener('input', window.checkSendButton);
-
-        function formatTime(timestamp) {
-            if (!timestamp) return "Just now";
-            const d = timestamp.toDate();
-            return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        async function loadUserList() {
-            const userListDiv = document.getElementById('dm-user-list');
-            const querySnapshot = await getDocs(collection(db, "users"));
-            
-            let html = '<p style="font-size: 0.75rem; color: var(--text-sub); text-align: center; margin: 8px 0;">Connections</p>';
-            querySnapshot.forEach((docSnap) => {
-                const u = docSnap.data();
-                if (u.uid !== window.currentUserObj.uid) {
-                    const isActive = currentPrivateTargetId === u.uid ? 'active' : '';
-                    html += `
-                        <div class="dm-user-item ${isActive}" onclick="openPrivateChat('${u.uid}', '${sanitizeText(u.username)}', '${u.photoURL}')">
-                            <img src="${u.photoURL}" class="dm-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.username || 'U')}&background=0071e3&color=fff'">
-                            <div class="dm-username">${sanitizeText(u.username)}</div>
-                        </div>
-                    `;
-                }
-            });
-            userListDiv.innerHTML = html;
-        }
-
-        window.openPrivateChat = function(targetUid, targetUsername, targetAvatar) {
-            currentPrivateTargetId = targetUid;
-            document.getElementById('dm-active-user-header').style.display = 'flex';
-            document.getElementById('dm-header-avatar').src = targetAvatar;
-            document.getElementById('dm-header-name').innerText = targetUsername;
-            loadUserList(); 
-            loadMessages();
-        };
-
-        function loadMessages() {
-            if (chatUnsubscribe) chatUnsubscribe();
-            const container = document.getElementById('chat-messages-container');
-            container.innerHTML = '';
-
-            let q;
-            if (currentChatMode === 'global') {
-                q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
-            } else {
-                if (!currentPrivateTargetId) return;
-                const chatId = window.currentUserObj.uid < currentPrivateTargetId 
-                    ? `${window.currentUserObj.uid}_${currentPrivateTargetId}` 
-                    : `${currentPrivateTargetId}_${window.currentUserObj.uid}`;
-                q = query(collection(db, "private_messages"), where("chatId", "==", chatId));
-            }
-
-            chatUnsubscribe = onSnapshot(q, (snapshot) => {
-                container.innerHTML = '';
-                container.innerHTML += `<div style="text-align: center; border-bottom: 1px solid var(--glass-border); line-height: 0.1em; margin: 15px 0;"><span style="background: var(--glass-bg); padding: 0 10px; color: var(--text-sub); font-size: 0.75rem; font-weight: 600;">TODAY</span></div>`;
-
-                let docsArray = [];
-                snapshot.forEach(docSnap => docsArray.push({ id: docSnap.id, ...docSnap.data() }));
-                
-                docsArray.sort((a, b) => {
-                    const tA = a.timestamp ? a.timestamp.toMillis() : Date.now();
-                    const tB = b.timestamp ? b.timestamp.toMillis() : Date.now();
-                    return tA - tB;
-                });
-
-                docsArray.forEach((data) => {
-                    const msgId = data.id;
-                    const timeStr = formatTime(data.timestamp ? {toDate: () => new Date(data.timestamp.toMillis())} : null);
-                    
-                    const safeAvatar = (data.photoURL && data.photoURL !== "null" && data.photoURL.length > 10) 
-                        ? data.photoURL 
-                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.username || 'User')}&background=0071e3&color=fff`;
-
-                    let contentHtml = '';
-                    let actionsHtml = '';
-
-                    if (data.isDeleted) {
-                        contentHtml = `<div class="deleted-msg">🚫 This message was deleted.</div>`;
-                    } else {
-                        const imgHtml = data.attachedImage ? `<img src="${data.attachedImage}" class="li-msg-img">` : '';
-                        const audioHtml = data.attachedAudio ? `<audio controls src="${data.attachedAudio}" style="height: 35px; margin-top: 8px; outline: none; border-radius: 20px;"></audio>` : '';
-                        const textHtml = data.text ? `<div class="li-msg-text">${sanitizeText(data.text)}</div>` : '';
-                        contentHtml = textHtml + imgHtml + audioHtml;
-
-                        if (data.senderId === window.currentUserObj.uid) {
-                            const safeText = encodeURIComponent(data.text || ""); 
-                            actionsHtml = `
-                                <div class="msg-actions">
-                                    <button class="action-btn" onclick="editMessage('${msgId}', '${currentChatMode}', '${safeText}')" title="Edit">✏️</button>
-                                    <button class="action-btn delete" onclick="deleteMessage('${msgId}', '${currentChatMode}')" title="Delete">🗑️</button>
-                                </div>
-                            `;
-                        }
-                    }
-
-                    container.innerHTML += `
-                        <div class="li-msg-item">
-                            <img src="${safeAvatar}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(data.username || 'U')}&background=0071e3&color=fff'" class="li-msg-avatar">
-                            <div class="li-msg-content" style="display:flex; width:100%;">
-                                <div style="flex:1;">
-                                    <div class="li-msg-header">
-                                        <span class="li-msg-name">${sanitizeText(data.username)}</span>
-                                        <span class="li-msg-time">${timeStr}</span>
-                                        ${data.isEdited ? '<span style="font-size: 0.65rem; color: var(--accent-blue); margin-left: 4px;">(edited)</span>' : ''}
-                                    </div>
-                                    ${contentHtml}
-                                </div>
-                                ${actionsHtml}
-                            </div>
-                        </div>
-                    `;
-                });
-                container.scrollTop = container.scrollHeight;
-            });
-        }
-
-        sendBtn.addEventListener('click', async () => {
-            if (!sendBtn.classList.contains('active')) return;
-            
-            const text = sanitizeText(chatInput.value.trim());
-            const imagePayload = window.chatAttachedBase64;
-            const audioPayload = window.chatAttachedAudioBase64;
-            
-            if (!text && !imagePayload && !audioPayload) return;
-            
-            chatInput.value = '';
-            window.clearChatImage();
-            window.chatAttachedAudioBase64 = null; 
-
-            const payload = {
-                text: text,
-                attachedImage: imagePayload,
-                attachedAudio: audioPayload, 
-                senderId: window.currentUserObj.uid,
-                username: window.currentUserObj.displayName || window.currentUserObj.email.split('@')[0],
-                photoURL: window.currentUserObj.photoURL || 'https://via.placeholder.com/150',
-                timestamp: serverTimestamp()
-            };
-
-            if (currentChatMode === 'global') {
-                await addDoc(collection(db, "group_messages"), payload);
-            } else if (currentChatMode === 'private' && currentPrivateTargetId) {
-                payload.chatId = window.currentUserObj.uid < currentPrivateTargetId 
-                    ? `${window.currentUserObj.uid}_${currentPrivateTargetId}` 
-                    : `${currentPrivateTargetId}_${window.currentUserObj.uid}`;
-                await addDoc(collection(db, "private_messages"), payload);
-            }
-        });
-
-        window.deleteMessage = async function(msgId, mode) {
-            if(confirm("Are you sure you want to delete this message?")) {
-                const collectionName = mode === 'global' ? "group_messages" : "private_messages";
-                const msgRef = doc(db, collectionName, msgId);
-                await updateDoc(msgRef, {
-                    isDeleted: true,
-                    text: null,
-                    attachedImage: null,
-                    attachedAudio: null
-                });
-            }
-        };
-
-        window.editMessage = async function(msgId, mode, encodedText) {
-            const currentText = decodeURIComponent(encodedText);
-            const newText = prompt("Edit your message:", currentText);
-            
-            if(newText !== null && newText.trim() !== "" && newText !== currentText) {
-                const collectionName = mode === 'global' ? "group_messages" : "private_messages";
-                const msgRef = doc(db, collectionName, msgId);
-                await updateDoc(msgRef, {
-                    text: newText.trim(),
-                    isEdited: true
-                });
-            }
-        };
+        document.getElementById('btn-logout').onclick = () => signOut(auth);
 
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && user.emailVerified) {
                 window.currentUserObj = user;
-                const savedLocalAvatar = localStorage.getItem('localAvatar');
-                navAvatar.src = savedLocalAvatar || user.photoURL || ("https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "A"));
-
-                setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
-                    username: user.displayName || user.email.split('@')[0],
-                    photoURL: navAvatar.src
-                }, { merge: true });
-
-                if (user.emailVerified) {
-                    if (!hasShownWelcome) {
-                        hasShownWelcome = true;
-                        triggerWelcomeAnimation(user.displayName || user.email.split('@')[0], () => {
-                            mainSite.style.display = 'block';
-                            window.switchChatMode('global');
-                            window.fetchPrayerTimes();
-                            window.loadLiveSportsScores('cricket');
-                            window.initGames();
-                            window.loadQuranSurah(false);
-                        });
-                    } else {
-                        hideAllScreens();
-                        mainSite.style.display = 'block';
-                        window.switchChatMode('global');
-                        window.fetchPrayerTimes();
-                        window.loadLiveSportsScores('cricket');
-                        window.initGames();
-                        window.loadQuranSurah(false);
-                    }
-                } else {
-                    auth.signOut();
-                    hideAllScreens();
-                    loginScreen.style.display = 'block';
-                }
-            } else {
-                hideAllScreens();
-                loginScreen.style.display = 'block';
-            }
+                document.getElementById('nav-avatar').src = localStorage.getItem('localAvatar') || user.photoURL || `https://ui-avatars.com/api/?name=${user.email[0]}&background=0A84FF&color=fff`;
+                setDoc(doc(db, "users", user.uid), { uid: user.uid, username: user.displayName || user.email.split('@')[0], photoURL: document.getElementById('nav-avatar').src }, { merge: true });
+                hideAllScreens(); document.getElementById('main-site').style.display = 'block';
+                window.switchChat('global'); window.fetchPrayerTimes(); window.loadQuranSurah(false);
+            } else { hideAllScreens(); document.getElementById('login-screen').style.display = 'block'; }
         });
+
+        // CHAT ENGINE
+        let chatMode = 'global'; let dmTarget = null; let chatUnsub = null;
+        window.chatBase64 = null; window.chatAudio = null;
+
+        window.switchChat = function(mode) {
+            chatMode = mode;
+            document.getElementById('tab-global').style.background = mode === 'global' ? 'var(--accent-blue)' : 'transparent';
+            document.getElementById('tab-global').style.color = mode === 'global' ? '#fff' : 'var(--text-sub)';
+            document.getElementById('tab-private').style.background = mode === 'private' ? 'var(--accent-blue)' : 'transparent';
+            document.getElementById('tab-private').style.color = mode === 'private' ? '#fff' : 'var(--text-sub)';
+            
+            document.getElementById('dm-list').style.display = mode === 'private' ? 'block' : 'none';
+            document.getElementById('dm-call-icons').style.display = mode === 'private' && dmTarget ? 'flex' : 'none';
+            
+            if(mode === 'private') { loadUsers(); if(dmTarget) loadChat(); else document.getElementById('chat-messages').innerHTML='<p style="text-align:center; color:var(--text-sub); margin-top:20px;">Select a user.</p>'; }
+            else loadChat();
+        };
+
+        async function loadUsers() {
+            const list = document.getElementById('dm-list');
+            const snaps = await getDocs(collection(db, "users"));
+            let h = '';
+            snaps.forEach(d => {
+                const u = d.data();
+                if(u.uid !== window.currentUserObj.uid) {
+                    h += `<div class="dm-user-item ${dmTarget===u.uid?'active':''}" onclick="openDM('${u.uid}','${sanitizeText(u.username)}')">
+                            <img src="${u.photoURL}" class="dm-avatar"> <div class="dm-username">${sanitizeText(u.username)}</div>
+                          </div>`;
+                }
+            });
+            list.innerHTML = h;
+        }
+        window.openDM = function(uid, name) { dmTarget = uid; document.getElementById('dm-head-name').innerText = name; document.getElementById('dm-call-icons').style.display = 'flex'; loadUsers(); loadChat(); };
+
+        function loadChat() {
+            if(chatUnsub) chatUnsub();
+            const box = document.getElementById('chat-messages'); box.innerHTML = '';
+            let q;
+            if(chatMode === 'global') q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
+            else {
+                if(!dmTarget) return;
+                const cid = window.currentUserObj.uid < dmTarget ? `${window.currentUserObj.uid}_${dmTarget}` : `${dmTarget}_${window.currentUserObj.uid}`;
+                q = query(collection(db, "private_messages"), where("chatId", "==", cid)); // Handled locally for order
+            }
+
+            chatUnsub = onSnapshot(q, (snap) => {
+                box.innerHTML = '';
+                let arr = []; snap.forEach(d => arr.push({id: d.id, ...d.data()}));
+                arr.sort((a,b) => (a.timestamp?a.timestamp.toMillis():0) - (b.timestamp?b.timestamp.toMillis():0));
+
+                arr.forEach(data => {
+                    const time = data.timestamp ? data.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : 'Now';
+                    let content = '', actions = '';
+                    if(data.isDeleted) content = `<div class="deleted-msg">🚫 Message deleted.</div>`;
+                    else {
+                        content = (data.text ? `<div class="li-msg-text">${sanitizeText(data.text)}</div>` : '') + 
+                                  (data.attachedImage ? `<img src="${data.attachedImage}" class="li-msg-img">` : '') + 
+                                  (data.attachedAudio ? `<audio controls src="${data.attachedAudio}" style="height:35px; margin-top:5px; outline:none; border-radius:15px;"></audio>` : '');
+                        if(data.senderId === window.currentUserObj.uid) {
+                            actions = `<div class="msg-actions"><button class="action-btn delete" onclick="delMsg('${data.id}','${chatMode}')">🗑️</button></div>`;
+                        }
+                    }
+                    box.innerHTML += `<div class="li-msg-item"><img src="${data.photoURL}" class="li-msg-avatar"><div class="li-msg-content"><div class="li-msg-header"><span class="li-msg-name">${sanitizeText(data.username)}</span> <span class="li-msg-time">${time}</span></div>${content}</div>${actions}</div>`;
+                });
+                box.scrollTop = box.scrollHeight;
+            });
+        }
+
+        document.getElementById('btn-send-msg').onclick = async () => {
+            const txt = document.getElementById('chat-input-text').value.trim();
+            if(!txt && !window.chatBase64 && !window.chatAudio) return;
+            
+            const payload = { text: txt, attachedImage: window.chatBase64, attachedAudio: window.chatAudio, senderId: window.currentUserObj.uid, username: window.currentUserObj.displayName||"User", photoURL: window.currentUserObj.photoURL, timestamp: serverTimestamp() };
+            document.getElementById('chat-input-text').value = ''; window.clearChatMedia();
+            
+            if(chatMode === 'global') await addDoc(collection(db, "group_messages"), payload);
+            else if(dmTarget) {
+                payload.chatId = window.currentUserObj.uid < dmTarget ? `${window.currentUserObj.uid}_${dmTarget}` : `${dmTarget}_${window.currentUserObj.uid}`;
+                await addDoc(collection(db, "private_messages"), payload);
+            }
+        };
+
+        window.delMsg = async function(id, mode) { if(confirm("Delete?")) await updateDoc(doc(db, mode==='global'?'group_messages':'private_messages', id), {isDeleted: true, text: null, attachedImage: null, attachedAudio: null}); };
     </script>
 
-    <!-- SCRIPT 2: TOOLS, QURAN, TRANSLATOR, SPORTS, GAMES, UI HELPERS -->
+    <!-- SCRIPT 2: TOOLS (PRAYER, QURAN, QR, CHAT UI) -->
     <script>
-        let callStream = null;
+        // CHAT UI & INPUT
+        const input = document.getElementById('chat-input-text');
+        input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('btn-send-msg').click(); } });
+        input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; });
+        document.addEventListener('click', e => {
+            const em = document.getElementById('emoji-picker'), gf = document.getElementById('gif-picker');
+            if (e.target.closest('.toolbar-icons') || e.target.closest('.emoji-picker')) return;
+            if (em) em.style.display = 'none'; if (gf) gf.style.display = 'none';
+        });
 
-        window.startCall = async function(type) {
-            document.getElementById('call-overlay').style.display = 'flex';
-            document.getElementById('call-target-name').innerText = document.getElementById('dm-header-name').innerText;
-            document.getElementById('call-status').innerText = "Ringing...";
-            
-            const localVid = document.getElementById('local-video');
-            const remoteVid = document.getElementById('remote-video');
-            const audioAvatar = document.getElementById('audio-call-avatar');
+        window.attachImage = function(e) {
+            const r = new FileReader(); r.onload = ev => {
+                const img = new Image(); img.onload = () => {
+                    const c = document.createElement('canvas'); const s = Math.min(300/img.width, 300/img.height);
+                    c.width = img.width*s; c.height = img.height*s; c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                    window.chatBase64 = c.toDataURL('image/jpeg', 0.6);
+                    document.getElementById('img-preview').src = window.chatBase64; document.getElementById('img-preview-box').style.display='block';
+                }; img.src = ev.target.result;
+            }; r.readAsDataURL(e.target.files[0]);
+        };
+        window.clearChatMedia = function() { window.chatBase64=null; window.chatAudio=null; document.getElementById('img-preview-box').style.display='none'; document.getElementById('img-up').value=''; };
+        window.toggleP = function(t) { document.getElementById('gif-picker').style.display='none'; document.getElementById('emoji-picker').style.display='none'; document.getElementById(t+'-picker').style.display='grid'; };
+        window.addE = function(e) { document.getElementById('chat-input-text').value+=e; document.getElementById('emoji-picker').style.display='none'; };
+        window.addG = function(u) { window.chatBase64=u; document.getElementById('img-preview').src=u; document.getElementById('img-preview-box').style.display='block'; document.getElementById('gif-picker').style.display='none'; };
 
-            try {
-                if(type === 'video') {
-                    localVid.style.display = 'block';
-                    remoteVid.style.display = 'block';
-                    audioAvatar.style.display = 'none';
-                    callStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                    localVid.srcObject = callStream;
-                } else {
-                    localVid.style.display = 'none';
-                    remoteVid.style.display = 'none';
-                    audioAvatar.style.display = 'flex';
-                    callStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                }
-                
-                setTimeout(() => {
-                    if (document.getElementById('call-overlay').style.display === 'flex') {
-                        document.getElementById('call-status').innerText = "Connected 00:00";
-                        document.getElementById('call-status').style.color = "#30d158";
-                    }
-                }, 3000);
-                
-            } catch(e) {
-                alert("Camera or Microphone access is required to make calls.");
-                endCall();
-            }
+        let mRec; let aChk=[]; let isRec=false;
+        window.toggleMic = async function() {
+            if(!isRec) {
+                try { mRec = new MediaRecorder(await navigator.mediaDevices.getUserMedia({audio:true})); mRec.start(); isRec=true; document.getElementById('btn-mic').style.color='#ff453a'; document.getElementById('mic-status').style.display='inline';
+                mRec.ondataavailable = e => aChk.push(e.data); mRec.onstop = () => { const r = new FileReader(); r.onloadend = () => { window.chatAudio = r.result; document.getElementById('chat-input-text').value+=' 🎵 [Audio]'; }; r.readAsDataURL(new Blob(aChk, {type:'audio/webm'})); aChk=[]; };
+                } catch(e) { alert("Mic access denied"); }
+            } else { mRec.stop(); isRec=false; document.getElementById('btn-mic').style.color='currentColor'; document.getElementById('mic-status').style.display='none'; }
         };
 
-        window.endCall = function() {
-            document.getElementById('call-overlay').style.display = 'none';
-            if (callStream) {
-                callStream.getTracks().forEach(t => t.stop()); 
-                callStream = null;
-            }
-            document.getElementById('local-video').srcObject = null;
-            document.getElementById('call-status').style.color = "var(--text-main)";
+        // PRAYER COUNTDOWN
+        let prayerMap = null, prayerTimer = null;
+        const PRAYER_ORDER = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+        function cleanTime(v) { return String(v).trim().split(' ')[0]; }
+        function to12h(hhmm) { const [h, m] = cleanTime(hhmm).split(':').map(Number); const ap = h >= 12 ? 'PM' : 'AM'; return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${ap}`; }
+        window.applyPrayerTimings = function(t) {
+            prayerMap = { Fajr: t.Fajr, Dhuhr: t.Dhuhr, Asr: t.Asr, Maghrib: t.Maghrib, Isha: t.Isha };
+            document.getElementById('t-fajr').innerText = to12h(t.Fajr); document.getElementById('t-dhuhr').innerText = to12h(t.Dhuhr); document.getElementById('t-asr').innerText = to12h(t.Asr); document.getElementById('t-maghrib').innerText = to12h(t.Maghrib); document.getElementById('t-isha').innerText = to12h(t.Isha);
+            clearInterval(prayerTimer); tickPrayerCountdown(); prayerTimer = setInterval(tickPrayerCountdown, 1000);
         };
-
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-
-        window.toggleVoiceRecord = async function() {
-            if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.start();
-                    isRecording = true;
-                    
-                    document.getElementById('btn-record-voice').style.color = '#ff453a';
-                    document.getElementById('recording-indicator').style.display = 'inline';
-                    
-                    mediaRecorder.ondataavailable = e => {
-                        audioChunks.push(e.data);
-                    };
-                    
-                    mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            window.chatAttachedAudioBase64 = reader.result;
-                            const chatInput = document.getElementById('chat-input-text');
-                            chatInput.value += ` 🎵 [Audio Recorded]`;
-                            window.checkSendButton();
-                        };
-                        reader.readAsDataURL(audioBlob);
-                        audioChunks = [];
-                        stream.getTracks().forEach(track => track.stop()); 
-                    };
-                } catch (err) {
-                    alert("Microphone access denied or unavailable.");
-                }
-            } else {
-                mediaRecorder.stop();
-                isRecording = false;
-                document.getElementById('btn-record-voice').style.color = 'var(--text-sub)';
-                document.getElementById('recording-indicator').style.display = 'none';
-            }
-        };
-
-        window.handleChatImageUpload = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const scale = Math.min(300 / img.width, 300 / img.height);
-                        canvas.width = img.width * scale;
-                        canvas.height = img.height * scale;
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        window.chatAttachedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                        document.getElementById('chat-image-preview').src = window.chatAttachedBase64;
-                        document.getElementById('chat-image-preview-container').style.display = 'block';
-                        window.checkSendButton();
-                    };
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        window.clearChatImage = function() {
-            window.chatAttachedBase64 = null;
-            document.getElementById('chat-image-preview-container').style.display = 'none';
-            document.getElementById('chat-img-upload').value = "";
-            window.checkSendButton();
-        };
-
-        window.toggleGifPicker = function() {
-            const gifPicker = document.getElementById('gif-picker');
-            const emojiPicker = document.getElementById('emoji-picker');
-            emojiPicker.style.display = 'none'; 
-            gifPicker.style.display = gifPicker.style.display === 'none' ? 'grid' : 'none';
-        };
-
-        window.sendGif = function(gifUrl) {
-            window.chatAttachedBase64 = gifUrl;
-            document.getElementById('chat-image-preview').src = gifUrl;
-            document.getElementById('chat-image-preview-container').style.display = 'block';
-            document.getElementById('gif-picker').style.display = 'none';
-            window.checkSendButton();
-        };
-
-        window.handleChatFileUpload = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const chatInput = document.getElementById('chat-input-text');
-                chatInput.value += ` 📄 Attached Document: ${file.name}`;
-                window.checkSendButton();
-            }
-        };
-
-        window.toggleEmojiPicker = function() {
-            const picker = document.getElementById('emoji-picker');
-            const gifPicker = document.getElementById('gif-picker');
-            gifPicker.style.display = 'none'; 
-            picker.style.display = picker.style.display === 'none' ? 'grid' : 'none';
-        };
-
-        window.insertEmoji = function(emoji) {
-            const input = document.getElementById('chat-input-text');
-            input.value += emoji;
-            document.getElementById('emoji-picker').style.display = 'none';
-            input.focus();
-            window.checkSendButton();
-        };
-
-        window.sendQuickReply = function(text) {
-            document.getElementById('chat-input-text').value = text;
-            window.checkSendButton();
-            document.getElementById('btn-send-msg').click();
-        };
-
-        let pdfImages = [];
-        window.handleImageToPdfSelect = function(event) {
-            const files = event.target.files;
-            const previewContainer = document.getElementById('pdf-preview-container');
-            const generateBtn = document.getElementById('btn-generate-pdf');
-            previewContainer.innerHTML = '';
-            pdfImages = [];
-            if (files.length > 0) {
-                generateBtn.disabled = false;
-                Array.from(files).forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const dataUrl = e.target.result;
-                        pdfImages.push(dataUrl);
-                        const img = document.createElement('img');
-                        img.src = dataUrl;
-                        img.style.height = '60px';
-                        img.style.width = '60px';
-                        img.style.objectFit = 'cover';
-                        img.style.borderRadius = '8px';
-                        img.style.border = '1px solid var(--glass-border)';
-                        previewContainer.appendChild(img);
-                    }
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                generateBtn.disabled = true;
-            }
-        };
-
-        window.generatePDF = function() {
-            if (pdfImages.length === 0) return;
-            const btn = document.getElementById('btn-generate-pdf');
-            btn.innerText = "Generating...";
-            btn.disabled = true;
-
-            setTimeout(() => {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF();
-                pdfImages.forEach((imgData, index) => {
-                    if (index > 0) pdf.addPage();
-                    const props = pdf.getImageProperties(imgData);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (props.height * pdfWidth) / props.width;
-                    let finalHeight = pdfHeight;
-                    let finalWidth = pdfWidth;
-                    let yMargin = 0;
-                    let xMargin = 0;
-                    if(pdfHeight > pdf.internal.pageSize.getHeight()) {
-                        finalHeight = pdf.internal.pageSize.getHeight();
-                        finalWidth = (props.width * finalHeight) / props.height;
-                        xMargin = (pdfWidth - finalWidth) / 2;
-                    } else {
-                        yMargin = (pdf.internal.pageSize.getHeight() - finalHeight) / 2;
-                    }
-                    pdf.addImage(imgData, 'JPEG', xMargin, yMargin, finalWidth, finalHeight);
-                });
-                pdf.save("Akash_Portal_Images.pdf");
-                btn.innerText = "Download PDF ⬇️";
-                btn.disabled = false;
-                document.getElementById('pdf-preview-container').innerHTML = '';
-                pdfImages = [];
-                document.getElementById('img-pdf-input').value = ""; 
-                btn.disabled = true;
-            }, 100); 
-        };
-
-        function changeThemeMode(themeName) {
-            document.body.className = '';
-            if (themeName !== 'dark') document.body.classList.add(`theme-${themeName}`);
+        function tickPrayerCountdown() {
+            if (!prayerMap) return; const now = new Date(); let target = null, name = '';
+            for (const p of PRAYER_ORDER) { const [h, m] = cleanTime(prayerMap[p]).split(':').map(Number); const d = new Date(now); d.setHours(h, m, 0, 0); if (d > now) { target = d; name = p; break; } }
+            if (!target) { const [h, m] = cleanTime(prayerMap.Fajr).split(':').map(Number); target = new Date(now); target.setDate(target.getDate() + 1); target.setHours(h, m, 0, 0); name = 'Fajr'; }
+            let s = Math.max(0, Math.floor((target - now) / 1000));
+            document.getElementById('next-prayer-name').innerText = `${name} · ${to12h(prayerMap[name])}`;
+            document.getElementById('next-prayer-count').innerText = `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+            PRAYER_ORDER.forEach(p => { const c = document.getElementById('card-' + p); if (c) c.classList.toggle('is-next', p === name); });
         }
-
-        window.updateDigitalClock = function() {
-            const tz = document.getElementById('clock-timezone-select').value;
-            const now = new Date();
-            document.getElementById('live-digital-clock').innerText = now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
-        setInterval(window.updateDigitalClock, 1000);
-
-        window.loadQuranSurah = function(autoPlay = true) {
-            const reciter = document.getElementById('quran-reciter').value;
-            const surah = document.getElementById('quran-surah').value;
-            const player = document.getElementById('quran-audio-player');
-            player.src = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surah}.mp3`;
-            if(autoPlay) player.play().catch(e => console.log('Audio autoplay blocked by browser'));
+        window.fetchPrayerTimes = function() {
+            if (!navigator.geolocation) return window.fetchRiyadhPrayerTimes();
+            navigator.geolocation.getCurrentPosition(async (pos) => { try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=4`);
+                const data = await res.json(); if (data && data.data) { document.getElementById('prayer-location-title').innerText = "Local Prayer Times"; window.applyPrayerTimings(data.data.timings); }
+            } catch (e) { window.fetchRiyadhPrayerTimes(); } }, () => window.fetchRiyadhPrayerTimes(), { timeout: 8000 });
         };
-
-        let debounceTimer = null;
-        let activeAudio = null;
-        let isListening = false;
-        let recognition = null;
-
-        window.autoTranslate = function() {
-            clearTimeout(debounceTimer);
-            const inputVal = document.getElementById('trans-input-text').value.trim();
-            const outputDiv = document.getElementById('trans-output-text');
-            if (!inputVal) {
-                outputDiv.innerText = "Translation";
-                outputDiv.style.color = "var(--text-sub)";
-                return;
-            }
-            outputDiv.style.color = "var(--accent-blue)";
-            outputDiv.innerText = "Translating...";
-
-            debounceTimer = setTimeout(async () => {
-                const src = document.getElementById('src-lang').value;
-                const target = document.getElementById('target-lang').value;
-                try {
-                    const gUrl = `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${src}&tl=${target}&q=${encodeURIComponent(inputVal)}`;
-                    const res = await fetch(gUrl);
-                    if (!res.ok) throw new Error("API Error");
-                    const data = await res.json();
-                    if (data && Array.isArray(data)) {
-                        outputDiv.innerText = data.join(' ');
-                        outputDiv.style.color = "var(--text-main)";
-                        return;
-                    }
-                    throw new Error("No Data");
-                } catch (e) {
-                    try {
-                        const lUrl = `https://lingva.ml/api/v1/${src}/${target}/${encodeURIComponent(inputVal)}`;
-                        const lRes = await fetch(lUrl);
-                        const lData = await lRes.json();
-                        if (lData && lData.translation) {
-                            outputDiv.innerText = lData.translation;
-                            outputDiv.style.color = "var(--text-main)";
-                        } else { throw new Error("No Data"); }
-                    } catch (err) {
-                        outputDiv.innerText = "Translation timeout or unavailable.";
-                        outputDiv.style.color = "#ff453a";
-                    }
-                }
-            }, 600); 
-        };
-
-        window.swapLanguages = function() {
-            const src = document.getElementById('src-lang');
-            const target = document.getElementById('target-lang');
-            const temp = src.value;
-            src.value = target.value;
-            target.value = temp;
-            const inputTxt = document.getElementById('trans-input-text');
-            const outputTxt = document.getElementById('trans-output-text');
-            if (outputTxt.innerText !== "Translation" && !outputTxt.innerText.includes("...")) {
-                inputTxt.value = outputTxt.innerText;
-            }
-            window.autoTranslate();
-        };
-
-        window.toggleVoiceInput = function() {
-            const micBtn = document.getElementById('mic-btn');
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return alert("Voice recognition not supported.");
-            if (isListening) return recognition.stop();
-            recognition = new SpeechRecognition();
-            const srcLang = document.getElementById('src-lang').value;
-            const langLocales = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA' };
-            recognition.lang = langLocales[srcLang] || 'en-US';
-            recognition.interimResults = false;
-            recognition.onstart = () => { isListening = true; micBtn.classList.add('mic-listening'); };
-            recognition.onresult = (event) => {
-                document.getElementById('trans-input-text').value = event.results[0][0].transcript;
-                window.autoTranslate();
-            };
-            recognition.onend = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
-            recognition.onerror = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
-            recognition.start();
-        };
-
-        window.playSpeech = function(pane) {
-            let text = pane === 'input' ? document.getElementById('trans-input-text').value.trim() : document.getElementById('trans-output-text').innerText.trim();
-            let lang = pane === 'input' ? document.getElementById('src-lang').value : document.getElementById('target-lang').value;
-            if (!text || text === "Translation" || text.includes("...")) return;
-            if (activeAudio) activeAudio.pause();
-            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
-            activeAudio = new Audio(audioUrl);
-            activeAudio.play().catch(e => {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    const locs = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA' };
-                    utterance.lang = locs[lang] || 'en-US';
-                    window.speechSynthesis.speak(utterance);
-                }
-            });
-        };
-
-        window.copyTranslation = function() {
-            const txt = document.getElementById('trans-output-text').innerText;
-            if (txt && txt !== "Translation") navigator.clipboard.writeText(txt);
-        }
-
-        window.fetchPrayerTimes = async function() {
-            try {
-                navigator.geolocation.getCurrentPosition(async (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lng = pos.coords.longitude;
-                    const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
-                    const data = await res.json();
-                    if (data && data.data) {
-                        const t = data.data.timings;
-                        document.getElementById('prayer-location-title').innerText = `Daily Salah Times for Your Location`;
-                        document.getElementById('t-fajr').innerText = t.Fajr;
-                        document.getElementById('t-dhuhr').innerText = t.Dhuhr;
-                        document.getElementById('t-asr').innerText = t.Asr;
-                        document.getElementById('t-maghrib').innerText = t.Maghrib;
-                        document.getElementById('t-isha').innerText = t.Isha;
-                    }
-                }, () => window.fetchRiyadhPrayerTimes());
-            } catch(e) { window.fetchRiyadhPrayerTimes(); }
-        }
-
         window.fetchRiyadhPrayerTimes = async function() {
-            const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=Saudi Arabia&method=4`);
-            const data = await res.json();
-            if (data && data.data) {
-                const t = data.data.timings;
-                document.getElementById('t-fajr').innerText = t.Fajr;
-                document.getElementById('t-dhuhr').innerText = t.Dhuhr;
-                document.getElementById('t-asr').innerText = t.Asr;
-                document.getElementById('t-maghrib').innerText = t.Maghrib;
-                document.getElementById('t-isha').innerText = t.Isha;
-            }
-        }
+            try { const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=Saudi Arabia&method=4'); const data = await res.json(); if (data && data.data) { document.getElementById('prayer-location-title').innerText = 'Riyadh, Saudi Arabia'; window.applyPrayerTimings(data.data.timings); } } catch (e) {}
+        };
 
-        window.switchSportsTab = function(sport) {
-            document.getElementById('tab-cricket').className = sport === 'cricket' ? 'sports-tab-btn active' : 'sports-tab-btn';
-            document.getElementById('tab-football').className = sport === 'football' ? 'sports-tab-btn active' : 'sports-tab-btn';
-            window.loadLiveSportsScores(sport);
-        }
-
-        window.loadLiveSportsScores = async function(sport) {
-            const container = document.getElementById('sports-scores-container');
-            container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-sub);">Fetching real-time matches...</p>';
+        // QURAN READER
+        let quranTab = 'audio';
+        window.switchQuranTab = function(tab) {
+            quranTab = tab;
+            document.getElementById('q-tab-audio').classList.toggle('active', tab === 'audio'); document.getElementById('q-tab-read').classList.toggle('active', tab === 'read');
+            document.getElementById('quran-audio-view').style.display = tab === 'audio' ? 'block' : 'none'; document.getElementById('quran-read-view').style.display = tab === 'read' ? 'block' : 'none';
+            if (tab === 'read') window.loadQuranText();
+        };
+        window.loadQuranText = async function() {
+            const surah = document.getElementById('quran-surah').value; const box = document.getElementById('quran-text-box');
+            box.innerHTML = '<p style="color:var(--text-sub); text-align:center;">Loading Arabic text…</p>';
             try {
-                if (sport === 'cricket') {
-                    const res = await fetch('https://api.cricapi.com/v1/cricScore?apikey=demo');
-                    const data = await res.json();
-                    if (data && data.data && data.data.length > 0) {
-                        container.innerHTML = data.data.slice(0, 3).map(m => `
-                            <div class="score-card">
-                                <div><strong>${m.t1} vs ${m.t2}</strong> <span class="live-tag">${m.ms}</span><br><span style="font-size:0.8rem; color:var(--text-sub);">${m.status}</span></div>
-                            </div>
-                        `).join('');
-                        return;
-                    }
-                }
-            } catch(e) {}
-            container.innerHTML = sport === 'cricket' ? `<div class="score-card"><div><strong>SA vs BAN</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">BAN 182/6 (34.1 ov)</span></div></div>` : `<div class="score-card"><div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>`;
-        }
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${surah}/editions/quran-uthmani,en.sahih`); const json = await res.json();
+                const ar = json.data[0], en = json.data[1]; document.getElementById('quran-surah-title').innerText = `${ar.englishName} — ${ar.name} · ${ar.numberOfAyahs} ayat`;
+                box.innerHTML = ar.ayahs.map((a, i) => `<div class="ayah-row"><div class="ayah-ar">${a.text}<span class="ayah-num">${a.numberInSurah}</span></div><div class="ayah-tr">${en.ayahs[i].text}</div></div>`).join('');
+            } catch (e) { box.innerHTML = '<p style="color:#ff453a; text-align:center;">Failed to load.</p>'; }
+        };
+        window.loadQuranSurah = function(autoPlay = true) {
+            const player = document.getElementById('quran-audio-player'); player.src = `https://cdn.islamic.network/quran/audio-surah/128/${document.getElementById('quran-reciter').value}/${document.getElementById('quran-surah').value}.mp3`;
+            if (autoPlay && quranTab === 'audio') player.play().catch(() => {}); if (quranTab === 'read') window.loadQuranText();
+        };
 
-        const calcDisplay = document.getElementById('calc-display');
-        let currentCalc = '0';
-        window.appendCalc = function(val) { if (currentCalc === '0' && val !== '.') { currentCalc = val; } else { currentCalc += val; } calcDisplay.value = currentCalc; }
-        window.clearCalc = function() { currentCalc = '0'; calcDisplay.value = currentCalc; }
-        window.toggleSign = function() { if (currentCalc !== '0') { currentCalc = currentCalc.startsWith('-') ? currentCalc.substring(1) : '-' + currentCalc; calcDisplay.value = currentCalc; } }
-        window.calculate = function() { try { calcDisplay.value = eval(currentCalc.replace(/%/g, '/100')).toString(); currentCalc = calcDisplay.value; } catch(e) { calcDisplay.value = 'Error'; currentCalc = '0'; } }
+        // QR STUDIO
+        function escWifi(v) { return String(v).replace(/([\\;,:"])/g, '\\$1'); }
+        window.toggleQrMode = function() { const wifi = document.getElementById('qr-mode').value === 'wifi'; document.getElementById('qr-wifi-fields').style.display = wifi ? 'block' : 'none'; document.getElementById('qr-text-fields').style.display = wifi ? 'none' : 'block'; };
+        window.buildQR = function() {
+            let payload;
+            if (document.getElementById('qr-mode').value === 'wifi') {
+                const ssid = document.getElementById('qr-wifi-ssid').value.trim(); if (!ssid) return alert('Enter network name.');
+                const enc = document.getElementById('qr-wifi-enc').value; const pass = enc === 'nopass' ? '' : document.getElementById('qr-wifi-pass').value;
+                payload = `WIFI:T:${enc};S:${escWifi(ssid)};P:${escWifi(pass)};;`;
+            } else { payload = document.getElementById('qr-text').value.trim(); if (!payload) return alert('Enter text.'); }
+            const src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(payload)}`;
+            document.getElementById('qr-output-img').src = src; document.getElementById('qr-download').href = src; document.getElementById('qr-output-wrap').style.display = 'block';
+        };
+        window.scanQRFile = function(event) {
+            const file = event.target.files[0]; if (!file) return; const out = document.getElementById('qr-scan-result'); out.style.display = 'block'; out.innerHTML = 'Scanning…';
+            const reader = new FileReader(); reader.onload = e => {
+                const img = new Image(); img.onload = () => {
+                    const canvas = document.createElement('canvas'); const scale = Math.min(1, 1200 / Math.max(img.width, img.height));
+                    canvas.width = img.width * scale; canvas.height = img.height * scale;
+                    const ctx = canvas.getContext('2d', { willReadFrequently: true }); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const px = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = (typeof jsQR === 'function') ? jsQR(px.data, canvas.width, canvas.height, { inversionAttempts: 'attemptBoth' }) : null;
+                    if (code && /^WIFI:/i.test(code.data)) {
+                        const field = k => { const m = code.data.match(new RegExp(k + ':((?:[^;\\\\]|\\\\.)*);', 'i')); return m ? m[1].replace(/\\(.)/g, '$1') : ''; };
+                        out.innerHTML = `<strong>📡 Network:</strong> ${field('S')}<br><strong>🔑 Pass:</strong> <span class="qr-secret">${field('P')}</span>`;
+                    } else if (code) out.innerHTML = `Decoded: ${code.data}`; else out.innerHTML = '<span style="color:#ff453a;">No QR code detected.</span>';
+                }; img.src = e.target.result;
+            }; reader.readAsDataURL(file); event.target.value = '';
+        };
 
-        window.initGames = function() {
-            const symbols = ['⚽','🏀','🎮','🎲','⚽','🏀','🎮','🎲'];
-            symbols.sort(() => 0.5 - Math.random());
-            const memGrid = document.getElementById('memory-grid');
-            memGrid.innerHTML = '';
-            let flipped = [];
-            symbols.forEach((sym) => {
-                const card = document.createElement('div');
-                card.className = 'memory-card';
-                card.dataset.sym = sym;
-                card.onclick = () => {
-                    if (flipped.length < 2 && !card.classList.contains('flipped')) {
-                        card.classList.add('flipped');
-                        card.innerText = sym;
-                        flipped.push(card);
-                        if (flipped.length === 2) {
-                            setTimeout(() => {
-                                if (flipped[0].dataset.sym !== flipped[1].dataset.sym) {
-                                    flipped[0].classList.remove('flipped'); flipped[0].innerText = '';
-                                    flipped[1].classList.remove('flipped'); flipped[1].innerText = '';
-                                }
-                                flipped = [];
-                            }, 800);
-                        }
-                    }
-                };
-                memGrid.appendChild(card);
-            });
-
-            const c4Board = document.getElementById('c4-board');
-            c4Board.innerHTML = '';
-            let c4Grid = Array(42).fill(0);
-            let pTurn = 1;
-            for (let i = 0; i < 42; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'c4-cell';
-                cell.onclick = () => {
-                    let col = i % 7;
-                    for (let r = 5; r >= 0; r--) {
-                        let idx = r * 7 + col;
-                        if (c4Grid[idx] === 0) {
-                            c4Grid[idx] = pTurn;
-                            c4Board.children[idx].classList.add(pTurn === 1 ? 'p1' : 'p2');
-                            pTurn = pTurn === 1 ? 2 : 1;
-                            break;
-                        }
-                    }
-                };
-                c4Board.appendChild(cell);
-            }
-            window.resetGame();
-        }
-
-        let board = ["", "", "", "", "", "", "", "", ""];
-        let currentPlayer = "X";
-        let gameActive = true;
-        let gameMode = "2P";
+        // OTHERS
+        window.switchSportsTab = function(s) { document.getElementById('tab-cricket').className = s === 'cricket' ? 'q-tab active' : 'q-tab'; document.getElementById('tab-football').className = s === 'football' ? 'q-tab active' : 'q-tab'; document.getElementById('sports-scores-container').innerHTML = s === 'cricket' ? `<div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>IND vs AUS</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 210/4 (18.2 ov)</span></div></div>` : `<div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>Real Madrid vs Barcelona</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>`; }
         
-        window.setMode = function(mode) {
-            gameMode = mode;
-            document.getElementById('btn-2p').className = mode === '2P' ? 'mode-btn mode-active' : 'mode-btn';
-            document.getElementById('btn-ai').className = mode === 'AI' ? 'mode-btn mode-active' : 'mode-btn';
-            window.resetGame();
-        }
-
-        window.makeMove = function(idx) {
-            if (board[idx] !== "" || !gameActive || (gameMode === "AI" && currentPlayer === "O")) return;
-            playTurn(idx);
-            if (gameActive && gameMode === "AI" && currentPlayer === "O") {
-                document.getElementById('game-status').innerText = "Robot thinking...";
-                setTimeout(robotMove, 500);
-            }
-        }
-
-        function robotMove() {
-            if (!gameActive) return;
-            let available = [];
-            for (let i = 0; i < 9; i++) { if (board[i] === "") available.push(i); }
-            if (available.length > 0) {
-                let randomSpot = available[Math.floor(Math.random() * available.length)];
-                playTurn(randomSpot);
-            }
-        }
-
-        function playTurn(index) {
-            board[index] = currentPlayer;
-            const cells = document.querySelectorAll('.cell');
-            cells[index].innerText = currentPlayer;
-            cells[index].style.color = currentPlayer === "X" ? "var(--accent-blue)" : "#ff453a";
-            
-            const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
-            let roundWon = false;
-            for (let i = 0; i < winningConditions.length; i++) {
-                const [a, b, c] = winningConditions[i];
-                if (board[a] && board[a] === board[b] && board[a] === board[c]) { roundWon = true; break; }
-            }
-
-            const statusDisplay = document.getElementById('game-status');
-            if (roundWon) { 
-                statusDisplay.innerText = `Player ${currentPlayer} Wins! 🎉`; 
-                gameActive = false; 
-                return; 
-            }
-            if (!board.includes("")) { statusDisplay.innerText = "It's a Draw!"; gameActive = false; return; }
-            currentPlayer = currentPlayer === "X" ? "O" : "X";
-            statusDisplay.innerText = `Player ${currentPlayer}'s Turn`;
-        }
-
-        window.resetGame = function() {
-            board = ["", "", "", "", "", "", "", "", ""];
-            currentPlayer = "X";
-            gameActive = true;
-            document.getElementById('game-status').innerText = `Player X's Turn`;
-            document.querySelectorAll('.cell').forEach(cell => { cell.innerText = ""; cell.style.color = "var(--text-main)"; });
-        }
+        let pdfImages = [];
+        window.handleImageToPdfSelect = function(e) { const files = e.target.files; const prev = document.getElementById('pdf-preview-container'); const btn = document.getElementById('btn-generate-pdf'); prev.innerHTML = ''; pdfImages = []; if(files.length > 0) { btn.disabled = false; Array.from(files).forEach(f => { const r = new FileReader(); r.onload = ev => { pdfImages.push(ev.target.result); const img = document.createElement('img'); img.src = ev.target.result; img.style = "height:60px; width:60px; object-fit:cover; border-radius:8px; border:1px solid var(--glass-border);"; prev.appendChild(img); }; r.readAsDataURL(f); }); } else btn.disabled = true; };
+        window.generatePDF = function() { if(pdfImages.length===0) return; const btn = document.getElementById('btn-generate-pdf'); btn.innerText = "Generating..."; btn.disabled = true; setTimeout(() => { const { jsPDF } = window.jspdf; const pdf = new jsPDF(); pdfImages.forEach((imgData, i) => { if (i > 0) pdf.addPage(); const props = pdf.getImageProperties(imgData); const w = pdf.internal.pageSize.getWidth(); const h = (props.height * w) / props.width; let fH = h, fW = w, xM = 0, yM = 0; if(h > pdf.internal.pageSize.getHeight()) { fH = pdf.internal.pageSize.getHeight(); fW = (props.width * fH) / props.height; xM = (w - fW)/2; } else yM = (pdf.internal.pageSize.getHeight() - fH)/2; pdf.addImage(imgData, 'JPEG', xM, yM, fW, fH); }); pdf.save("Akash_Portal.pdf"); btn.innerText = "Download PDF"; btn.disabled = false; document.getElementById('pdf-preview-container').innerHTML = ''; pdfImages = []; }, 100); };
     </script>
 </body>
 </html>
