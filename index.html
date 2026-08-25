@@ -156,7 +156,7 @@
         .modal-avatar-preview { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
         .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; text-align: center; }
 
-        /* GAMES (Memory, Connect4, TicTacToe) */
+        /* GAMES */
         .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 260px; margin: 10px auto; }
         .memory-card { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; user-select: none; transition: transform 0.3s; }
         .memory-card.flipped { background: var(--accent-blue); transform: rotateY(180deg); }
@@ -478,7 +478,6 @@
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🎮 3D Arcade Game Suite</summary>
                     <div class="folder-content">
-                        <!-- Tic Tac Toe -->
                         <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">1. Tic-Tac-Toe</p>
                         <div class="mode-buttons">
                             <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
@@ -490,11 +489,9 @@
                             <div class="cell" onclick="makeMove(6)"></div><div class="cell" onclick="makeMove(7)"></div><div class="cell" onclick="makeMove(8)"></div>
                         </div>
                         <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
-                        <!-- Memory Match -->
                         <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">2. 3D Memory Match</p>
                         <div class="memory-grid" id="memory-grid"></div>
                         <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
-                        <!-- Connect 4 -->
                         <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">3. Connect 4 Grid</p>
                         <div class="c4-board" id="c4-board"></div>
                     </div>
@@ -540,9 +537,7 @@
                             📁 Select Images (JPG, PNG)
                         </label>
                         <input type="file" id="img-pdf-input" accept="image/png, image/jpeg, image/jpg" multiple style="display:none;" onchange="handleImageToPdfSelect(event)">
-                        
                         <div id="pdf-preview-container" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px;"></div>
-                        
                         <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()">Download PDF ⬇️</button>
                     </div>
                 </details>
@@ -574,10 +569,14 @@
                                 </div>
                                 <div style="font-size: 0.75rem; color: var(--text-sub);">Executive Portal Member | Online</div>
                             </div>
-                            <!-- Audio / Video Call Buttons -->
-                            <div style="margin-left: auto; display: flex; gap: 15px; font-size: 1.2rem; align-items: center;">
-                                <span style="cursor:pointer;" onclick="startCall('audio')" title="Audio Call">📞</span>
-                                <span style="cursor:pointer;" onclick="startCall('video')" title="Video Call">📹</span>
+                            <!-- Apple-style Audio / Video Call Buttons -->
+                            <div style="margin-left: auto; display: flex; gap: 18px; color: var(--accent-blue); align-items: center;">
+                                <span style="cursor:pointer;" onclick="startCall('audio')" title="Audio Call">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                                </span>
+                                <span style="cursor:pointer;" onclick="startCall('video')" title="Video Call">
+                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -588,15 +587,11 @@
                         <!-- Private User List Sidebar -->
                         <div id="dm-user-list" class="dm-user-list" style="display: none;">
                             <p style="font-size: 0.75rem; color: var(--text-sub); text-align: center; margin: 8px 0;">Connections</p>
-                            <!-- Users dynamically load here -->
                         </div>
 
                         <!-- Messages Area -->
                         <div style="flex: 1; display: flex; flex-direction: column; position: relative;">
-                            
-                            <div id="chat-messages-container" class="messages-scroll-area">
-                                <!-- Messages load dynamically here -->
-                            </div>
+                            <div id="chat-messages-container" class="messages-scroll-area"></div>
 
                             <!-- Quick Replies -->
                             <div class="quick-replies" id="quick-replies">
@@ -608,7 +603,6 @@
 
                             <!-- Input Area -->
                             <div class="chat-input-wrapper">
-                                
                                 <!-- Image Upload Preview -->
                                 <div id="chat-image-preview-container" style="display: none; padding-bottom: 8px; position: relative;">
                                     <img id="chat-image-preview" src="" style="max-height: 80px; border-radius: 8px; border: 1px solid var(--input-border);">
@@ -618,23 +612,31 @@
                                 <textarea id="chat-input-text" placeholder="Write a message..." rows="1"></textarea>
                                 
                                 <div class="chat-toolbar">
-                                    <div class="toolbar-icons">
+                                    <div class="toolbar-icons" style="display: flex; gap: 18px; align-items: center; color: var(--text-sub);">
                                         <!-- Image Upload -->
-                                        <label for="chat-img-upload" title="Attach Image">🖼️</label>
+                                        <label for="chat-img-upload" title="Attach Image" style="cursor: pointer; display: flex;">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                        </label>
                                         <input type="file" id="chat-img-upload" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)">
                                         
                                         <!-- File Attachment -->
-                                        <label for="chat-file-upload" title="Attach File">📎</label>
+                                        <label for="chat-file-upload" title="Attach File" style="cursor: pointer; display: flex;">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 015 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 005 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+                                        </label>
                                         <input type="file" id="chat-file-upload" accept=".pdf,.doc,.docx,.txt,.zip" style="display: none;" onchange="handleChatFileUpload(event)">
                                         
                                         <!-- GIF Selector -->
-                                        <span style="font-weight: bold; font-size: 0.75rem; cursor: pointer;" onclick="toggleGifPicker()" title="Send GIF">GIF</span>
+                                        <span style="font-weight: 700; font-size: 0.8rem; cursor: pointer; border: 2px solid currentColor; border-radius: 4px; padding: 0 3px;" onclick="toggleGifPicker()" title="Send GIF">GIF</span>
                                         
                                         <!-- Emoji Picker -->
-                                        <span onclick="toggleEmojiPicker()" title="Emojis">😊</span>
+                                        <span onclick="toggleEmojiPicker()" title="Emojis" style="cursor: pointer; display: flex;">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 8c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 13 8.5 13 7 12.33 7 11.5 7.67 10 8.5 10zm3.5 9.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>
+                                        </span>
 
                                         <!-- Voice Recording Button -->
-                                        <span id="btn-record-voice" onclick="toggleVoiceRecord()" title="Record Voice Audio">🎙️</span>
+                                        <span id="btn-record-voice" onclick="toggleVoiceRecord()" title="Record Voice Audio" style="cursor: pointer; display: flex;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                                        </span>
                                         <span id="recording-indicator" style="display:none; color: #ff453a; font-size: 0.75rem; font-weight: bold; animation: pulse 1s infinite;">Recording...</span>
                                     </div>
                                     <button id="btn-send-msg" class="send-btn-modern">Send</button>
@@ -649,13 +651,12 @@
                                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2dnFwbWVhcTlnbTZicGF4Mno5eWdpNDNxbDN4NmNreW9ydzEydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xezQGU5xCDJuCPe/giphy.gif" style="width: 100%; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer;" onclick="sendGif('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2dnFwbWVhcTlnbTZicGF4Mno5eWdpNDNxbDN4NmNreW9ydzEydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xezQGU5xCDJuCPe/giphy.gif')">
                             </div>
 
-                            <!-- EMOJI PICKER -->
+                            <!-- EMOJI PICKER POPUP -->
                             <div id="emoji-picker" class="emoji-picker" style="display: none; bottom: 60px;">
                                 <span onclick="insertEmoji('😀')">😀</span><span onclick="insertEmoji('😂')">😂</span><span onclick="insertEmoji('😊')">😊</span><span onclick="insertEmoji('😍')">😍</span>
                                 <span onclick="insertEmoji('🙏')">🙏</span><span onclick="insertEmoji('👍')">👍</span><span onclick="insertEmoji('🔥')">🔥</span><span onclick="insertEmoji('🎉')">🎉</span>
                                 <span onclick="insertEmoji('✔️')">✔️</span><span onclick="insertEmoji('💡')">💡</span><span onclick="insertEmoji('🚀')">🚀</span><span onclick="insertEmoji('💼')">💼</span>
                             </div>
-                            
                         </div>
                     </div>
                 </section>
@@ -670,13 +671,11 @@
                         <button class="search-btn" type="submit">Search</button>
                     </form>
                 </section>
-
             </div>
-
         </main>
     </div>
 
-    <!-- SCRIPT 1: FIREBASE ENGINE, CALLS & CHAT LOGIC -->
+    <!-- SCRIPT 1: FIREBASE ENGINE & COMPLETE CHAT LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -730,7 +729,6 @@
             welcomeUserDisplay.innerText = `Welcome back, ${displayName}`;
             welcomeOverlay.style.display = 'flex';
             welcomeOverlay.style.opacity = '1';
-
             setTimeout(() => {
                 welcomeOverlay.style.opacity = '0';
                 setTimeout(() => {
@@ -753,7 +751,6 @@
             document.getElementById('btn-save-avatar').disabled = true;
         };
 
-        // PROFILE PICTURE COMPRESSION
         window.handleFileSelect = function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -786,11 +783,9 @@
                     .then(() => {
                         navAvatar.src = selectedBase64Image;
                         localStorage.setItem('localAvatar', selectedBase64Image); 
-                        
                         setDoc(doc(db, "users", window.currentUserObj.uid), {
                             photoURL: selectedBase64Image
                         }, { merge: true });
-
                         saveBtn.innerText = "Save Profile Picture";
                         closeProfileModal();
                     })
@@ -803,7 +798,6 @@
             }
         });
 
-        // FORGOT PASSWORD & AUTH
         document.getElementById('btn-goto-forgot').addEventListener('click', () => { hideAllScreens(); forgotScreen.style.display = 'block'; });
         document.getElementById('btn-back-login-forgot').addEventListener('click', () => { hideAllScreens(); loginScreen.style.display = 'block'; });
 
@@ -861,61 +855,13 @@
             signOut(auth);
         });
 
-
-        // ------------------------------
-        // VOICE RECORDING LOGIC
-        // ------------------------------
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-
-        window.toggleVoiceRecord = async function() {
-            if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.start();
-                    isRecording = true;
-                    
-                    document.getElementById('btn-record-voice').style.color = '#ff453a';
-                    document.getElementById('recording-indicator').style.display = 'inline';
-                    
-                    mediaRecorder.ondataavailable = e => {
-                        audioChunks.push(e.data);
-                    };
-                    
-                    mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            window.chatAttachedAudioBase64 = reader.result;
-                            const chatInput = document.getElementById('chat-input-text');
-                            chatInput.value += ` 🎵 [Audio Recorded]`;
-                            checkSendButton();
-                        };
-                        reader.readAsDataURL(audioBlob);
-                        audioChunks = [];
-                        stream.getTracks().forEach(track => track.stop()); // Release Mic
-                    };
-                } catch (err) {
-                    alert("Microphone access denied or unavailable.");
-                }
-            } else {
-                mediaRecorder.stop();
-                isRecording = false;
-                document.getElementById('btn-record-voice').style.color = 'var(--text-sub)';
-                document.getElementById('recording-indicator').style.display = 'none';
-            }
-        };
-
-
-        // ------------------------------
+        // ==========================================
         // MODERN CHAT ENGINE
-        // ------------------------------
+        // ==========================================
         let currentChatMode = 'global';
         let currentPrivateTargetId = null;
         let chatUnsubscribe = null;
-        let chatAttachedBase64 = null;
+        window.chatAttachedBase64 = null;
         window.chatAttachedAudioBase64 = null;
 
         window.switchChatMode = function(mode) {
@@ -938,94 +884,17 @@
             }
         };
 
-        window.handleChatImageUpload = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const scale = Math.min(300 / img.width, 300 / img.height);
-                        canvas.width = img.width * scale;
-                        canvas.height = img.height * scale;
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        chatAttachedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                        document.getElementById('chat-image-preview').src = chatAttachedBase64;
-                        document.getElementById('chat-image-preview-container').style.display = 'block';
-                        checkSendButton();
-                    };
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        window.clearChatImage = function() {
-            chatAttachedBase64 = null;
-            document.getElementById('chat-image-preview-container').style.display = 'none';
-            document.getElementById('chat-img-upload').value = "";
-            checkSendButton();
-        };
-
-        window.toggleGifPicker = function() {
-            const gifPicker = document.getElementById('gif-picker');
-            const emojiPicker = document.getElementById('emoji-picker');
-            emojiPicker.style.display = 'none'; 
-            gifPicker.style.display = gifPicker.style.display === 'none' ? 'grid' : 'none';
-        };
-
-        window.sendGif = function(gifUrl) {
-            chatAttachedBase64 = gifUrl;
-            document.getElementById('chat-image-preview').src = gifUrl;
-            document.getElementById('chat-image-preview-container').style.display = 'block';
-            document.getElementById('gif-picker').style.display = 'none';
-            checkSendButton();
-        };
-
-        window.handleChatFileUpload = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const chatInput = document.getElementById('chat-input-text');
-                chatInput.value += ` 📄 Attached Document: ${file.name}`;
-                checkSendButton();
-            }
-        };
-
-        window.toggleEmojiPicker = function() {
-            const picker = document.getElementById('emoji-picker');
-            const gifPicker = document.getElementById('gif-picker');
-            gifPicker.style.display = 'none'; 
-            picker.style.display = picker.style.display === 'none' ? 'grid' : 'none';
-        };
-
-        window.insertEmoji = function(emoji) {
-            const input = document.getElementById('chat-input-text');
-            input.value += emoji;
-            document.getElementById('emoji-picker').style.display = 'none';
-            input.focus();
-            checkSendButton();
-        };
-
-        window.sendQuickReply = function(text) {
-            document.getElementById('chat-input-text').value = text;
-            checkSendButton();
-            document.getElementById('btn-send-msg').click();
-        };
-
         const chatInput = document.getElementById('chat-input-text');
         const sendBtn = document.getElementById('btn-send-msg');
         
-        function checkSendButton() {
-            if (chatInput.value.trim().length > 0 || chatAttachedBase64 || window.chatAttachedAudioBase64) {
+        window.checkSendButton = function() {
+            if (chatInput.value.trim().length > 0 || window.chatAttachedBase64 || window.chatAttachedAudioBase64) {
                 sendBtn.classList.add('active');
             } else {
                 sendBtn.classList.remove('active');
             }
-        }
-        chatInput.addEventListener('input', checkSendButton);
+        };
+        chatInput.addEventListener('input', window.checkSendButton);
 
         function formatTime(timestamp) {
             if (!timestamp) return "Just now";
@@ -1075,17 +944,25 @@
                 const chatId = window.currentUserObj.uid < currentPrivateTargetId 
                     ? `${window.currentUserObj.uid}_${currentPrivateTargetId}` 
                     : `${currentPrivateTargetId}_${window.currentUserObj.uid}`;
-                q = query(collection(db, "private_messages"), where("chatId", "==", chatId), orderBy("timestamp", "asc"));
+                q = query(collection(db, "private_messages"), where("chatId", "==", chatId));
             }
 
             chatUnsubscribe = onSnapshot(q, (snapshot) => {
                 container.innerHTML = '';
                 container.innerHTML += `<div style="text-align: center; border-bottom: 1px solid var(--glass-border); line-height: 0.1em; margin: 15px 0;"><span style="background: var(--glass-bg); padding: 0 10px; color: var(--text-sub); font-size: 0.75rem; font-weight: 600;">TODAY</span></div>`;
 
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const msgId = docSnap.id;
-                    const timeStr = formatTime(data.timestamp);
+                let docsArray = [];
+                snapshot.forEach(docSnap => docsArray.push({ id: docSnap.id, ...docSnap.data() }));
+                
+                docsArray.sort((a, b) => {
+                    const tA = a.timestamp ? a.timestamp.toMillis() : Date.now();
+                    const tB = b.timestamp ? b.timestamp.toMillis() : Date.now();
+                    return tA - tB;
+                });
+
+                docsArray.forEach((data) => {
+                    const msgId = data.id;
+                    const timeStr = formatTime(data.timestamp ? {toDate: () => new Date(data.timestamp.toMillis())} : null);
                     
                     const safeAvatar = (data.photoURL && data.photoURL !== "null" && data.photoURL.length > 10) 
                         ? data.photoURL 
@@ -1138,19 +1015,19 @@
             if (!sendBtn.classList.contains('active')) return;
             
             const text = sanitizeText(chatInput.value.trim());
-            const imagePayload = chatAttachedBase64;
+            const imagePayload = window.chatAttachedBase64;
             const audioPayload = window.chatAttachedAudioBase64;
             
             if (!text && !imagePayload && !audioPayload) return;
             
             chatInput.value = '';
-            clearChatImage();
-            window.chatAttachedAudioBase64 = null; // Clear audio cache
+            window.clearChatImage();
+            window.chatAttachedAudioBase64 = null; 
 
             const payload = {
                 text: text,
                 attachedImage: imagePayload,
-                attachedAudio: audioPayload, // Push Audio to Firebase
+                attachedAudio: audioPayload, 
                 senderId: window.currentUserObj.uid,
                 username: window.currentUserObj.displayName || window.currentUserObj.email.split('@')[0],
                 photoURL: window.currentUserObj.photoURL || 'https://via.placeholder.com/150',
@@ -1194,16 +1071,12 @@
             }
         };
 
-        // ------------------------------
-        // AUTH LISTENER
-        // ------------------------------
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 window.currentUserObj = user;
                 const savedLocalAvatar = localStorage.getItem('localAvatar');
                 navAvatar.src = savedLocalAvatar || user.photoURL || ("https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "A"));
 
-                // Sync profile to Firestore for User List
                 setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     username: user.displayName || user.email.split('@')[0],
@@ -1242,11 +1115,8 @@
         });
     </script>
 
-    <!-- SCRIPT 2: TOOLS, QURAN, TRANSLATOR, SPORTS, GAMES, PDF GENERATOR & AUDIO/VIDEO CALLS -->
+    <!-- SCRIPT 2: TOOLS, QURAN, TRANSLATOR, SPORTS, GAMES, UI HELPERS -->
     <script>
-        // ------------------------------
-        // AUDIO & VIDEO CALLING ENGINE (WebRTC UI)
-        // ------------------------------
         let callStream = null;
 
         window.startCall = async function(type) {
@@ -1263,18 +1133,15 @@
                     localVid.style.display = 'block';
                     remoteVid.style.display = 'block';
                     audioAvatar.style.display = 'none';
-                    // Request Audio & Video
                     callStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                     localVid.srcObject = callStream;
                 } else {
                     localVid.style.display = 'none';
                     remoteVid.style.display = 'none';
                     audioAvatar.style.display = 'flex';
-                    // Request Audio only
                     callStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 }
                 
-                // Simulate call connection UI logic
                 setTimeout(() => {
                     if (document.getElementById('call-overlay').style.display === 'flex') {
                         document.getElementById('call-status').innerText = "Connected 00:00";
@@ -1291,24 +1158,140 @@
         window.endCall = function() {
             document.getElementById('call-overlay').style.display = 'none';
             if (callStream) {
-                callStream.getTracks().forEach(t => t.stop()); // Stop mic/camera hardware use
+                callStream.getTracks().forEach(t => t.stop()); 
                 callStream = null;
             }
             document.getElementById('local-video').srcObject = null;
             document.getElementById('call-status').style.color = "var(--text-main)";
         };
 
-        // IMAGE TO PDF GENERATOR
-        let pdfImages = [];
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
 
+        window.toggleVoiceRecord = async function() {
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    isRecording = true;
+                    
+                    document.getElementById('btn-record-voice').style.color = '#ff453a';
+                    document.getElementById('recording-indicator').style.display = 'inline';
+                    
+                    mediaRecorder.ondataavailable = e => {
+                        audioChunks.push(e.data);
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            window.chatAttachedAudioBase64 = reader.result;
+                            const chatInput = document.getElementById('chat-input-text');
+                            chatInput.value += ` 🎵 [Audio Recorded]`;
+                            window.checkSendButton();
+                        };
+                        reader.readAsDataURL(audioBlob);
+                        audioChunks = [];
+                        stream.getTracks().forEach(track => track.stop()); 
+                    };
+                } catch (err) {
+                    alert("Microphone access denied or unavailable.");
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+                document.getElementById('btn-record-voice').style.color = 'var(--text-sub)';
+                document.getElementById('recording-indicator').style.display = 'none';
+            }
+        };
+
+        window.handleChatImageUpload = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const scale = Math.min(300 / img.width, 300 / img.height);
+                        canvas.width = img.width * scale;
+                        canvas.height = img.height * scale;
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        window.chatAttachedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+                        document.getElementById('chat-image-preview').src = window.chatAttachedBase64;
+                        document.getElementById('chat-image-preview-container').style.display = 'block';
+                        window.checkSendButton();
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        window.clearChatImage = function() {
+            window.chatAttachedBase64 = null;
+            document.getElementById('chat-image-preview-container').style.display = 'none';
+            document.getElementById('chat-img-upload').value = "";
+            window.checkSendButton();
+        };
+
+        window.toggleGifPicker = function() {
+            const gifPicker = document.getElementById('gif-picker');
+            const emojiPicker = document.getElementById('emoji-picker');
+            emojiPicker.style.display = 'none'; 
+            gifPicker.style.display = gifPicker.style.display === 'none' ? 'grid' : 'none';
+        };
+
+        window.sendGif = function(gifUrl) {
+            window.chatAttachedBase64 = gifUrl;
+            document.getElementById('chat-image-preview').src = gifUrl;
+            document.getElementById('chat-image-preview-container').style.display = 'block';
+            document.getElementById('gif-picker').style.display = 'none';
+            window.checkSendButton();
+        };
+
+        window.handleChatFileUpload = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const chatInput = document.getElementById('chat-input-text');
+                chatInput.value += ` 📄 Attached Document: ${file.name}`;
+                window.checkSendButton();
+            }
+        };
+
+        window.toggleEmojiPicker = function() {
+            const picker = document.getElementById('emoji-picker');
+            const gifPicker = document.getElementById('gif-picker');
+            gifPicker.style.display = 'none'; 
+            picker.style.display = picker.style.display === 'none' ? 'grid' : 'none';
+        };
+
+        window.insertEmoji = function(emoji) {
+            const input = document.getElementById('chat-input-text');
+            input.value += emoji;
+            document.getElementById('emoji-picker').style.display = 'none';
+            input.focus();
+            window.checkSendButton();
+        };
+
+        window.sendQuickReply = function(text) {
+            document.getElementById('chat-input-text').value = text;
+            window.checkSendButton();
+            document.getElementById('btn-send-msg').click();
+        };
+
+        let pdfImages = [];
         window.handleImageToPdfSelect = function(event) {
             const files = event.target.files;
             const previewContainer = document.getElementById('pdf-preview-container');
             const generateBtn = document.getElementById('btn-generate-pdf');
-
             previewContainer.innerHTML = '';
             pdfImages = [];
-
             if (files.length > 0) {
                 generateBtn.disabled = false;
                 Array.from(files).forEach(file => {
@@ -1316,7 +1299,6 @@
                     reader.onload = function(e) {
                         const dataUrl = e.target.result;
                         pdfImages.push(dataUrl);
-
                         const img = document.createElement('img');
                         img.src = dataUrl;
                         img.style.height = '60px';
@@ -1335,7 +1317,6 @@
 
         window.generatePDF = function() {
             if (pdfImages.length === 0) return;
-            
             const btn = document.getElementById('btn-generate-pdf');
             btn.innerText = "Generating...";
             btn.disabled = true;
@@ -1343,19 +1324,15 @@
             setTimeout(() => {
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF();
-
                 pdfImages.forEach((imgData, index) => {
                     if (index > 0) pdf.addPage();
-                    
                     const props = pdf.getImageProperties(imgData);
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (props.height * pdfWidth) / props.width;
-                    
                     let finalHeight = pdfHeight;
                     let finalWidth = pdfWidth;
                     let yMargin = 0;
                     let xMargin = 0;
-
                     if(pdfHeight > pdf.internal.pageSize.getHeight()) {
                         finalHeight = pdf.internal.pageSize.getHeight();
                         finalWidth = (props.width * finalHeight) / props.height;
@@ -1363,12 +1340,9 @@
                     } else {
                         yMargin = (pdf.internal.pageSize.getHeight() - finalHeight) / 2;
                     }
-
                     pdf.addImage(imgData, 'JPEG', xMargin, yMargin, finalWidth, finalHeight);
                 });
-
                 pdf.save("Akash_Portal_Images.pdf");
-                
                 btn.innerText = "Download PDF ⬇️";
                 btn.disabled = false;
                 document.getElementById('pdf-preview-container').innerHTML = '';
@@ -1378,7 +1352,6 @@
             }, 100); 
         };
 
-        // THEME & CLOCK
         function changeThemeMode(themeName) {
             document.body.className = '';
             if (themeName !== 'dark') document.body.classList.add(`theme-${themeName}`);
@@ -1391,18 +1364,14 @@
         }
         setInterval(window.updateDigitalClock, 1000);
 
-        // QURAN AUDIO PLAYER
         window.loadQuranSurah = function(autoPlay = true) {
             const reciter = document.getElementById('quran-reciter').value;
             const surah = document.getElementById('quran-surah').value;
             const player = document.getElementById('quran-audio-player');
             player.src = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surah}.mp3`;
-            if(autoPlay) {
-                player.play().catch(e => console.log('Audio autoplay blocked by browser'));
-            }
+            if(autoPlay) player.play().catch(e => console.log('Audio autoplay blocked by browser'));
         };
 
-        // PRO TRANSLATOR SUITE (FIXED API)
         let debounceTimer = null;
         let activeAudio = null;
         let isListening = false;
@@ -1412,26 +1381,22 @@
             clearTimeout(debounceTimer);
             const inputVal = document.getElementById('trans-input-text').value.trim();
             const outputDiv = document.getElementById('trans-output-text');
-
             if (!inputVal) {
                 outputDiv.innerText = "Translation";
                 outputDiv.style.color = "var(--text-sub)";
                 return;
             }
-
             outputDiv.style.color = "var(--accent-blue)";
             outputDiv.innerText = "Translating...";
 
             debounceTimer = setTimeout(async () => {
                 const src = document.getElementById('src-lang').value;
                 const target = document.getElementById('target-lang').value;
-
                 try {
                     const gUrl = `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${src}&tl=${target}&q=${encodeURIComponent(inputVal)}`;
                     const res = await fetch(gUrl);
                     if (!res.ok) throw new Error("API Error");
                     const data = await res.json();
-                    
                     if (data && Array.isArray(data)) {
                         outputDiv.innerText = data.join(' ');
                         outputDiv.style.color = "var(--text-main)";
@@ -1443,13 +1408,10 @@
                         const lUrl = `https://lingva.ml/api/v1/${src}/${target}/${encodeURIComponent(inputVal)}`;
                         const lRes = await fetch(lUrl);
                         const lData = await lRes.json();
-
                         if (lData && lData.translation) {
                             outputDiv.innerText = lData.translation;
                             outputDiv.style.color = "var(--text-main)";
-                        } else {
-                            throw new Error("No Data");
-                        }
+                        } else { throw new Error("No Data"); }
                     } catch (err) {
                         outputDiv.innerText = "Translation timeout or unavailable.";
                         outputDiv.style.color = "#ff453a";
@@ -1464,7 +1426,6 @@
             const temp = src.value;
             src.value = target.value;
             target.value = temp;
-
             const inputTxt = document.getElementById('trans-input-text');
             const outputTxt = document.getElementById('trans-output-text');
             if (outputTxt.innerText !== "Translation" && !outputTxt.innerText.includes("...")) {
@@ -1476,17 +1437,13 @@
         window.toggleVoiceInput = function() {
             const micBtn = document.getElementById('mic-btn');
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
             if (!SpeechRecognition) return alert("Voice recognition not supported.");
             if (isListening) return recognition.stop();
-
             recognition = new SpeechRecognition();
             const srcLang = document.getElementById('src-lang').value;
             const langLocales = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA' };
-
             recognition.lang = langLocales[srcLang] || 'en-US';
             recognition.interimResults = false;
-
             recognition.onstart = () => { isListening = true; micBtn.classList.add('mic-listening'); };
             recognition.onresult = (event) => {
                 document.getElementById('trans-input-text').value = event.results[0][0].transcript;
@@ -1494,16 +1451,13 @@
             };
             recognition.onend = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
             recognition.onerror = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
-
             recognition.start();
         };
 
         window.playSpeech = function(pane) {
             let text = pane === 'input' ? document.getElementById('trans-input-text').value.trim() : document.getElementById('trans-output-text').innerText.trim();
             let lang = pane === 'input' ? document.getElementById('src-lang').value : document.getElementById('target-lang').value;
-
             if (!text || text === "Translation" || text.includes("...")) return;
-
             if (activeAudio) activeAudio.pause();
             const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
             activeAudio = new Audio(audioUrl);
@@ -1523,7 +1477,6 @@
             if (txt && txt !== "Translation") navigator.clipboard.writeText(txt);
         }
 
-        // PRAYER TIMES
         window.fetchPrayerTimes = async function() {
             try {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -1557,7 +1510,6 @@
             }
         }
 
-        // LIVE SPORTS
         window.switchSportsTab = function(sport) {
             document.getElementById('tab-cricket').className = sport === 'cricket' ? 'sports-tab-btn active' : 'sports-tab-btn';
             document.getElementById('tab-football').className = sport === 'football' ? 'sports-tab-btn active' : 'sports-tab-btn';
@@ -1567,7 +1519,6 @@
         window.loadLiveSportsScores = async function(sport) {
             const container = document.getElementById('sports-scores-container');
             container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-sub);">Fetching real-time matches...</p>';
-
             try {
                 if (sport === 'cricket') {
                     const res = await fetch('https://api.cricapi.com/v1/cricScore?apikey=demo');
@@ -1582,15 +1533,9 @@
                     }
                 }
             } catch(e) {}
-
-            container.innerHTML = sport === 'cricket' ? `
-                <div class="score-card"><div><strong>SA vs BAN</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">BAN 182/6 (34.1 ov)</span></div></div>
-            ` : `
-                <div class="score-card"><div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>
-            `;
+            container.innerHTML = sport === 'cricket' ? `<div class="score-card"><div><strong>SA vs BAN</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">BAN 182/6 (34.1 ov)</span></div></div>` : `<div class="score-card"><div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>`;
         }
 
-        // CALCULATOR
         const calcDisplay = document.getElementById('calc-display');
         let currentCalc = '0';
         window.appendCalc = function(val) { if (currentCalc === '0' && val !== '.') { currentCalc = val; } else { currentCalc += val; } calcDisplay.value = currentCalc; }
@@ -1598,14 +1543,12 @@
         window.toggleSign = function() { if (currentCalc !== '0') { currentCalc = currentCalc.startsWith('-') ? currentCalc.substring(1) : '-' + currentCalc; calcDisplay.value = currentCalc; } }
         window.calculate = function() { try { calcDisplay.value = eval(currentCalc.replace(/%/g, '/100')).toString(); currentCalc = calcDisplay.value; } catch(e) { calcDisplay.value = 'Error'; currentCalc = '0'; } }
 
-        // GAMES SUITE
         window.initGames = function() {
             const symbols = ['⚽','🏀','🎮','🎲','⚽','🏀','🎮','🎲'];
             symbols.sort(() => 0.5 - Math.random());
             const memGrid = document.getElementById('memory-grid');
             memGrid.innerHTML = '';
             let flipped = [];
-
             symbols.forEach((sym) => {
                 const card = document.createElement('div');
                 card.className = 'memory-card';
@@ -1633,7 +1576,6 @@
             c4Board.innerHTML = '';
             let c4Grid = Array(42).fill(0);
             let pTurn = 1;
-
             for (let i = 0; i < 42; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'c4-cell';
@@ -1654,7 +1596,6 @@
             window.resetGame();
         }
 
-        // Tic-Tac-Toe
         let board = ["", "", "", "", "", "", "", "", ""];
         let currentPlayer = "X";
         let gameActive = true;
