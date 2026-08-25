@@ -44,7 +44,6 @@ body{background:var(--bg);color:var(--text);line-height:1.47;min-height:100vh;ov
 .ico-lg{width:28px;height:28px}
 
 .glass{background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--hairline);border-radius:var(--r-xl);box-shadow:var(--shadow)}
-.panel{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-xl);box-shadow:var(--shadow)}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border:none;border-radius:var(--r-md);cursor:pointer;font-weight:500;font-size:17px;transition:all .25s cubic-bezier(.4,0,.2,1);background:var(--fill);color:var(--text)}
 .btn:hover{background:var(--fill-2)}
@@ -74,7 +73,6 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes typing{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
 .fade-in{animation:fadeIn .5s ease}
-.msg-in{animation:msgIn .35s cubic-bezier(.4,0,.2,1)}
 
 .auth{max-width:420px;margin:80px auto;padding:48px 40px;text-align:center}
 .auth h2{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
@@ -101,16 +99,13 @@ summary.tab .chev{transition:transform .3s cubic-bezier(.4,0,.2,1);color:var(--t
 details[open] summary.tab .chev{transform:rotate(90deg)}
 .acc-body{padding:0 22px 22px;border-top:1px solid var(--hairline);padding-top:22px}
 
-/* AI ASSISTANT — Apple style */
 .ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .ai-chip{padding:7px 14px;background:var(--fill);border:1px solid var(--hairline);border-radius:980px;font-size:13px;font-weight:500;color:var(--text-sub);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:6px}
 .ai-chip:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
 .ai-chip svg{width:14px;height:14px}
-
 .ai-chat-box{max-height:340px;overflow-y:auto;padding:14px;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);margin-bottom:12px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
 .ai-chat-box::-webkit-scrollbar{width:6px}
 .ai-chat-box::-webkit-scrollbar-thumb{background:var(--fill-2);border-radius:3px}
-
 .ai-msg{display:flex;gap:10px;align-items:flex-start;animation:msgIn .35s cubic-bezier(.4,0,.2,1)}
 .ai-msg.user{flex-direction:row-reverse}
 .ai-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
@@ -131,8 +126,7 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .ai-send{width:44px;height:44px;flex-shrink:0;border-radius:var(--r-md);background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
 .ai-send:hover{background:var(--accent-hover);transform:scale(1.05)}
 .ai-send:disabled{opacity:.4;cursor:not-allowed}
-.ai-clear{background:none;border:none;color:var(--text-tert);font-size:12px;cursor:pointer;padding:4px 8px;margin-top:6px}
-.ai-clear:hover{color:var(--red)}
+.ai-status{font-size:11px;color:var(--text-tert);text-align:center;margin-top:6px}
 
 .next-box{display:flex;justify-content:space-between;align-items:center;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);padding:14px 18px;margin-bottom:18px}
 .next-label{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--text-tert);text-transform:uppercase}
@@ -147,8 +141,8 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .tabs{display:flex;gap:8px;margin-bottom:14px;background:var(--fill);padding:4px;border-radius:var(--r-md)}
 .tab-btn{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--text-sub);font-weight:500;font-size:13px;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.q-reader{max-height:340px;overflow-y:auto;padding:16px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline);margin-top:12px}
-.ayah-row{padding:12px 0;border-bottom:1px solid var(--hairline)}
+.q-reader{max-height:380px;overflow-y:auto;padding:16px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline);margin-top:12px}
+.ayah-row{padding:14px 0;border-bottom:1px solid var(--hairline)}
 .ayah-row:last-child{border-bottom:none}
 .ayah-ar{font-family:'Amiri','Traditional Arabic',serif;font-size:1.6rem;line-height:2.3;direction:rtl;text-align:right;color:var(--text)}
 .ayah-num{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;margin-right:6px;font-family:inherit}
@@ -180,7 +174,6 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .msg-item:hover .msg-actions{display:flex}
 .icon-btn{background:none;border:none;cursor:pointer;color:var(--text-tert);padding:4px;border-radius:6px;transition:background .2s}
 .icon-btn:hover{background:var(--fill);color:var(--text)}
-
 .chat-input{border-top:1px solid var(--hairline);padding:14px;background:var(--surface)}
 .preview-box{display:none;position:relative;margin-bottom:10px}
 .preview-box img{height:56px;border-radius:var(--r-sm)}
@@ -190,26 +183,20 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .tools > *{transition:color .2s}
 .tools > *:hover{color:var(--text)}
 .mic-rec{color:var(--red);font-size:12px;animation:pulse 1s infinite}
-
 .emoji-box{position:absolute;bottom:80px;right:20px;background:var(--glass-strong);backdrop-filter:blur(20px);border:1px solid var(--hairline);border-radius:var(--r-md);padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;z-index:50;box-shadow:var(--shadow-lg)}
 .emoji-box span,.emoji-box img{cursor:pointer;transition:transform .15s}
 .emoji-box span:hover{transform:scale(1.25)}
-
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;padding:22px}
 .modal-card{background:var(--surface);border-radius:var(--r-xl);padding:32px;max-width:400px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
 .modal-card h3{font-size:20px;font-weight:600;margin-bottom:14px}
-
 .trans-bar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
 .trans-pane{flex:1;padding:14px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline)}
 .swap-btn{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
 .swap-btn:hover{background:var(--accent-soft)}
-
 .score{background:var(--fill);padding:14px;border-radius:var(--r-md);display:flex;justify-content:space-between;align-items:center}
 .badge{background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.04em}
-
 .pdf-thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:12px}
 .pdf-thumb{height:80px;border-radius:var(--r-sm);border:1px solid var(--hairline)}
-
 hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
 </style>
 </head>
@@ -219,11 +206,6 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   <div class="modal-card">
     <h3 id="call-status">Calling…</h3>
     <p id="call-target-name" style="color:var(--accent);font-weight:600;margin-bottom:20px"></p>
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px">
-      <video id="local-video" autoplay muted playsinline style="width:120px;height:120px;background:#000;border-radius:12px;display:none"></video>
-      <video id="remote-video" autoplay playsinline style="width:120px;height:120px;background:#222;border-radius:12px;display:none"></video>
-      <div id="audio-call-avatar" style="width:96px;height:96px;border-radius:50%;background:var(--fill);border:2px solid var(--accent);display:none;align-items:center;justify-content:center;color:var(--accent)"></div>
-    </div>
     <button onclick="endCall()" class="btn btn-danger">End Call</button>
   </div>
 </div>
@@ -316,7 +298,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   <div class="wrap">
     <div class="col">
 
-      <!-- AI SMART ASSISTANT (NEW) -->
+      <!-- AI SMART ASSISTANT -->
       <details class="acc" open>
         <summary class="tab">
           <span style="display:flex;align-items:center;gap:12px">
@@ -327,19 +309,19 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
         </summary>
         <div class="acc-body">
           <div class="ai-chips">
-            <span class="ai-chip" onclick="aiQuick('Summarize this text:')">
+            <span class="ai-chip" onclick="aiQuick('Summarize this text: ')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
               Summarize
             </span>
-            <span class="ai-chip" onclick="aiQuick('Draft a professional message:')">
+            <span class="ai-chip" onclick="aiQuick('Draft a professional message: ')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
               Draft
             </span>
-            <span class="ai-chip" onclick="aiQuick('Explain simply:')">
+            <span class="ai-chip" onclick="aiQuick('Explain simply: ')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
               Explain
             </span>
-            <span class="ai-chip" onclick="aiQuick('Translate to English:')">
+            <span class="ai-chip" onclick="aiQuick('Translate to English: ')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>
               Translate
             </span>
@@ -353,16 +335,17 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
             <div class="ai-empty" id="ai-empty">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
               <p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p>
-              <p style="font-size:12px">Powered by Pollinations AI — no API key needed</p>
+              <p style="font-size:12px">Free AI — unlimited questions, no API key</p>
             </div>
           </div>
 
           <div class="ai-input-row">
-            <textarea id="ai-input" placeholder="Ask AI anything…" rows="1"></textarea>
+            <textarea id="ai-input" placeholder="Ask AI anything — no limits…" rows="1"></textarea>
             <button id="ai-send" class="ai-send" onclick="sendAIMessage()">
               <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 11 13 11 9 22 2"/></svg>
             </button>
           </div>
+          <div class="ai-status" id="ai-status">Ready — ask unlimited questions</div>
         </div>
       </details>
 
@@ -398,7 +381,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
         <summary class="tab">
           <span style="display:flex;align-items:center;gap:12px">
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            Holy Quran
+            Holy Quran (All 114 Surahs)
           </span>
           <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         </summary>
@@ -416,16 +399,131 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
           <select id="quran-surah" onchange="loadQuranSurah()">
             <option value="1">1. Al-Fatihah</option>
             <option value="2">2. Al-Baqarah</option>
+            <option value="3">3. Aal-E-Imran</option>
+            <option value="4">4. An-Nisa</option>
+            <option value="5">5. Al-Maidah</option>
+            <option value="6">6. Al-Anam</option>
+            <option value="7">7. Al-Araf</option>
+            <option value="8">8. Al-Anfal</option>
+            <option value="9">9. At-Tawbah</option>
+            <option value="10">10. Yunus</option>
+            <option value="11">11. Hud</option>
+            <option value="12">12. Yusuf</option>
+            <option value="13">13. Ar-Rad</option>
+            <option value="14">14. Ibrahim</option>
+            <option value="15">15. Al-Hijr</option>
+            <option value="16">16. An-Nahl</option>
+            <option value="17">17. Al-Isra</option>
             <option value="18">18. Al-Kahf</option>
+            <option value="19">19. Maryam</option>
+            <option value="20">20. Ta-Ha</option>
+            <option value="21">21. Al-Anbiya</option>
+            <option value="22">22. Al-Hajj</option>
+            <option value="23">23. Al-Muminun</option>
+            <option value="24">24. An-Nur</option>
+            <option value="25">25. Al-Furqan</option>
+            <option value="26">26. Ash-Shuara</option>
+            <option value="27">27. An-Naml</option>
+            <option value="28">28. Al-Qasas</option>
+            <option value="29">29. Al-Ankabut</option>
+            <option value="30">30. Ar-Rum</option>
+            <option value="31">31. Luqman</option>
+            <option value="32">32. As-Sajdah</option>
+            <option value="33">33. Al-Ahzab</option>
+            <option value="34">34. Saba</option>
+            <option value="35">35. Fatir</option>
             <option value="36">36. Ya-Sin</option>
+            <option value="37">37. As-Saffat</option>
+            <option value="38">38. Sad</option>
+            <option value="39">39. Az-Zumar</option>
+            <option value="40">40. Ghafir</option>
+            <option value="41">41. Fussilat</option>
+            <option value="42">42. Ash-Shura</option>
+            <option value="43">43. Az-Zukhruf</option>
+            <option value="44">44. Ad-Dukhan</option>
+            <option value="45">45. Al-Jathiyah</option>
+            <option value="46">46. Al-Ahqaf</option>
+            <option value="47">47. Muhammad</option>
+            <option value="48">48. Al-Fath</option>
+            <option value="49">49. Al-Hujurat</option>
+            <option value="50">50. Qaf</option>
+            <option value="51">51. Adh-Dhariyat</option>
+            <option value="52">52. At-Tur</option>
+            <option value="53">53. An-Najm</option>
+            <option value="54">54. Al-Qamar</option>
             <option value="55">55. Ar-Rahman</option>
+            <option value="56">56. Al-Waqiah</option>
+            <option value="57">57. Al-Hadid</option>
+            <option value="58">58. Al-Mujadila</option>
+            <option value="59">59. Al-Hashr</option>
+            <option value="60">60. Al-Mumtahanah</option>
+            <option value="61">61. As-Saff</option>
+            <option value="62">62. Al-Jumuah</option>
+            <option value="63">63. Al-Munafiqun</option>
+            <option value="64">64. At-Taghabun</option>
+            <option value="65">65. At-Talaq</option>
+            <option value="66">66. At-Tahrim</option>
             <option value="67">67. Al-Mulk</option>
+            <option value="68">68. Al-Qalam</option>
+            <option value="69">69. Al-Haqqah</option>
+            <option value="70">70. Al-Maarij</option>
+            <option value="71">71. Nuh</option>
+            <option value="72">72. Al-Jinn</option>
+            <option value="73">73. Al-Muzzammil</option>
+            <option value="74">74. Al-Muddaththir</option>
+            <option value="75">75. Al-Qiyamah</option>
+            <option value="76">76. Al-Insan</option>
+            <option value="77">77. Al-Mursalat</option>
+            <option value="78">78. An-Naba</option>
+            <option value="79">79. An-Nazi'at</option>
+            <option value="80">80. Abasa</option>
+            <option value="81">81. At-Takwir</option>
+            <option value="82">82. Al-Infitar</option>
+            <option value="83">83. Al-Mutaffifin</option>
+            <option value="84">84. Al-Inshiqaq</option>
+            <option value="85">85. Al-Buruj</option>
+            <option value="86">86. At-Tariq</option>
+            <option value="87">87. Al-Ala</option>
+            <option value="88">88. Al-Ghashiyah</option>
+            <option value="89">89. Al-Fajr</option>
+            <option value="90">90. Al-Balad</option>
+            <option value="91">91. Ash-Shams</option>
+            <option value="92">92. Al-Layl</option>
+            <option value="93">93. Ad-Duhaa</option>
+            <option value="94">94. Ash-Sharh</option>
+            <option value="95">95. At-Tin</option>
+            <option value="96">96. Al-Alaq</option>
+            <option value="97">97. Al-Qadr</option>
+            <option value="98">98. Al-Bayyinah</option>
+            <option value="99">99. Az-Zalzalah</option>
+            <option value="100">100. Al-Adiyat</option>
+            <option value="101">101. Al-Qariah</option>
+            <option value="102">102. At-Takathur</option>
+            <option value="103">103. Al-Asr</option>
+            <option value="104">104. Al-Humazah</option>
+            <option value="105">105. Al-Fil</option>
+            <option value="106">106. Quraysh</option>
+            <option value="107">107. Al-Maun</option>
+            <option value="108">108. Al-Kawthar</option>
+            <option value="109">109. Al-Kafirun</option>
+            <option value="110">110. An-Nasr</option>
+            <option value="111">111. Al-Masad</option>
             <option value="112">112. Al-Ikhlas</option>
+            <option value="113">113. Al-Falaq</option>
+            <option value="114">114. An-Nas</option>
           </select>
           <div id="quran-audio-view">
             <select id="quran-reciter" style="margin-top:10px" onchange="loadQuranSurah()">
-              <option value="ar.alafasy">Alafasy</option>
-              <option value="ar.sudais">Sudais</option>
+              <option value="ar.alafasy">Mishary Alafasy</option>
+              <option value="ar.abdurrahmaansudais">Abdurrahman As-Sudais</option>
+              <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
+              <option value="ar.abdullahbasfar">Abdullah Basfar</option>
+              <option value="ar.husary">Mahmoud Al-Husary</option>
+              <option value="ar.minshawi">Mohamed Al-Minshawi</option>
+              <option value="ar.muhammadayyoub">Muhammad Ayyoub</option>
+              <option value="ar.shaatree">Abu Bakr Ash-Shaatree</option>
+              <option value="ar.ahmedajamy">Ahmed Al-Ajamy</option>
+              <option value="ar.hanirifai">Hani Ar-Rifai</option>
             </select>
             <audio id="quran-audio-player" style="width:100%;margin-top:12px" controls></audio>
           </div>
@@ -447,11 +545,11 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
         </summary>
         <div class="acc-body">
           <div class="trans-bar">
-            <select id="src-lang" style="flex:1" onchange="autoTranslate()"><option value="en">English</option><option value="bn">Bangla</option><option value="ar">Arabic</option></select>
+            <select id="src-lang" style="flex:1" onchange="autoTranslate()"><option value="en">English</option><option value="bn">Bangla</option><option value="ar">Arabic</option><option value="hi">Hindi</option><option value="ur">Urdu</option><option value="fr">French</option><option value="es">Spanish</option></select>
             <button onclick="swapLanguages()" class="swap-btn">
               <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
             </button>
-            <select id="target-lang" style="flex:1" onchange="autoTranslate()"><option value="bn">Bangla</option><option value="en">English</option><option value="ar">Arabic</option></select>
+            <select id="target-lang" style="flex:1" onchange="autoTranslate()"><option value="bn">Bangla</option><option value="en">English</option><option value="ar">Arabic</option><option value="hi">Hindi</option><option value="ur">Urdu</option><option value="fr">French</option><option value="es">Spanish</option></select>
           </div>
           <div style="display:flex;gap:10px;margin-top:10px">
             <textarea id="trans-input-text" placeholder="Enter text…" oninput="autoTranslate()" style="flex:1;height:100px;resize:none"></textarea>
@@ -596,7 +694,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
                       </span>
                       <span id="mic-status" class="mic-rec" style="display:none">Rec…</span>
                     </div>
-                    <button id="btn-send-msg" class="btn btn-primary btn-pill">
+                    <button id="btn-send-msg" class="btn btn-primary btn-pill" onclick="sendChatMessage()">
                       <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 11 13 11 9 22 2"/></svg>
                       Send
                     </button>
@@ -618,11 +716,11 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   </div>
 </div>
 
-<!-- SCRIPT 1: FIREBASE & AUTH -->
+<!-- ====================== FIREBASE & AUTH ====================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const app = initializeApp({
   apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
@@ -632,14 +730,26 @@ const app = initializeApp({
   messagingSenderId: "265002186410",
   appId: "1:265002186410:web:0ba24a52e883c013e4c2d3"
 });
-const auth = getAuth(app); const db = getFirestore(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
 window.currentUserObj = null;
 
 function sanitizeText(str){const t=document.createElement('div');t.textContent=str;return t.innerHTML}
-function hideAllScreens(){document.querySelectorAll('.auth').forEach(c=>c.style.display='none');document.getElementById('main-site').style.display='none'}
+window.sanitizeText = sanitizeText;
+
+function hideAllScreens(){
+  document.querySelectorAll('.auth').forEach(c=>c.style.display='none');
+  document.getElementById('main-site').style.display='none';
+}
 
 document.getElementById('btn-goto-register').onclick=()=>{hideAllScreens();document.getElementById('reg-email-screen').style.display='block'};
-document.getElementById('btn-reg-next').onclick=()=>{hideAllScreens();document.getElementById('reg-pass-screen').style.display='block'};
+document.getElementById('btn-reg-next').onclick=()=>{
+  const u=document.getElementById('reg-username').value.trim();
+  const e=document.getElementById('reg-email').value.trim();
+  if(!u||!e){alert('Fill all fields');return}
+  document.getElementById('reg-email-screen').style.display='none';
+  document.getElementById('reg-pass-screen').style.display='block';
+};
 document.getElementById('btn-goto-forgot').onclick=()=>{hideAllScreens();document.getElementById('forgot-screen').style.display='block'};
 document.getElementById('btn-back-login1').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
 document.getElementById('btn-back-login-forgot').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
@@ -652,7 +762,11 @@ document.getElementById('btn-reg-finish').onclick=()=>{
   if(!u||!e||p.length<6){alert('Please fill all fields. Password must be 6+ chars.');return}
   createUserWithEmailAndPassword(auth,e,p).then(c=>{
     updateProfile(c.user,{displayName:u,photoURL:`https://ui-avatars.com/api/?name=${encodeURIComponent(u)}&background=0A84FF&color=fff`}).then(()=>{
-      sendEmailVerification(c.user).then(()=>{auth.signOut();hideAllScreens();document.getElementById('reg-sent-screen').style.display='block'});
+      sendEmailVerification(c.user).then(()=>{
+        auth.signOut();
+        hideAllScreens();
+        document.getElementById('reg-sent-screen').style.display='block';
+      });
     });
   }).catch(er=>alert(er.message));
 };
@@ -666,30 +780,40 @@ document.getElementById('btn-send-reset').onclick=()=>{
 document.getElementById('btn-login').onclick=()=>{
   const i=sanitizeText(document.getElementById('login-identifier').value.trim());
   const p=document.getElementById('login-password').value;
+  if(!i||!p){document.getElementById('login-error').innerText='Enter credentials';return}
   signInWithEmailAndPassword(auth,i.includes('@')?i:`${i}@akashportal.com`,p).catch(()=>{
-    document.getElementById('login-error').innerText='Invalid credentials.';
+    document.getElementById('login-error').innerText='Invalid credentials or email not verified.';
   });
 };
+
 document.getElementById('btn-logout').onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,(user)=>{
   if(user && user.emailVerified){
     window.currentUserObj=user;
     document.getElementById('nav-avatar').src=localStorage.getItem('localAvatar')||user.photoURL||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.email[0])}&background=0A84FF&color=fff`;
-    setDoc(doc(db,"users",user.uid),{uid:user.uid,username:user.displayName||user.email.split('@')[0],photoURL:document.getElementById('nav-avatar').src},{merge:true});
+    setDoc(doc(db,"users",user.uid),{
+      uid:user.uid,
+      username:user.displayName||user.email.split('@')[0],
+      photoURL:document.getElementById('nav-avatar').src
+    },{merge:true});
     hideAllScreens();
     document.getElementById('main-site').style.display='block';
     window.switchChat('global');
     window.fetchPrayerTimes();
-    window.loadQuranSurah(false);
+    window.loadQuranSurah();
+    window.startClock();
   }else{
     hideAllScreens();
     document.getElementById('login-screen').style.display='block';
   }
 });
 
-let chatMode='global';let dmTarget=null;let chatUnsub=null;
-window.chatBase64=null;window.chatAudio=null;
+let chatMode='global';
+let dmTarget=null;
+let dmTargetName='';
+let chatUnsub=null;
+window.chatBase64=null;
 
 window.switchChat=function(mode){
   chatMode=mode;
@@ -701,9 +825,12 @@ window.switchChat=function(mode){
   p.style.color=mode==='private'?'#fff':'var(--text-sub)';
   p.style.border=mode==='private'?'none':'1px solid var(--hairline)';
   document.getElementById('dm-list').style.display=mode==='private'?'block':'none';
-  document.getElementById('dm-call-icons').style.display=mode==='private'&&dmTarget?'flex':'none';
-  if(mode==='private'){loadUsers();if(dmTarget)loadChat();else document.getElementById('chat-messages').innerHTML='<p style="text-align:center;color:var(--text-sub);margin-top:20px">Select a user to start chatting.</p>'}
-  else loadChat();
+  document.getElementById('dm-call-icons').style.display=(mode==='private'&&dmTarget)?'flex':'none';
+  if(mode==='private'){
+    loadUsers();
+    if(dmTarget)loadChat();
+    else document.getElementById('chat-messages').innerHTML='<p style="text-align:center;color:var(--text-sub);margin-top:20px">Select a user to start chatting.</p>';
+  } else loadChat();
 };
 
 async function loadUsers(){
@@ -713,19 +840,29 @@ async function loadUsers(){
   snaps.forEach(d=>{
     const u=d.data();
     if(u.uid!==window.currentUserObj.uid){
-      h+=`<div class="dm-item ${dmTarget===u.uid?'active':''}" onclick="openDM('${u.uid}','${sanitizeText(u.username)}')"><img src="${u.photoURL}" class="dm-ava"><div class="dm-name">${sanitizeText(u.username)}</div></div>`;
+      h+=`<div class="dm-item ${dmTarget===u.uid?'active':''}" onclick="window.openDM('${u.uid}','${sanitizeText(u.username)}')"><img src="${u.photoURL}" class="dm-ava"><div class="dm-name">${sanitizeText(u.username)}</div></div>`;
     }
   });
   list.innerHTML=h;
 }
-window.openDM=function(uid,name){dmTarget=uid;document.getElementById('dm-head-name').innerText=name;document.getElementById('dm-call-icons').style.display='flex';loadUsers();loadChat()};
+
+window.openDM=function(uid,name){
+  dmTarget=uid;
+  dmTargetName=name;
+  document.getElementById('dm-head-name').innerText=name;
+  document.getElementById('dm-call-icons').style.display='flex';
+  loadUsers();
+  loadChat();
+};
 
 function loadChat(){
   if(chatUnsub)chatUnsub();
-  const box=document.getElementById('chat-messages');box.innerHTML='';
+  const box=document.getElementById('chat-messages');
+  box.innerHTML='';
   let q;
-  if(chatMode==='global')q=query(collection(db,"group_messages"),orderBy("timestamp","asc"));
-  else{
+  if(chatMode==='global'){
+    q=query(collection(db,"group_messages"),orderBy("timestamp","asc"));
+  } else {
     if(!dmTarget)return;
     const cid=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
     q=query(collection(db,"private_messages"),where("chatId","==",cid));
@@ -737,445 +874,699 @@ function loadChat(){
     arr.sort((a,b)=>(a.timestamp?a.timestamp.toMillis():0)-(b.timestamp?b.timestamp.toMillis():0));
     arr.forEach(data=>{
       const time=data.timestamp?data.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'Now';
-      let content='',actions='';
-      if(data.isDeleted)content=`<div style="color:var(--text-tert);font-style:italic;font-size:14px">Message deleted</div>`;
-      else{
+      let content='';
+      if(data.isDeleted){
+        content=`<div style="color:var(--text-tert);font-style:italic;font-size:14px">Message deleted</div>`;
+      } else {
         content=(data.text?`<div class="msg-text">${sanitizeText(data.text)}</div>`:'')+
-          (data.attachedImage?`<img src="${data.attachedImage}" class="msg-img">`:'')+
-          (data.attachedAudio?`<audio controls src="${data.attachedAudio}" style="height:35px;margin-top:6px;outline:none;border-radius:15px">`:'');
-        if(data.senderId===window.currentUserObj.uid){
-          actions=`<div class="msg-actions"><button class="icon-btn" onclick="delMsg('${data.id}','${chatMode}')"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>`;
-        }
+          (data.attachedImage?`<img src="${data.attachedImage}" class="msg-img">`:'');
       }
-      box.innerHTML+=`<div class="msg-item"><img src="${data.photoURL}" class="msg-ava"><div class="msg-body"><div class="msg-head"><span class="msg-name">${sanitizeText(data.username)}</span><span class="msg-time">${time}</span></div>${content}</div>${actions}</div>`;
+      const isOwn=data.uid===window.currentUserObj.uid;
+      const delBtn=isOwn&&!data.isDeleted?`<div class="msg-actions"><button class="icon-btn" onclick="window.deleteMsg('${data.id}')"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div>`:'';
+      const ava=data.photoURL||`https://ui-avatars.com/api/?name=${(data.username||'U')[0]}`;
+      const msg=document.createElement('div');
+      msg.className='msg-item';
+      msg.innerHTML=`<img src="${ava}" class="msg-ava"><div class="msg-body"><div class="msg-head"><span class="msg-name">${sanitizeText(data.username||'User')}</span><span class="msg-time">${time}</span>${delBtn}</div>${content}</div>`;
+      box.appendChild(msg);
     });
     box.scrollTop=box.scrollHeight;
   });
 }
 
-document.getElementById('btn-send-msg').onclick=async()=>{
-  const txt=document.getElementById('chat-input-text').value.trim();
-  if(!txt&&!window.chatBase64&&!window.chatAudio)return;
-  const payload={text:txt,attachedImage:window.chatBase64,attachedAudio:window.chatAudio,senderId:window.currentUserObj.uid,username:window.currentUserObj.displayName||"User",photoURL:window.currentUserObj.photoURL,timestamp:serverTimestamp()};
-  document.getElementById('chat-input-text').value='';
-  window.clearChatMedia();
-  if(chatMode==='global')await addDoc(collection(db,"group_messages"),payload);
-  else if(dmTarget){
-    payload.chatId=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
-    await addDoc(collection(db,"private_messages"),payload);
-  }
+window.deleteMsg=async function(id){
+  const colName=chatMode==='global'?'group_messages':'private_messages';
+  await deleteDoc(doc(db,colName,id));
 };
 
-window.delMsg=async function(id,mode){
-  if(confirm('Delete this message?')){
-    await updateDoc(doc(db,mode==='global'?'group_messages':'private_messages',id),{isDeleted:true,text:null,attachedImage:null,attachedAudio:null});
+window.sendChatMessage=async function(){
+  const inp=document.getElementById('chat-input-text');
+  const text=inp.value.trim();
+  if(!text&&!window.chatBase64)return;
+  const data={
+    uid:window.currentUserObj.uid,
+    username:window.currentUserObj.displayName||window.currentUserObj.email.split('@')[0],
+    photoURL:document.getElementById('nav-avatar').src,
+    text:text||'',
+    timestamp:serverTimestamp()
+  };
+  if(window.chatBase64)data.attachedImage=window.chatBase64;
+  let colName='group_messages';
+  if(chatMode==='private'&&dmTarget){
+    data.chatId=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
+    colName='private_messages';
   }
+  await addDoc(collection(db,colName),data);
+  inp.value='';
+  clearChatMedia();
+};
+
+window.clearChatMedia=function(){
+  window.chatBase64=null;
+  const pb=document.getElementById('img-preview-box');
+  pb.style.display='none';
+  document.getElementById('img-preview').src='';
+};
+
+window.attachImage=function(e){
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    window.chatBase64=r.result;
+    document.getElementById('img-preview').src=r.result;
+    document.getElementById('img-preview-box').style.display='block';
+  };
+  r.readAsDataURL(f);
+};
+
+window.toggleP=function(p){
+  const emoji=document.getElementById('emoji-picker');
+  const gif=document.getElementById('gif-picker');
+  emoji.style.display='none';
+  gif.style.display='none';
+  if(p==='emoji')emoji.style.display='grid';
+  else gif.style.display='grid';
+};
+
+window.addE=function(em){
+  const inp=document.getElementById('chat-input-text');
+  inp.value+=em;
+  inp.focus();
+};
+
+window.addG=function(src){
+  window.chatBase64=src;
+  document.getElementById('img-preview').src=src;
+  document.getElementById('img-preview-box').style.display='block';
+  document.getElementById('gif-picker').style.display='none';
+};
+
+window.toggleMic=function(){
+  const ms=document.getElementById('mic-status');
+  if(ms.style.display==='none'){ms.style.display='inline';}
+  else ms.style.display='none';
+};
+
+window.openProfileModal=function(){
+  document.getElementById('profile-modal').style.display='flex';
+  document.getElementById('modal-avatar-preview').src=document.getElementById('nav-avatar').src;
+};
+
+window.closeProfileModal=function(){
+  document.getElementById('profile-modal').style.display='none';
+};
+
+window.handleFileSelect=function(e){
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    document.getElementById('modal-avatar-preview').src=r.result;
+    document.getElementById('btn-save-avatar').disabled=false;
+    document.getElementById('btn-save-avatar').onclick=()=>{
+      localStorage.setItem('localAvatar',r.result);
+      document.getElementById('nav-avatar').src=r.result;
+      closeProfileModal();
+    };
+  };
+  r.readAsDataURL(f);
 };
 
 window.startCall=function(type){
-  const ov=document.getElementById('call-overlay');
-  document.getElementById('call-status').innerText=type==='video'?'Video call…':'Calling…';
-  document.getElementById('call-target-name').innerText=document.getElementById('dm-head-name').innerText||'User';
-  ov.style.display='flex';
-};
-window.endCall=function(){document.getElementById('call-overlay').style.display='none'};
-window.openProfileModal=function(){document.getElementById('profile-modal').style.display='flex'};
-window.closeProfileModal=function(){document.getElementById('profile-modal').style.display='none'};
-window.handleFileSelect=function(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    document.getElementById('modal-avatar-preview').src=ev.target.result;
-    document.getElementById('btn-save-avatar').disabled=false;
-  };
-  r.readAsDataURL(file);
-};
-document.getElementById('btn-save-avatar').onclick=()=>{
-  const src=document.getElementById('modal-avatar-preview').src;
-  localStorage.setItem('localAvatar',src);
-  document.getElementById('nav-avatar').src=src;
-  if(window.currentUserObj){
-    setDoc(doc(db,"users",window.currentUserObj.uid),{photoURL:src},{merge:true});
-  }
-  closeProfileModal();
+  document.getElementById('call-overlay').style.display='flex';
+  document.getElementById('call-status').innerText=type==='video'?'Video Calling…':'Audio Calling…';
+  document.getElementById('call-target-name').innerText=dmTargetName||'User';
 };
 
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('welcome-overlay').style.display='none',900);
+window.endCall=function(){
+  document.getElementById('call-overlay').style.display='none';
+};
+
+document.getElementById('chat-input-text').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){
+    e.preventDefault();
+    sendChatMessage();
+  }
 });
+
+setTimeout(()=>{
+  const w=document.getElementById('welcome-overlay');
+  if(w)w.style.display='none';
+},1200);
 </script>
 
-<!-- SCRIPT 2: TOOLS + AI ASSISTANT -->
+<!-- ====================== MAIN APP LOGIC ====================== -->
 <script>
-// ===== AI SMART ASSISTANT (Pollinations AI) =====
-let aiHistory = [];
+/* ===================== LIVE CLOCK ===================== */
+window.startClock=function(){
+  function tick(){
+    const n=new Date();
+    const h=String(n.getHours()).padStart(2,'0');
+    const m=String(n.getMinutes()).padStart(2,'0');
+    const s=String(n.getSeconds()).padStart(2,'0');
+    const el=document.getElementById('live-clock');
+    if(el)el.innerText=`${h}:${m}:${s}`;
+  }
+  tick();
+  setInterval(tick,1000);
+};
 
-function aiAddMessage(role, text, isHTML=false){
-  const box = document.getElementById('ai-chat-box');
-  document.getElementById('ai-empty')?.remove();
-  const msg = document.createElement('div');
-  msg.className = 'ai-msg msg-in ' + (role === 'user' ? 'user' : 'ai');
-  const avatar = document.createElement('div');
-  avatar.className = 'ai-avatar ' + (role === 'user' ? 'user' : 'ai');
-  avatar.innerHTML = role === 'user'
-    ? '<svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-    : '<svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>';
-  const bubble = document.createElement('div');
-  bubble.className = 'ai-bubble';
-  if(isHTML) bubble.innerHTML = text;
-  else bubble.textContent = text;
-  msg.appendChild(avatar);
-  msg.appendChild(bubble);
-  box.appendChild(msg);
-  box.scrollTop = box.scrollHeight;
+/* ===================== AI SMART ASSISTANT ===================== */
+/* Fast streaming AI — unlimited questions, instant response */
+let aiHistory=[];
+
+function escapeHtml(str){
+  const d=document.createElement('div');
+  d.textContent=str;
+  return d.innerHTML;
 }
 
-function aiShowTyping(){
-  const box = document.getElementById('ai-chat-box');
-  const msg = document.createElement('div');
-  msg.className = 'ai-msg ai';
-  msg.id = 'ai-typing-msg';
-  msg.innerHTML = '<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div><div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
-  box.appendChild(msg);
-  box.scrollTop = box.scrollHeight;
+function formatAIReply(text){
+  let safe=escapeHtml(text);
+  safe=safe.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  safe=safe.replace(/`([^`]+)`/g,'<code style="background:var(--fill-2);padding:1px 5px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:13px">$1</code>');
+  safe=safe.replace(/\n/g,'<br>');
+  return safe;
 }
 
-function aiHideTyping(){document.getElementById('ai-typing-msg')?.remove()}
+window.aiQuick=function(prompt){
+  const inp=document.getElementById('ai-input');
+  inp.value=prompt;
+  inp.focus();
+  inp.selectionStart=inp.selectionEnd=inp.value.length;
+};
 
-function aiFormatResponse(text){
-  // Basic markdown-ish formatting
-  return text
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/`(.+?)`/g,'<code style="background:var(--fill);padding:1px 5px;border-radius:4px;font-family:ui-monospace,monospace;font-size:13px">$1</code>')
-    .replace(/\n/g,'<br>');
+window.aiClearChat=function(){
+  aiHistory=[];
+  const box=document.getElementById('ai-chat-box');
+  box.innerHTML=`
+    <div class="ai-empty" id="ai-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p>
+      <p style="font-size:12px">Fast AI — unlimited, instant streaming</p>
+    </div>`;
+  document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
+};
+
+/* Typing simulation — shows text instantly in chunks */
+function typeOut(text,bubble,box){
+  return new Promise(resolve=>{
+    let i=0;
+    const speed=4;
+    function step(){
+      i+=speed;
+      if(i>=text.length){
+        bubble.innerHTML=formatAIReply(text);
+        box.scrollTop=box.scrollHeight;
+        resolve();
+        return;
+      }
+      bubble.innerHTML=formatAIReply(text.slice(0,i));
+      box.scrollTop=box.scrollHeight;
+      requestAnimationFrame(step);
+    }
+    step();
+  });
 }
 
-window.sendAIMessage = async function(){
-  const input = document.getElementById('ai-input');
-  const q = input.value.trim();
-  if(!q) return;
-  input.value = '';
-  input.style.height = 'auto';
-  document.getElementById('ai-send').disabled = true;
-  
-  aiAddMessage('user', q);
-  aiHistory.push({role:'user', content:q});
-  aiShowTyping();
-  
+function showError(box){
+  const errMsg=document.createElement('div');
+  errMsg.className='ai-msg ai';
+  errMsg.innerHTML=`
+    <div class="ai-avatar ai">
+      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="ai-bubble" style="color:var(--red)">AI service busy. Please try again.</div>`;
+  box.appendChild(errMsg);
+  box.scrollTop=box.scrollHeight;
+  document.getElementById('ai-status').innerText='Error — retry';
+}
+
+window.sendAIMessage=async function(){
+  const inp=document.getElementById('ai-input');
+  const text=inp.value.trim();
+  if(!text)return;
+  const box=document.getElementById('ai-chat-box');
+  const empty=document.getElementById('ai-empty');
+  if(empty)empty.remove();
+
+  /* Show user message */
+  const userMsg=document.createElement('div');
+  userMsg.className='ai-msg user';
+  userMsg.innerHTML=`
+    <div class="ai-avatar user">
+      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <div class="ai-bubble">${escapeHtml(text)}</div>`;
+  box.appendChild(userMsg);
+  box.scrollTop=box.scrollHeight;
+
+  /* Show typing indicator */
+  const typing=document.createElement('div');
+  typing.className='ai-msg ai';
+  typing.id='ai-typing-indicator';
+  typing.innerHTML=`
+    <div class="ai-avatar ai">
+      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
+    </div>
+    <div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(typing);
+  box.scrollTop=box.scrollHeight;
+
+  inp.value='';
+  inp.style.height='auto';
+  document.getElementById('ai-status').innerText='Thinking...';
+  document.getElementById('ai-send').disabled=true;
+
+  /* Build MINIMAL context for speed — last exchange only, truncated */
+  let promptText=text;
+  if(aiHistory.length>=2){
+    const lastQ=aiHistory[aiHistory.length-2].content;
+    const lastA=aiHistory[aiHistory.length-1].content;
+    promptText=`[Prev Q: ${lastQ.slice(0,100)}]\n[Prev A: ${lastA.slice(0,150)}]\n\n${text}`;
+  }
+
+  let reply='';
+
+  /* ====== FAST METHOD: GET with streaming + 12s timeout ====== */
   try{
-    // Pollinations AI — free, no API key needed
-    const contextPrompt = aiHistory.slice(-6).map(m => `${m.role==='user'?'User':'Assistant'}: ${m.content}`).join('\n');
-    const prompt = encodeURIComponent(contextPrompt + '\nAssistant:');
-    const url = `https://text.pollinations.ai/${prompt}?model=openai`;
-    
-    const res = await fetch(url);
-    let answer = await res.text();
-    answer = answer.replace(/^Assistant:\s*/i,'').trim();
-    
-    if(!answer) answer = 'I could not generate a response. Please try again.';
-    
-    aiHideTyping();
-    aiAddMessage('ai', aiFormatResponse(answer), true);
-    aiHistory.push({role:'assistant', content:answer});
+    const controller=new AbortController();
+    const timeoutId=setTimeout(()=>controller.abort(),12000);
+
+    const url='https://text.pollinations.ai/'+encodeURIComponent(promptText);
+    const res=await fetch(url,{signal:controller.signal});
+    clearTimeout(timeoutId);
+
+    /* Remove typing, create live bubble */
+    typing.remove();
+    const aiMsg=document.createElement('div');
+    aiMsg.className='ai-msg ai';
+    aiMsg.innerHTML=`
+      <div class="ai-avatar ai">
+        <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
+      </div>
+      <div class="ai-bubble" id="ai-live-bubble" style="min-height:20px"></div>`;
+    box.appendChild(aiMsg);
+    const bubble=aiMsg.querySelector('.ai-bubble');
+
+    /* Try streaming response — text appears instantly as it arrives */
+    if(res.body&&res.body.getReader){
+      const reader=res.body.getReader();
+      const decoder=new TextDecoder();
+
+      while(true){
+        const{done,value}=await reader.read();
+        if(done)break;
+        reply+=decoder.decode(value,{stream:true});
+        if(reply.trim()){
+          bubble.innerHTML=formatAIReply(reply);
+          box.scrollTop=box.scrollHeight;
+        }
+      }
+    } else {
+      /* No streaming — get full text then simulate typing */
+      reply=await res.text();
+      if(reply.trim()){
+        await typeOut(reply.trim(),bubble,box);
+      }
+    }
+
+    reply=reply.trim();
+
+    if(reply){
+      bubble.innerHTML=formatAIReply(reply);
+      box.scrollTop=box.scrollHeight;
+      aiHistory.push({role:'user',content:text});
+      aiHistory.push({role:'assistant',content:reply});
+      document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
+      document.getElementById('ai-send').disabled=false;
+      return;
+    } else {
+      throw new Error('Empty response');
+    }
   }catch(err){
-    aiHideTyping();
-    aiAddMessage('ai', 'Sorry, I encountered an error. Please check your connection and try again.');
-    console.error('AI Error:', err);
-  }finally{
-    document.getElementById('ai-send').disabled = false;
-    document.getElementById('ai-input').focus();
+    console.log('GET method failed:',err.message);
+    if(typing.parentNode)typing.remove();
   }
-};
 
-window.aiQuick = function(prefix){
-  const input = document.getElementById('ai-input');
-  input.value = prefix + ' ';
-  input.focus();
-  input.style.height = 'auto';
-  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
-};
+  /* ====== FALLBACK: POST method with 12s timeout ====== */
+  try{
+    const controller2=new AbortController();
+    const timeoutId2=setTimeout(()=>controller2.abort(),12000);
 
-window.aiClearChat = function(){
-  aiHistory = [];
-  const box = document.getElementById('ai-chat-box');
-  box.innerHTML = '<div class="ai-empty" id="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p><p style="font-size:12px">Powered by Pollinations AI — no API key needed</p></div>';
-};
+    const res=await fetch('https://text.pollinations.ai/openai',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        messages:[
+          {role:'system',content:'You are Akash AI. Be concise and helpful.'},
+          ...aiHistory.slice(-2),
+          {role:'user',content:text}
+        ]
+      }),
+      signal:controller2.signal
+    });
+    clearTimeout(timeoutId2);
 
-// AI input auto-resize + Enter to send
-const aiInput = document.getElementById('ai-input');
-aiInput.addEventListener('input', ()=>{
-  aiInput.style.height = 'auto';
-  aiInput.style.height = Math.min(aiInput.scrollHeight, 120) + 'px';
-});
-aiInput.addEventListener('keydown', e=>{
-  if(e.key === 'Enter' && !e.shiftKey){
-    e.preventDefault();
-    sendAIMessage();
-  }
-});
-
-// ===== CHAT UI & INPUT =====
-const chatInput = document.getElementById('chat-input-text');
-chatInput.addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('btn-send-msg').click()}});
-chatInput.addEventListener('input', ()=>{chatInput.style.height='auto';chatInput.style.height=Math.min(chatInput.scrollHeight,120)+'px'});
-document.addEventListener('click', e=>{
-  const em=document.getElementById('emoji-picker'),gf=document.getElementById('gif-picker');
-  if(e.target.closest('.tools')||e.target.closest('.emoji-box'))return;
-  em.style.display='none';gf.style.display='none';
-});
-window.attachImage=function(e){
-  const r=new FileReader();
-  r.onload=ev=>{
-    const img=new Image();
-    img.onload=()=>{
-      const c=document.createElement('canvas');const s=Math.min(300/img.width,300/img.height);
-      c.width=img.width*s;c.height=img.height*s;
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      window.chatBase64=c.toDataURL('image/jpeg',0.6);
-      document.getElementById('img-preview').src=window.chatBase64;
-      document.getElementById('img-preview-box').style.display='block';
-    };
-    img.src=ev.target.result;
-  };
-  r.readAsDataURL(e.target.files[0]);
-};
-window.clearChatMedia=function(){window.chatBase64=null;window.chatAudio=null;document.getElementById('img-preview-box').style.display='none';document.getElementById('img-up').value=''};
-window.toggleP=function(t){document.getElementById('gif-picker').style.display='none';document.getElementById('emoji-picker').style.display='none';document.getElementById(t+'-picker').style.display='grid'};
-window.addE=function(e){document.getElementById('chat-input-text').value+=e;document.getElementById('emoji-picker').style.display='none'};
-window.addG=function(u){window.chatBase64=u;document.getElementById('img-preview').src=u;document.getElementById('img-preview-box').style.display='block';document.getElementById('gif-picker').style.display='none'};
-
-let mRec;let aChk=[];let isRec=false;
-window.toggleMic=async function(){
-  if(!isRec){
+    const raw=await res.text();
     try{
-      mRec=new MediaRecorder(await navigator.mediaDevices.getUserMedia({audio:true}));
-      mRec.start();isRec=true;
-      document.getElementById('btn-mic').style.color='var(--red)';
-      document.getElementById('mic-status').style.display='inline';
-      mRec.ondataavailable=e=>aChk.push(e.data);
-      mRec.onstop=()=>{
-        const r=new FileReader();
-        r.onloadend=()=>{
-          window.chatAudio=r.result;
-          document.getElementById('chat-input-text').value+=' 🎵 [Audio]';
-        };
-        r.readAsDataURL(new Blob(aChk,{type:'audio/webm'}));
-        aChk=[];
-      };
-    }catch(e){alert('Microphone access denied')}
-  }else{
-    mRec.stop();isRec=false;
-    document.getElementById('btn-mic').style.color='currentColor';
-    document.getElementById('mic-status').style.display='none';
+      const j=JSON.parse(raw);
+      reply=j.choices&&j.choices[0]&&j.choices[0].message?j.choices[0].message.content:'';
+      if(!reply&&j.response)reply=j.response;
+      if(!reply&&j.text)reply=j.text;
+    }catch(e){
+      reply=raw;
+    }
+    reply=reply.trim();
+
+    if(reply){
+      const aiMsg=document.createElement('div');
+      aiMsg.className='ai-msg ai';
+      const tempBubble=document.createElement('div');
+      tempBubble.className='ai-bubble';
+      aiMsg.innerHTML=`
+        <div class="ai-avatar ai">
+          <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
+        </div>`;
+      aiMsg.appendChild(tempBubble);
+      box.appendChild(aiMsg);
+      await typeOut(reply,tempBubble,box);
+      aiHistory.push({role:'user',content:text});
+      aiHistory.push({role:'assistant',content:reply});
+      document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
+    } else {
+      showError(box);
+    }
+  }catch(err2){
+    console.log('POST method failed:',err2.message);
+    showError(box);
   }
+
+  document.getElementById('ai-send').disabled=false;
 };
 
-// ===== LIVE CLOCK =====
-function updateClock(){
-  const d=new Date();
-  document.getElementById('live-clock').innerText=d.toLocaleTimeString('en-US',{hour12:false});
-}
-setInterval(updateClock,1000);updateClock();
+/* Enter key to send */
+document.addEventListener('keydown',function(e){
+  if(e.target&&e.target.id==='ai-input'){
+    if(e.key==='Enter'&&!e.shiftKey){
+      e.preventDefault();
+      sendAIMessage();
+    }
+  }
+});
 
-// ===== PRAYER COUNTDOWN =====
-let prayerMap=null,prayerTimer=null;
-const PRAYER_ORDER=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
-function cleanTime(v){return String(v).trim().split(' ')[0]}
-function to12h(hhmm){
-  const [h,m]=cleanTime(hhmm).split(':').map(Number);
-  const ap=h>=12?'PM':'AM';
-  return `${((h+11)%12)+1}:${String(m).padStart(2,'0')} ${ap}`;
-}
-window.applyPrayerTimings=function(t){
-  prayerMap={Fajr:t.Fajr,Dhuhr:t.Dhuhr,Asr:t.Asr,Maghrib:t.Maghrib,Isha:t.Isha};
-  document.getElementById('t-fajr').innerText=to12h(t.Fajr);
-  document.getElementById('t-dhuhr').innerText=to12h(t.Dhuhr);
-  document.getElementById('t-asr').innerText=to12h(t.Asr);
-  document.getElementById('t-maghrib').innerText=to12h(t.Maghrib);
-  document.getElementById('t-isha').innerText=to12h(t.Isha);
-  clearInterval(prayerTimer);
-  tickPrayerCountdown();
-  prayerTimer=setInterval(tickPrayerCountdown,1000);
-};
-function tickPrayerCountdown(){
-  if(!prayerMap)return;
-  const now=new Date();
-  let target=null,name='';
-  PRAYER_ORDER.forEach(p=>document.getElementById('card-'+p).classList.remove('is-next'));
-  for(const p of PRAYER_ORDER){
-    const [h,m]=cleanTime(prayerMap[p]).split(':').map(Number);
-    const d=new Date(now);d.setHours(h,m,0,0);
-    if(d>now){target=d;name=p;document.getElementById('card-'+p).classList.add('is-next');break}
+/* Auto-resize textarea */
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='ai-input'){
+    e.target.style.height='auto';
+    e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';
   }
-  if(!target){
-    const [h,m]=cleanTime(prayerMap.Fajr).split(':').map(Number);
-    target=new Date(now);target.setDate(target.getDate()+1);target.setHours(h,m,0,0);
-    name='Fajr';
-    document.getElementById('card-Fajr').classList.add('is-next');
-  }
-  document.getElementById('next-prayer-name').innerText=name;
-  const diff=Math.max(0,target-now);
-  const hh=String(Math.floor(diff/3600000)).padStart(2,'0');
-  const mm=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-  const ss=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-  document.getElementById('next-prayer-count').innerText=`${hh}:${mm}:${ss}`;
-}
+});
+/* ===================== PRAYER TIMES ===================== */
 window.fetchPrayerTimes=function(){
-  window.applyPrayerTimings({Fajr:'05:12',Dhuhr:'12:00',Asr:'16:15',Maghrib:'18:02',Isha:'19:18'});
+  if(!navigator.geolocation){
+    alert('Geolocation not supported');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const{latitude:lat,longitude:lng}=pos.coords;
+    try{
+      const r=await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`);
+      const j=await r.json();
+      const t=j.data.timings;
+      const fmt=s=>s.substring(0,5);
+      document.getElementById('t-fajr').innerText=fmt(t.Fajr);
+      document.getElementById('t-dhuhr').innerText=fmt(t.Dhuhr);
+      document.getElementById('t-asr').innerText=fmt(t.Asr);
+      document.getElementById('t-maghrib').innerText=fmt(t.Maghrib);
+      document.getElementById('t-isha').innerText=fmt(t.Isha);
+      updateNextPrayer(t);
+      setInterval(()=>updateNextPrayer(t),1000);
+    } catch(e){console.error(e)}
+  },err=>alert('Location access needed for prayer times.'));
 };
 
-// ===== QURAN =====
-function switchQuranTab(tab){
-  document.getElementById('q-tab-audio').classList.toggle('active',tab==='audio');
-  document.getElementById('q-tab-read').classList.toggle('active',tab==='read');
-  document.getElementById('quran-audio-view').style.display=tab==='audio'?'block':'none';
-  document.getElementById('quran-read-view').style.display=tab==='read'?'block':'none';
+function updateNextPrayer(t){
+  const prayers=[
+    {name:'Fajr',time:t.Fajr},
+    {name:'Dhuhr',time:t.Dhuhr},
+    {name:'Asr',time:t.Asr},
+    {name:'Maghrib',time:t.Maghrib},
+    {name:'Isha',time:t.Isha}
+  ];
+  document.querySelectorAll('.prayer-card').forEach(c=>c.classList.remove('is-next'));
+  const now=new Date();
+  const nowSec=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();
+  let next=null;
+  for(const p of prayers){
+    const[hh,mm]=p.time.split(':').map(Number);
+    const pSec=hh*3600+mm*60;
+    if(pSec>nowSec){next=p;break}
+  }
+  if(!next)next=prayers[0];
+  for(const p of prayers){
+    const[hh,mm]=p.time.split(':').map(Number);
+    const pSec=hh*3600+mm*60;
+    let diff=pSec-nowSec;
+    if(diff<0)diff+=86400;
+    if(p.name===next.name){
+      document.getElementById('card-'+p.name).classList.add('is-next');
+      const h=Math.floor(diff/3600);
+      const m=Math.floor((diff%3600)/60);
+      const s=diff%60;
+      document.getElementById('next-prayer-name').innerText=p.name;
+      document.getElementById('next-prayer-count').innerText=
+        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      break;
+    }
+  }
 }
-window.switchQuranTab=switchQuranTab;
-window.loadQuranSurah=function(play=true){
-  const s=document.getElementById('quran-surah').value;
-  const r=document.getElementById('quran-reciter').value;
-  fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${s}`)
-    .then(r=>r.json())
-    .then(d=>{
-      const verses=d.quran.verses||[];
-      document.getElementById('quran-surah-title').innerText='Surah '+s;
-      const box=document.getElementById('quran-text-box');
-      box.innerHTML=verses.map(v=>
-        `<div class="ayah-row"><div class="ayah-ar"><span class="ayah-num">${v.verse_key.split(':')[1]}</span>${v.text_uthmani}</div><div class="ayah-tr">Verse ${v.verse_key}</div></div>`
-      ).join('');
-    }).catch(()=>{document.getElementById('quran-text-box').innerHTML='<p style="text-align:center;color:var(--text-sub)">Unable to load.</p>'});
-  if(play!==false){
-    const a=document.getElementById('quran-audio-player');
-    a.src=`https://cdn.islamic.network/quran/audio/128/${r}/${s}.mp3`;
-    a.load();
+
+/* ===================== QURAN — ALL 114 SURAHS ===================== */
+window.switchQuranTab=function(tab){
+  const audioBtn=document.getElementById('q-tab-audio');
+  const readBtn=document.getElementById('q-tab-read');
+  const audioView=document.getElementById('quran-audio-view');
+  const readView=document.getElementById('quran-read-view');
+  if(tab==='audio'){
+    audioBtn.classList.add('active');
+    readBtn.classList.remove('active');
+    audioView.style.display='block';
+    readView.style.display='none';
+  } else {
+    audioBtn.classList.remove('active');
+    readBtn.classList.add('active');
+    audioView.style.display='none';
+    readView.style.display='block';
+    loadQuranText();
   }
 };
 
-// ===== TRANSLATOR =====
+window.loadQuranSurah=function(){
+  const surahNum=parseInt(document.getElementById('quran-surah').value);
+  const reciter=document.getElementById('quran-reciter').value;
+  const audioUrl=`https://cdn.islamic.network/quran/audio-surah/${reciter}/${String(surahNum).padStart(3,'0')}.mp3`;
+  const player=document.getElementById('quran-audio-player');
+  player.src=audioUrl;
+  player.load();
+  const surahName=document.querySelector(`#quran-surah option[value="${surahNum}"]`).text;
+  const titleEl=document.getElementById('quran-surah-title');
+  if(titleEl)titleEl.innerText=surahName;
+  const readView=document.getElementById('quran-read-view');
+  if(readView&&readView.style.display!=='none'){
+    loadQuranText();
+  }
+};
+
+async function loadQuranText(){
+  const surahNum=parseInt(document.getElementById('quran-surah').value);
+  const box=document.getElementById('quran-text-box');
+  if(!box)return;
+  box.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text-tert)">Loading Surah ${surahNum}...</div>`;
+  try{
+    const resAr=await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`);
+    const dataAr=await resAr.json();
+    const ayahsAr=dataAr.data.ayahs;
+    const resEn=await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/en.sahih`);
+    const dataEn=await resEn.json();
+    const ayahsEn=dataEn.data.ayahs;
+    let html='';
+    for(let i=0;i<ayahsAr.length;i++){
+      const arText=ayahsAr[i].text;
+      const enText=ayahsEn[i]?ayahsEn[i].text:'';
+      const num=i+1;
+      html+=`
+        <div class="ayah-row">
+          <div class="ayah-ar">
+            <span class="ayah-num">${num}</span>${arText}
+          </div>
+          <div class="ayah-tr">${enText}</div>
+        </div>`;
+    }
+    box.innerHTML=html;
+    box.scrollTop=0;
+  } catch(err){
+    box.innerHTML=`<div style="text-align:center;padding:20px;color:var(--red)">Failed to load. Check connection.</div>`;
+  }
+}
+
+/* ===================== TRANSLATOR ===================== */
+let transTimer=null;
 window.autoTranslate=function(){
-  const src=document.getElementById('src-lang').value;
-  const tgt=document.getElementById('target-lang').value;
-  const txt=document.getElementById('trans-input-text').value.trim();
-  if(!txt){document.getElementById('trans-output-text').innerText='Translation appears here';return}
-  fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=${src}|${tgt}`)
-    .then(r=>r.json())
-    .then(d=>{
-      document.getElementById('trans-output-text').innerText=d.responseData?.translatedText||'Error';
-    })
-    .catch(()=>{document.getElementById('trans-output-text').innerText='Translation failed.'});
+  clearTimeout(transTimer);
+  transTimer=setTimeout(async()=>{
+    const src=document.getElementById('src-lang').value;
+    const tgt=document.getElementById('target-lang').value;
+    const text=document.getElementById('trans-input-text').value.trim();
+    const out=document.getElementById('trans-output-text');
+    if(!text){out.innerText='Translation appears here';return}
+    out.innerText='Translating...';
+    try{
+      const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${src}|${tgt}`);
+      const j=await r.json();
+      out.innerText=j.responseData.translatedText||'No translation';
+    } catch(e){out.innerText='Translation failed';}
+  },500);
 };
+
 window.swapLanguages=function(){
-  const s=document.getElementById('src-lang'),t=document.getElementById('target-lang');
-  const tmp=s.value;s.value=t.value;t.value=tmp;
-  window.autoTranslate();
+  const s=document.getElementById('src-lang');
+  const t=document.getElementById('target-lang');
+  const tmp=s.value;
+  s.value=t.value;
+  t.value=tmp;
+  const ti=document.getElementById('trans-input-text');
+  const to=document.getElementById('trans-output-text');
+  const tmpT=ti.value;
+  ti.value=to.innerText;
+  to.innerText=tmpT;
+  autoTranslate();
 };
 
-// ===== SPORTS =====
-function switchSportsTab(tab){
-  document.getElementById('tab-cricket').classList.toggle('active',tab==='cricket');
-  document.getElementById('tab-football').classList.toggle('active',tab==='football');
-  document.getElementById('sports-scores-container').innerHTML=
-    tab==='cricket'
-    ?`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov)</span></div></div>`
-    :`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">BAR vs RMA</strong><br><span style="font-size:13px;color:var(--text-sub)">2-1 (78')</span></div></div>`;
-}
-window.switchSportsTab=switchSportsTab;
-
-// ===== QR STUDIO =====
-function toggleQrMode(){
-  const m=document.getElementById('qr-mode').value;
-  document.getElementById('qr-text-fields').style.display=m==='text'?'block':'none';
-  document.getElementById('qr-wifi-fields').style.display=m==='wifi'?'block':'none';
-}
-window.toggleQrMode=toggleQrMode;
-window.buildQR=function(){
-  const m=document.getElementById('qr-mode').value;
-  let data='';
-  if(m==='text')data=document.getElementById('qr-text').value||'';
-  else{
-    const s=document.getElementById('qr-wifi-ssid').value;
-    const p=document.getElementById('qr-wifi-pass').value;
-    const e=document.getElementById('qr-wifi-enc').value;
-    data=`WIFI:T:${e};S:${s};P:${p};;`;
+/* ===================== SPORTS ===================== */
+window.switchSportsTab=function(tab){
+  const c=document.getElementById('tab-cricket');
+  const f=document.getElementById('tab-football');
+  c.classList.toggle('active',tab==='cricket');
+  f.classList.toggle('active',tab==='football');
+  const container=document.getElementById('sports-scores-container');
+  if(tab==='cricket'){
+    container.innerHTML=`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov) — Target 245</span></div></div>`;
+  } else {
+    container.innerHTML=`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">BRA vs ARG</strong><br><span style="font-size:13px;color:var(--text-sub)">2-1 — 78'</span></div></div>`;
   }
-  if(!data){alert('Please fill in the required fields.');return}
-  const wrap=document.getElementById('qr-output-wrap');
-  wrap.style.display='block';
-  document.getElementById('qr-output-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(data)}`;
-  document.getElementById('qr-download').href=document.getElementById('qr-output-img').src;
 };
+
+/* ===================== QR STUDIO ===================== */
+window.toggleQrMode=function(){
+  const mode=document.getElementById('qr-mode').value;
+  document.getElementById('qr-text-fields').style.display=mode==='text'?'block':'none';
+  document.getElementById('qr-wifi-fields').style.display=mode==='wifi'?'block':'none';
+};
+
+window.buildQR=function(){
+  const mode=document.getElementById('qr-mode').value;
+  let data='';
+  if(mode==='text'){
+    data=document.getElementById('qr-text').value.trim();
+    if(!data){alert('Enter text');return}
+  } else {
+    const ssid=document.getElementById('qr-wifi-ssid').value.trim();
+    const pass=document.getElementById('qr-wifi-pass').value;
+    const enc=document.getElementById('qr-wifi-enc').value;
+    if(!ssid){alert('Enter SSID');return}
+    if(enc==='nopass'){
+      data=`WIFI:T:WPA;S:${ssid};P:;;`;
+    } else {
+      data=`WIFI:T:${enc};S:${ssid};P:${pass};;`;
+    }
+  }
+  const url=`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(data)}`;
+  document.getElementById('qr-output-img').src=url;
+  document.getElementById('qr-download').href=url;
+  document.getElementById('qr-output-wrap').style.display='block';
+};
+
 window.scanQRFile=function(event){
-  const file=event.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=function(ev){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(){
     const img=new Image();
     img.onload=function(){
-      const c=document.createElement('canvas');
-      c.width=img.width;c.height=img.height;
-      c.getContext('2d').drawImage(img,0,0);
-      const data=c.getContext('2d').getImageData(0,0,c.width,c.height);
-      const code=jsQR(data.data,data.width,data.height);
-      const out=document.getElementById('qr-scan-result');
-      out.style.display='block';
+      const canvas=document.createElement('canvas');
+      const ctx=canvas.getContext('2d');
+      canvas.width=img.width;
+      canvas.height=img.height;
+      ctx.drawImage(img,0,0);
+      const imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
+      const code=jsQR(imgData.data,imgData.width,imgData.height);
+      const result=document.getElementById('qr-scan-result');
+      result.style.display='block';
       if(code){
-        let v=code.data;
-        if(v.startsWith('WIFI:')){
-          const ssid=(v.match(/S:([^;]*)/)||[])[1]||'';
-          const pass=(v.match(/P:([^;]*)/)||[])[1]||'';
-          const enc=(v.match(/T:([^;]*)/)||[])[1]||'';
-          out.innerHTML=`SSID: <strong>${ssid}</strong><br>Encryption: ${enc}<br>Password: <span class="qr-secret">${pass||'(open network)'}</span>`;
-        }else{
-          out.innerText=v;
+        let html=`<div><strong>Decoded:</strong></div><div style="margin-top:6px">${code.data}</div>`;
+        const wifiMatch=code.data.match(/^WIFI:T:(WPA|WEP|nopass);S:([^;]*);P:([^;]*);/);
+        if(wifiMatch){
+          html+=`<div style="margin-top:10px"><strong>SSID:</strong> ${wifiMatch[2]}<br><strong>Password:</strong> <span class="qr-secret">${wifiMatch[3]||'(none)'}</span></div>`;
         }
-      }else{
-        out.innerText='No QR code detected in image.';
+        result.innerHTML=html;
+      } else {
+        result.innerHTML='<span style="color:var(--red)">No QR code detected in image.</span>';
       }
     };
-    img.src=ev.target.result;
+    img.src=reader.result;
   };
-  r.readAsDataURL(file);
+  reader.readAsDataURL(file);
 };
 
-// ===== IMAGE TO PDF =====
+/* ===================== IMAGE TO PDF ===================== */
 let pdfImages=[];
 window.handleImageToPdfSelect=function(event){
   const files=Array.from(event.target.files);
-  files.forEach(file=>{
-    const r=new FileReader();
-    r.onload=ev=>{
-      pdfImages.push(ev.target.result);
-      const preview=document.getElementById('pdf-preview-container');
-      const img=document.createElement('img');
-      img.src=ev.target.result;
-      img.className='pdf-thumb';
-      preview.appendChild(img);
-      document.getElementById('btn-generate-pdf').disabled=pdfImages.length===0;
-    };
-    r.readAsDataURL(file);
+  pdfImages=files;
+  const cont=document.getElementById('pdf-preview-container');
+  cont.innerHTML='';
+  files.forEach((f,i)=>{
+    const url=URL.createObjectURL(f);
+    cont.innerHTML+=`<img src="${url}" class="pdf-thumb">`;
   });
+  document.getElementById('btn-generate-pdf').disabled=files.length===0;
 };
-window.generatePDF=function(){
-  if(pdfImages.length===0){alert('No images selected.');return}
-  const {jsPDF}=window.jspdf;
+
+window.generatePDF=async function(){
+  if(pdfImages.length===0)return;
+  const{jsPDF}=window.jspdf;
   const pdf=new jsPDF();
-  pdfImages.forEach((src,i)=>{
+  for(let i=0;i<pdfImages.length;i++){
+    const img=await loadImage(URL.createObjectURL(pdfImages[i]));
+    const w=pdf.internal.pageSize.getWidth();
+    const h=pdf.internal.pageSize.getHeight();
+    const imgRatio=img.width/img.height;
+    let imgW=w-20;
+    let imgH=imgW/imgRatio;
+    if(imgH>h-20){imgH=h-20;imgW=imgH*imgRatio}
     if(i>0)pdf.addPage();
-    const img=new Image();
-    img.src=src;
-    const pw=pdf.internal.pageSize.getWidth();
-    const ph=pdf.internal.pageSize.getHeight();
-    const ratio=Math.min(pw/img.width,ph/img.height);
-    const w=img.width*ratio,h=img.height*ratio;
-    pdf.addImage(src,'JPEG',(pw-w)/2,(ph-h)/2,w,h);
-  });
-  pdf.save('akash-portal-document.pdf');
-  pdfImages=[];
-  document.getElementById('pdf-preview-container').innerHTML='';
-  document.getElementById('btn-generate-pdf').disabled=true;
+    const canvas=document.createElement('canvas');
+    canvas.width=img.width;
+    canvas.height=img.height;
+    canvas.getContext('2d').drawImage(img,0,0);
+    const dataURL=canvas.toDataURL('image/jpeg',0.92);
+    pdf.addImage(dataURL,'JPEG',(w-imgW)/2,(h-imgH)/2,imgW,imgH);
+  }
+  pdf.save('akash-document.pdf');
 };
+
+function loadImage(src){
+  return new Promise((res,rej)=>{
+    const img=new Image();
+    img.onload=()=>res(img);
+    img.onerror=rej;
+    img.src=src;
+  });
+}
+
+/* ===================== INIT ===================== */
+window.startClock();
 </script>
 </body>
 </html>
