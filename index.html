@@ -3,193 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash — Executive Portal 3D</title>
+    <title>Akash — Executive Portal Pro 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Added jsPDF Library for Image to PDF conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
         
         /* MULTI-THEME SYSTEM */
         :root {
-            /* Default Dark Theme */
-            --bg-color: #050608;
-            --text-main: #f5f5f7;
-            --text-sub: #86868b;
-            --glass-bg: rgba(22, 24, 29, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --nav-bg: rgba(5, 6, 8, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(255, 255, 255, 0.15);
-            --accent-blue: #2997ff;
-            --3d-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.15);
-            --calc-num-bg: #2c2c2e;
-            --calc-num-text: #ffffff;
-            --calc-ctrl-bg: #a5a5a5;
-            --calc-ctrl-text: #000000;
+            --bg-color: #050608; --text-main: #f5f5f7; --text-sub: #86868b;
+            --glass-bg: rgba(22, 24, 29, 0.75); --glass-border: rgba(255, 255, 255, 0.12);
+            --nav-bg: rgba(5, 6, 8, 0.85); --card-bg: rgba(255, 255, 255, 0.03);
+            --input-bg: rgba(255, 255, 255, 0.05); --input-border: rgba(255, 255, 255, 0.15);
+            --accent-blue: #2997ff; --3d-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.15);
+            --calc-num-bg: #2c2c2e; --calc-num-text: #ffffff; --calc-ctrl-bg: #a5a5a5; --calc-ctrl-text: #000000;
         }
 
         body.theme-light {
-            --bg-color: #e5e5ea;
-            --text-main: #1d1d1f;
-            --text-sub: #6e6e73;
-            --glass-bg: rgba(255, 255, 255, 0.82);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --nav-bg: rgba(229, 225, 234, 0.85);
-            --card-bg: rgba(0, 0, 0, 0.02);
-            --input-bg: rgba(0, 0, 0, 0.04);
-            --input-border: rgba(0, 0, 0, 0.15);
-            --accent-blue: #0071e3;
-            --3d-shadow: 0 20px 35px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8);
-            --calc-num-bg: #d1d1d6;
-            --calc-num-text: #000000;
-            --calc-ctrl-bg: #e5e5ea;
-            --calc-ctrl-text: #000000;
+            --bg-color: #e5e5ea; --text-main: #1d1d1f; --text-sub: #6e6e73;
+            --glass-bg: rgba(255, 255, 255, 0.82); --glass-border: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(229, 225, 234, 0.85); --card-bg: rgba(0, 0, 0, 0.02);
+            --input-bg: rgba(0, 0, 0, 0.04); --input-border: rgba(0, 0, 0, 0.15);
+            --accent-blue: #0071e3; --3d-shadow: 0 20px 35px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8);
+            --calc-num-bg: #d1d1d6; --calc-num-text: #000000; --calc-ctrl-bg: #e5e5ea; --calc-ctrl-text: #000000;
         }
 
         body.theme-moonlight {
-            --bg-color: #0b132b;
-            --text-main: #e0e1dd;
-            --text-sub: #778da9;
-            --glass-bg: rgba(27, 38, 59, 0.75);
-            --glass-border: rgba(119, 141, 169, 0.25);
-            --nav-bg: rgba(11, 19, 43, 0.88);
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --input-bg: rgba(255, 255, 255, 0.06);
-            --input-border: rgba(119, 141, 169, 0.3);
-            --accent-blue: #64dfdf;
-            --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8), inset 0 1px 1px rgba(100, 223, 223, 0.2);
-            --calc-num-bg: #1b263b;
-            --calc-num-text: #ffffff;
-            --calc-ctrl-bg: #415a77;
-            --calc-ctrl-text: #ffffff;
+            --bg-color: #0b132b; --text-main: #e0e1dd; --text-sub: #778da9;
+            --glass-bg: rgba(27, 38, 59, 0.75); --glass-border: rgba(119, 141, 169, 0.25);
+            --nav-bg: rgba(11, 19, 43, 0.88); --card-bg: rgba(255, 255, 255, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.06); --input-border: rgba(119, 141, 169, 0.3);
+            --accent-blue: #64dfdf; --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8), inset 0 1px 1px rgba(100, 223, 223, 0.2);
+            --calc-num-bg: #1b263b; --calc-num-text: #ffffff; --calc-ctrl-bg: #415a77; --calc-ctrl-text: #ffffff;
         }
 
         body.theme-starlight {
-            --bg-color: #120924;
-            --text-main: #f3e8ff;
-            --text-sub: #a855f7;
-            --glass-bg: rgba(30, 16, 58, 0.75);
-            --glass-border: rgba(168, 85, 247, 0.25);
-            --nav-bg: rgba(18, 9, 36, 0.88);
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --input-bg: rgba(255, 255, 255, 0.06);
-            --input-border: rgba(168, 85, 247, 0.3);
-            --accent-blue: #c084fc;
-            --3d-shadow: 0 20px 45px rgba(10, 3, 25, 0.85), inset 0 1px 1px rgba(192, 132, 252, 0.25);
-            --calc-num-bg: #2e1065;
-            --calc-num-text: #ffffff;
-            --calc-ctrl-bg: #581c87;
-            --calc-ctrl-text: #ffffff;
+            --bg-color: #120924; --text-main: #f3e8ff; --text-sub: #a855f7;
+            --glass-bg: rgba(30, 16, 58, 0.75); --glass-border: rgba(168, 85, 247, 0.25);
+            --nav-bg: rgba(18, 9, 36, 0.88); --card-bg: rgba(255, 255, 255, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.06); --input-border: rgba(168, 85, 247, 0.3);
+            --accent-blue: #c084fc; --3d-shadow: 0 20px 45px rgba(10, 3, 25, 0.85), inset 0 1px 1px rgba(192, 132, 252, 0.25);
+            --calc-num-bg: #2e1065; --calc-num-text: #ffffff; --calc-ctrl-bg: #581c87; --calc-ctrl-text: #ffffff;
         }
 
-        body { 
-            background: var(--bg-color); 
-            color: var(--text-main); 
-            line-height: 1.47; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
+        body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; perspective: 1000px; transition: background 0.4s ease, color 0.4s ease; }
 
-        /* 3D GRAPHICAL THEME SELECTOR BUTTON */
-        .theme-select-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            padding: 6px 12px;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
+        /* 3D GLASS PANEL SYSTEM */
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--3d-shadow); transform-style: preserve-3d; transition: transform 0.3s ease, border-color 0.3s ease; }
+        .glass-panel:hover { transform: translateY(-3px) rotateX(1deg); border-color: rgba(255, 255, 255, 0.25); }
 
-        .theme-select-dropdown {
-            background: transparent;
-            border: none;
-            color: var(--accent-blue);
-            font-size: 0.85rem;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .theme-select-dropdown option {
-            background: #1e242d;
-            color: #ffffff;
-        }
+        /* 3D THEME SELECTOR */
+        .theme-select-badge { display: flex; align-items: center; gap: 6px; background: var(--input-bg); border: 1px solid var(--input-border); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .theme-select-dropdown { background: transparent; border: none; color: var(--accent-blue); font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer; }
+        .theme-select-dropdown option { background: #1e242d; color: #ffffff; }
 
         /* WELCOME OVERLAY */
-        #welcome-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color); z-index: 9999;
-            flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            opacity: 1; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .welcome-content { animation: welcomeScaleUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .welcome-title { font-size: 2.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.5rem; }
-        .welcome-subtitle { font-size: 1.1rem; color: var(--text-sub); font-weight: 400; margin-bottom: 2rem; }
+        #welcome-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 1; transition: opacity 0.8s ease; }
+        .welcome-content { animation: welcomeScaleUp 1s ease forwards; }
+        .welcome-title { font-size: 2.5rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
+        .welcome-subtitle { font-size: 1.1rem; color: var(--text-sub); margin-bottom: 2rem; }
         .apple-spinner { width: 32px; height: 32px; border: 3px solid var(--input-border); border-top: 3px solid var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes welcomeScaleUp { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 
-        /* 3D Glassmorphism Panel */
-        .glass-panel { 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 20px; 
-            box-shadow: var(--3d-shadow);
-            transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
-        }
-        .glass-panel:hover { transform: translateY(-3px); }
-
         /* Auth Screen Cards */
         .auth-card { max-width: 440px; margin: 80px auto; padding: 3rem 2.5rem; text-align: center; }
-        .auth-card h2 { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--text-main); margin-bottom: 0.4rem; }
-        .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; font-weight: 400; }
-        
-        input[type="text"], input[type="email"], input[type="password"] { 
-            width: 100%; padding: 14px 16px; margin-bottom: 14px; 
-            background: var(--input-bg); border: 1px solid var(--input-border); 
-            color: var(--text-main); border-radius: 12px; font-size: 0.95rem; outline: none; transition: all 0.3s;
-        }
+        .auth-card h2 { font-size: 2.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.4rem; }
+        .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 14px 16px; margin-bottom: 14px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 12px; font-size: 0.95rem; outline: none; transition: all 0.3s; }
         input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25); }
-        
         .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
         .btn-primary { background: #0071e3; color: #ffffff; box-shadow: 0 8px 20px rgba(0, 113, 227, 0.4); }
-        .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+        .btn-primary:hover { background: #0077ed; transform: translateY(-2px) scale(1.01); }
         .btn-primary:disabled { background: var(--input-border); color: var(--text-sub); cursor: not-allowed; box-shadow: none; }
         .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--input-border); }
         .btn-secondary:hover { background: var(--input-bg); }
-        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 16px; font-size: 0.9rem; text-decoration: none; }
-        
+        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 14px; font-size: 0.9rem; display: inline-block; }
         .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
         .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
 
-        /* Navigation Header & Controls */
+        /* Navigation Header */
         #main-site { display: none; }
-        navbar { 
-            position: sticky; top: 0; z-index: 100;
-            background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 1px solid var(--glass-border); transition: background 0.3s ease;
-        }
+        navbar { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); }
         .brand-container { display: flex; align-items: center; gap: 14px; }
-        .profile-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s; }
-        .profile-avatar:hover { transform: scale(1.08); }
+        .profile-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .profile-avatar:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent-blue); }
         .brand-logo { font-size: 1.15rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: var(--text-sub); font-weight: 400; }
-
-        .digital-clock-badge {
-            background: var(--input-bg); border: 1px solid var(--input-border);
-            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
-            color: var(--accent-blue); display: flex; align-items: center; gap: 8px;
-        }
-
-        #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        #btn-logout:hover { background: #ff453a; color: white; }
+        .digital-clock-badge { background: var(--input-bg); border: 1px solid var(--input-border); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; }
+        #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; }
 
         /* Dashboard Grid */
         .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1280px; margin: 2rem auto; padding: 0 1.5rem; }
@@ -197,21 +102,41 @@
         .main-right { flex: 2; min-width: 420px; }
         @media (max-width: 880px) { .sidebar-left, .main-right { min-width: 100%; } }
 
-        /* Card System */
+        /* Folders */
         .card { padding: 1.75rem; border-radius: 20px; margin-bottom: 1.25rem; }
         .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
         .card-header h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
-
-        /* Animated Accordion Folders */
         details.folder { margin-bottom: 1.25rem; overflow: hidden; border-radius: 20px; }
         summary.folder-tab { background: var(--card-bg); padding: 18px 22px; font-weight: 500; font-size: 1rem; color: var(--text-main); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         summary.folder-tab:hover { background: var(--input-bg); }
         summary.folder-tab::-webkit-details-marker { display: none; }
         summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s ease; }
         details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
-
         .folder-content { padding: 1.5rem; border-top: 1px solid var(--glass-border); animation: folderSlide 0.4s ease forwards; }
         @keyframes folderSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* QURAN PRO APP */
+        .quran-pro-box { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+        .quran-select { width: 100%; padding: 10px; background: var(--bg-color); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 10px; font-weight: 500; font-size: 0.85rem; outline: none; cursor: pointer; margin-bottom: 10px; }
+        .quran-select option { background: var(--dropdown-bg); color: var(--text-main); }
+        .audio-player-container { margin-top: 15px; background: var(--bg-color); padding: 10px; border-radius: 12px; border: 1px solid var(--input-border); box-shadow: inset 0 2px 8px rgba(0,0,0,0.3); }
+        .quran-audio-player { width: 100%; outline: none; height: 40px; }
+
+        /* TRANSLATOR SUITE */
+        .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .lang-select-box { flex: 1; min-width: 130px; position: relative; }
+        .lang-select { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; outline: none; }
+        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 40px; height: 40px; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: 0.2s; }
+        .swap-btn:hover { background: var(--card-bg); color: var(--text-main); transform: rotate(180deg); }
+        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
+        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; padding: 14px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
+        .trans-textarea { width: 100%; height: 100px; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; outline: none; resize: none; }
+        .trans-output-text { font-size: 1.05rem; color: var(--text-sub); font-weight: 500; min-height: 100px; word-break: break-word; }
+        .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid var(--glass-border); }
+        .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
+        .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
+        .mic-listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
 
         /* ISLAMIC PRAYER TIMES */
         .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; margin-top: 12px; }
@@ -242,19 +167,21 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem; }
         .modal-body { max-width: 400px; width: 100%; padding: 2rem; text-align: center; }
         .modal-avatar-preview { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
-        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; }
+        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; text-align: center; }
 
-        /* Dual Pane Translator */
-        .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-        .lang-select-box { flex: 1; min-width: 130px; position: relative; }
-        .lang-select { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; outline: none; }
-        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 40px; height: 40px; border-radius: 12px; cursor: pointer; }
-        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
-        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; padding: 14px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
-        .trans-textarea { width: 100%; height: 100px; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; outline: none; resize: none; }
-        .trans-output-text { font-size: 1.05rem; color: var(--accent-blue); font-weight: 500; min-height: 100px; word-break: break-word; }
-
+        /* GAMES (Memory, Connect4, TicTacToe) */
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 260px; margin: 10px auto; }
+        .memory-card { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; user-select: none; transition: transform 0.3s; }
+        .memory-card.flipped { background: var(--accent-blue); transform: rotateY(180deg); }
+        .c4-board { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; max-width: 280px; margin: 10px auto; background: var(--input-bg); padding: 8px; border-radius: 12px; border: 1px solid var(--input-border); }
+        .c4-cell { aspect-ratio: 1; border-radius: 50%; background: var(--bg-color); cursor: pointer; }
+        .c4-cell.p1 { background: #ff3b30; } .c4-cell.p2 { background: #ffcc00; }
+        .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
+        .mode-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; }
+        .mode-active { background: #0071e3; color: white; }
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 220px; margin: 10px auto; }
+        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; cursor: pointer; border-radius: 10px; }
+        
         /* Apple Calculator */
         .apple-calc-wrapper { max-width: 280px; margin: 0 auto; padding: 8px; }
         .apple-calc-display { width: 100%; padding: 12px 8px; font-size: 2.5rem; text-align: right; border: none; background: transparent; font-weight: 300; color: var(--text-main); outline: none; margin-bottom: 8px; }
@@ -269,14 +196,6 @@
         /* Search Forms */
         .search-form { display: flex; gap: 8px; }
         .search-btn { background-color: #0071e3; color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 500; }
-        .yt-btn { background-color: #ff3b30; color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 500; }
-
-        /* Tic-Tac-Toe Game */
-        .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
-        .mode-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; }
-        .mode-active { background: #0071e3; color: white; }
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 220px; margin: 10px auto; }
-        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; cursor: pointer; border-radius: 10px; }
     </style>
 </head>
 <body class="theme-dark">
@@ -310,8 +229,19 @@
         <input type="text" id="login-identifier" placeholder="Username or Gmail address" required>
         <input type="password" id="login-password" placeholder="Password" required>
         <button id="btn-login" class="btn btn-primary">Log In</button>
+        <button id="btn-goto-forgot" class="btn-link">Forgot Password?</button>
         <button id="btn-goto-register" class="btn btn-secondary">Create Account</button>
         <p id="login-error" class="error-msg"></p>
+    </div>
+
+    <!-- FORGOT PASSWORD SCREEN -->
+    <div id="forgot-screen" class="auth-card glass-panel" style="display: none;">
+        <h2>Reset Password 🔑</h2>
+        <p>Enter your Gmail address to receive a reset link.</p>
+        <input type="email" id="forgot-email" placeholder="Enter registered Gmail" required>
+        <button id="btn-send-reset" class="btn btn-primary">Send Reset Link</button>
+        <button id="btn-back-login-forgot" class="btn-link">← Return to Sign In</button>
+        <p id="forgot-status" class="error-msg"></p>
     </div>
 
     <!-- STEP 2: REGISTRATION -->
@@ -350,7 +280,6 @@
                 <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Upload Profile Picture">
                 <div class="brand-logo">AKASH <span>PORTAL</span></div>
                 
-                <!-- Expanded Multi-Theme Selector Badge -->
                 <div class="theme-select-badge" title="Select Theme Style">
                     <span>🎨</span>
                     <select id="theme-dropdown-select" class="theme-select-dropdown" onchange="changeThemeMode(this.value)">
@@ -362,7 +291,6 @@
                 </div>
             </div>
 
-            <!-- Digital Clock Badge -->
             <div class="digital-clock-badge">
                 <span>⏱️</span>
                 <span id="live-digital-clock">00:00:00 AM</span>
@@ -396,7 +324,91 @@
                     </div>
                 </details>
 
-                <!-- Folder 2: Live Sports Hub -->
+                <!-- Folder 2: Holy Quran Audio Player -->
+                <details class="folder glass-panel">
+                    <summary class="folder-tab">📖 Holy Quran Player</summary>
+                    <div class="folder-content">
+                        <div class="quran-pro-box">
+                            <div style="text-align: center; margin-bottom: 15px; font-size: 2.2rem; color: var(--accent-blue); font-family: 'Amiri', 'Traditional Arabic', serif;">
+                                ﷽
+                            </div>
+                            <div style="display:flex; gap: 10px; margin-bottom: 12px;">
+                                <div style="flex: 1;">
+                                    <label style="color:var(--text-sub); font-size:0.75rem; font-weight:600; display:block; margin-bottom:4px;">RECITER</label>
+                                    <select id="quran-reciter" class="quran-select" onchange="loadQuranSurah()">
+                                        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                                        <option value="ar.sudais">Abdur-Rahman As-Sudais</option>
+                                        <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+                                        <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+                                    </select>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label style="color:var(--text-sub); font-size:0.75rem; font-weight:600; display:block; margin-bottom:4px;">SURAH</label>
+                                    <select id="quran-surah" class="quran-select" onchange="loadQuranSurah()">
+                                        <option value="1">1. Al-Fatihah (الفاتحة)</option>
+                                        <option value="2">2. Al-Baqarah (البقرة)</option>
+                                        <option value="18">18. Al-Kahf (الكهف)</option>
+                                        <option value="36">36. Ya-Sin (يس)</option>
+                                        <option value="55">55. Ar-Rahman (الرحمن)</option>
+                                        <option value="56">56. Al-Waqi'ah (الواقعة)</option>
+                                        <option value="67">67. Al-Mulk (الملك)</option>
+                                        <option value="109">109. Al-Kafirun (الكافرون)</option>
+                                        <option value="112">112. Al-Ikhlas (الإخلاص)</option>
+                                        <option value="113">113. Al-Falaq (الفلق)</option>
+                                        <option value="114">114. An-Nas (الناس)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="audio-player-container">
+                                <audio id="quran-audio-player" class="quran-audio-player" controls preload="metadata">
+                                    Your browser does not support playing audio.
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Folder 3: Translator Suite -->
+                <details class="folder glass-panel">
+                    <summary class="folder-tab">🌐 Pro Translator Suite</summary>
+                    <div class="folder-content">
+                        <div class="translator-bar">
+                            <div class="lang-select-box">
+                                <select id="src-lang" class="lang-select" onchange="autoTranslate()">
+                                    <option value="en">English</option>
+                                    <option value="bn">Bangla (বাংলা)</option>
+                                    <option value="ar">Arabic (العربية)</option>
+                                </select>
+                            </div>
+                            <button class="swap-btn" onclick="swapLanguages()">⇄</button>
+                            <div class="lang-select-box">
+                                <select id="target-lang" class="lang-select" onchange="autoTranslate()">
+                                    <option value="bn">Bangla (বাংলা)</option>
+                                    <option value="en">English</option>
+                                    <option value="ar">Arabic (العربية)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="translator-grid">
+                            <div class="trans-pane">
+                                <textarea id="input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea>
+                                <div class="pane-toolbar">
+                                    <button id="mic-btn" class="icon-btn" onclick="toggleVoiceInput()" title="Voice Input">🎙️</button>
+                                    <button class="icon-btn" onclick="playSpeech('input')" title="Listen">🔊</button>
+                                </div>
+                            </div>
+                            <div class="trans-pane output-pane">
+                                <div id="output-text" class="trans-output-text">Translation</div>
+                                <div class="pane-toolbar" style="justify-content: flex-end; gap: 8px;">
+                                    <button class="icon-btn" onclick="copyTranslation()" title="Copy">📋</button>
+                                    <button class="icon-btn" onclick="playSpeech('output')" title="Listen">🔊</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Folder 4: Live Sports Hub -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">⚽ Live Sports Hub</summary>
                     <div class="folder-content">
@@ -408,35 +420,33 @@
                     </div>
                 </details>
 
-                <!-- Folder 3: Translator -->
+                <!-- Folder 5: Game Suite -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">🌐 Pro Translator Suite</summary>
+                    <summary class="folder-tab">🎮 3D Arcade Game Suite</summary>
                     <div class="folder-content">
-                        <div class="translator-bar">
-                            <div class="lang-select-box">
-                                <select id="src-lang" class="lang-select" onchange="autoTranslate()">
-                                    <option value="en">English</option>
-                                    <option value="bn">Bangla</option>
-                                    <option value="ar">Arabic</option>
-                                </select>
-                            </div>
-                            <button class="swap-btn" onclick="swapLanguages()">⇄</button>
-                            <div class="lang-select-box">
-                                <select id="target-lang" class="lang-select" onchange="autoTranslate()">
-                                    <option value="bn">Bangla</option>
-                                    <option value="en">English</option>
-                                    <option value="ar">Arabic</option>
-                                </select>
-                            </div>
+                        <!-- Tic Tac Toe -->
+                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">1. Tic-Tac-Toe</p>
+                        <div class="mode-buttons">
+                            <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
+                            <button id="btn-ai" class="mode-btn" onclick="setMode('AI')">Vs Robot</button>
                         </div>
-                        <div class="translator-grid">
-                            <div class="trans-pane"><textarea id="input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea></div>
-                            <div class="trans-pane"><div id="output-text" class="trans-output-text">Translation</div></div>
+                        <div class="board" id="board">
+                            <div class="cell" onclick="makeMove(0)"></div><div class="cell" onclick="makeMove(1)"></div><div class="cell" onclick="makeMove(2)"></div>
+                            <div class="cell" onclick="makeMove(3)"></div><div class="cell" onclick="makeMove(4)"></div><div class="cell" onclick="makeMove(5)"></div>
+                            <div class="cell" onclick="makeMove(6)"></div><div class="cell" onclick="makeMove(7)"></div><div class="cell" onclick="makeMove(8)"></div>
                         </div>
+                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
+                        <!-- Memory Match -->
+                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">2. 3D Memory Match</p>
+                        <div class="memory-grid" id="memory-grid"></div>
+                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:16px 0;">
+                        <!-- Connect 4 -->
+                        <p style="font-size:0.85rem; font-weight:600; color:var(--accent-blue); margin-bottom:6px;">3. Connect 4 Grid</p>
+                        <div class="c4-board" id="c4-board"></div>
                     </div>
                 </details>
 
-                <!-- Folder 4: Apple Calculator -->
+                <!-- Folder 6: Apple Calculator -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🧮 Calculator</summary>
                     <div class="folder-content">
@@ -467,20 +477,19 @@
                     </div>
                 </details>
 
-                <!-- Folder 5: Tic-Tac-Toe -->
+                <!-- Folder 7: Image to PDF Converter -->
                 <details class="folder glass-panel">
-                    <summary class="folder-tab">🎮 Tic-Tac-Toe</summary>
+                    <summary class="folder-tab">📄 Image to PDF Converter</summary>
                     <div class="folder-content">
-                        <div class="mode-buttons">
-                            <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
-                            <button id="btn-ai" class="mode-btn" onclick="setMode('AI')">Vs Robot</button>
-                        </div>
-                        <p id="game-status">Player X's Turn</p>
-                        <div class="board" id="board">
-                            <div class="cell" onclick="makeMove(0)"></div><div class="cell" onclick="makeMove(1)"></div><div class="cell" onclick="makeMove(2)"></div>
-                            <div class="cell" onclick="makeMove(3)"></div><div class="cell" onclick="makeMove(4)"></div><div class="cell" onclick="makeMove(5)"></div>
-                            <div class="cell" onclick="makeMove(6)"></div><div class="cell" onclick="makeMove(7)"></div><div class="cell" onclick="makeMove(8)"></div>
-                        </div>
+                        <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Upload images to instantly convert them into a single PDF document.</p>
+                        <label for="img-pdf-input" class="file-upload-label" style="text-align: center;">
+                            📁 Select Images (JPG, PNG)
+                        </label>
+                        <input type="file" id="img-pdf-input" accept="image/png, image/jpeg, image/jpg" multiple style="display:none;" onchange="handleImageToPdfSelect(event)">
+                        
+                        <div id="pdf-preview-container" style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px;"></div>
+                        
+                        <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()">Download PDF ⬇️</button>
                     </div>
                 </details>
 
@@ -519,10 +528,10 @@
         </main>
     </div>
 
-    <!-- FIREBASE ENGINE -->
+    <!-- SCRIPT 1: FIREBASE ENGINE & FORGOT PASSWORD LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -546,6 +555,7 @@
         }
 
         const loginScreen = document.getElementById('login-screen');
+        const forgotScreen = document.getElementById('forgot-screen');
         const regEmailScreen = document.getElementById('reg-email-screen');
         const regPassScreen = document.getElementById('reg-pass-screen');
         const regSentScreen = document.getElementById('reg-sent-screen');
@@ -554,12 +564,13 @@
         const welcomeUserDisplay = document.getElementById('welcome-user-display');
         const navAvatar = document.getElementById('nav-avatar');
 
-        let currentUserObj = null;
+        window.currentUserObj = null;
         let hasShownWelcome = false;
         let selectedBase64Image = null;
 
         function hideAllScreens() {
             loginScreen.style.display = 'none';
+            forgotScreen.style.display = 'none';
             regEmailScreen.style.display = 'none';
             regPassScreen.style.display = 'none';
             regSentScreen.style.display = 'none';
@@ -583,8 +594,8 @@
 
         window.openProfileModal = function() {
             document.getElementById('profile-modal').style.display = 'flex';
-            if (currentUserObj) {
-                document.getElementById('modal-avatar-preview').src = currentUserObj.photoURL || "https://via.placeholder.com/150";
+            if (window.currentUserObj) {
+                document.getElementById('modal-avatar-preview').src = window.currentUserObj.photoURL || "https://via.placeholder.com/150";
             }
         };
         
@@ -594,6 +605,7 @@
             document.getElementById('btn-save-avatar').disabled = true;
         };
 
+        // PROFILE PICTURE COMPRESSION
         window.handleFileSelect = function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -604,11 +616,10 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
-                        canvas.width = 100;
-                        canvas.height = 100;
-                        ctx.drawImage(img, 0, 0, 100, 100);
-
-                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.5);
+                        canvas.width = 120;
+                        canvas.height = 120;
+                        ctx.drawImage(img, 0, 0, 120, 120);
+                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.6);
                         document.getElementById('modal-avatar-preview').src = selectedBase64Image;
                         document.getElementById('btn-save-avatar').disabled = false;
                     };
@@ -618,18 +629,33 @@
         };
 
         document.getElementById('btn-save-avatar').addEventListener('click', () => {
-            if (selectedBase64Image && currentUserObj) {
+            if (selectedBase64Image && window.currentUserObj) {
                 const saveBtn = document.getElementById('btn-save-avatar');
                 saveBtn.innerText = "Saving...";
                 saveBtn.disabled = true;
 
-                updateProfile(currentUserObj, { photoURL: selectedBase64Image })
+                updateProfile(window.currentUserObj, { photoURL: selectedBase64Image })
                     .then(() => {
                         navAvatar.src = selectedBase64Image;
                         saveBtn.innerText = "Save Profile Picture";
                         closeProfileModal();
                     });
             }
+        });
+
+        // FORGOT PASSWORD
+        document.getElementById('btn-goto-forgot').addEventListener('click', () => { hideAllScreens(); forgotScreen.style.display = 'block'; });
+        document.getElementById('btn-back-login-forgot').addEventListener('click', () => { hideAllScreens(); loginScreen.style.display = 'block'; });
+
+        document.getElementById('btn-send-reset').addEventListener('click', () => {
+            const email = document.getElementById('forgot-email').value.trim();
+            const status = document.getElementById('forgot-status');
+            if (!email) { status.innerText = "Please enter your Gmail address."; return; }
+            status.style.color = "var(--accent-blue)";
+            status.innerText = "Sending reset email...";
+            sendPasswordResetEmail(auth, email)
+                .then(() => { status.style.color = "#30d158"; status.innerText = "Reset link sent! Please check your inbox."; })
+                .catch((err) => { status.style.color = "#ff453a"; status.innerText = "Error: " + err.message; });
         });
 
         document.getElementById('btn-goto-register').addEventListener('click', () => { hideAllScreens(); regEmailScreen.style.display = 'block'; });
@@ -666,7 +692,6 @@
             const identifier = sanitizeText(document.getElementById('login-identifier').value.trim());
             const pass = document.getElementById('login-password').value;
             const emailToUse = identifier.includes('@') ? identifier : `${identifier}@akashportal.com`;
-
             signInWithEmailAndPassword(auth, emailToUse, pass);
         });
 
@@ -701,12 +726,12 @@
         document.getElementById('btn-send-msg').addEventListener('click', async () => {
             const input = document.getElementById('chat-input-text');
             const text = sanitizeText(input.value.trim());
-            if (text && currentUserObj) {
+            if (text && window.currentUserObj) {
                 input.value = '';
                 await addDoc(collection(db, "group_messages"), {
                     text: text,
-                    username: currentUserObj.displayName || currentUserObj.email.split('@')[0],
-                    photoURL: currentUserObj.photoURL || 'https://via.placeholder.com/150',
+                    username: window.currentUserObj.displayName || window.currentUserObj.email.split('@')[0],
+                    photoURL: window.currentUserObj.photoURL || 'https://via.placeholder.com/150',
                     timestamp: serverTimestamp()
                 });
             }
@@ -714,7 +739,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                currentUserObj = user;
+                window.currentUserObj = user;
                 navAvatar.src = user.photoURL || ("https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "A"));
 
                 if (user.emailVerified) {
@@ -723,15 +748,19 @@
                         triggerWelcomeAnimation(user.displayName || user.email.split('@')[0], () => {
                             mainSite.style.display = 'block';
                             initRealtimeGroupChat();
-                            fetchPrayerTimes();
-                            loadLiveSportsScores('cricket');
+                            window.fetchPrayerTimes();
+                            window.loadLiveSportsScores('cricket');
+                            window.initGames();
+                            window.loadQuranSurah(false);
                         });
                     } else {
                         hideAllScreens();
                         mainSite.style.display = 'block';
                         initRealtimeGroupChat();
-                        fetchPrayerTimes();
-                        loadLiveSportsScores('cricket');
+                        window.fetchPrayerTimes();
+                        window.loadLiveSportsScores('cricket');
+                        window.initGames();
+                        window.loadQuranSurah(false);
                     }
                 } else {
                     auth.signOut();
@@ -745,24 +774,243 @@
         });
     </script>
 
-    <!-- THEME ENGINE, CLOCK & UTILITIES -->
+    <!-- SCRIPT 2: TOOLS, QURAN, TRANSLATOR, SPORTS, GAMES & PDF GENERATOR -->
     <script>
+        // ------------------------------
+        // IMAGE TO PDF GENERATOR
+        // ------------------------------
+        let pdfImages = [];
+
+        window.handleImageToPdfSelect = function(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('pdf-preview-container');
+            const generateBtn = document.getElementById('btn-generate-pdf');
+
+            previewContainer.innerHTML = '';
+            pdfImages = [];
+
+            if (files.length > 0) {
+                generateBtn.disabled = false;
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const dataUrl = e.target.result;
+                        pdfImages.push(dataUrl);
+
+                        const img = document.createElement('img');
+                        img.src = dataUrl;
+                        img.style.height = '60px';
+                        img.style.width = '60px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '8px';
+                        img.style.border = '1px solid var(--glass-border)';
+                        previewContainer.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                generateBtn.disabled = true;
+            }
+        };
+
+        window.generatePDF = function() {
+            if (pdfImages.length === 0) return;
+            
+            const btn = document.getElementById('btn-generate-pdf');
+            btn.innerText = "Generating...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+
+                pdfImages.forEach((imgData, index) => {
+                    if (index > 0) pdf.addPage();
+                    
+                    const props = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (props.height * pdfWidth) / props.width;
+                    
+                    let finalHeight = pdfHeight;
+                    let finalWidth = pdfWidth;
+                    let yMargin = 0;
+                    let xMargin = 0;
+
+                    if(pdfHeight > pdf.internal.pageSize.getHeight()) {
+                        finalHeight = pdf.internal.pageSize.getHeight();
+                        finalWidth = (props.width * finalHeight) / props.height;
+                        xMargin = (pdfWidth - finalWidth) / 2;
+                    } else {
+                        yMargin = (pdf.internal.pageSize.getHeight() - finalHeight) / 2;
+                    }
+
+                    pdf.addImage(imgData, 'JPEG', xMargin, yMargin, finalWidth, finalHeight);
+                });
+
+                pdf.save("Akash_Portal_Images.pdf");
+                
+                btn.innerText = "Download PDF ⬇️";
+                btn.disabled = false;
+                document.getElementById('pdf-preview-container').innerHTML = '';
+                pdfImages = [];
+                document.getElementById('img-pdf-input').value = ""; 
+                btn.disabled = true;
+            }, 100); 
+        };
+
+        // ------------------------------
+        // THEME & CLOCK
+        // ------------------------------
         function changeThemeMode(themeName) {
             document.body.className = '';
-            if (themeName !== 'dark') {
-                document.body.classList.add(`theme-${themeName}`);
-            }
+            if (themeName !== 'dark') document.body.classList.add(`theme-${themeName}`);
         }
 
-        function updateDigitalClock() {
+        window.updateDigitalClock = function() {
             const tz = document.getElementById('clock-timezone-select').value;
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            document.getElementById('live-digital-clock').innerText = timeString;
+            document.getElementById('live-digital-clock').innerText = now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' });
         }
-        setInterval(updateDigitalClock, 1000);
+        setInterval(window.updateDigitalClock, 1000);
 
-        async function fetchPrayerTimes() {
+        // ------------------------------
+        // QURAN AUDIO PLAYER
+        // ------------------------------
+        window.loadQuranSurah = function(autoPlay = true) {
+            const reciter = document.getElementById('quran-reciter').value;
+            const surah = document.getElementById('quran-surah').value;
+            const player = document.getElementById('quran-audio-player');
+            player.src = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surah}.mp3`;
+            if(autoPlay) {
+                player.play().catch(e => console.log('Audio autoplay blocked by browser'));
+            }
+        };
+
+        // ------------------------------
+        // PRO TRANSLATOR SUITE
+        // ------------------------------
+        let debounceTimer = null;
+        let activeAudio = null;
+        let isListening = false;
+        let recognition = null;
+
+        window.autoTranslate = function() {
+            clearTimeout(debounceTimer);
+            const inputVal = document.getElementById('input-text').value.trim();
+            const outputDiv = document.getElementById('output-text');
+
+            if (!inputVal) {
+                outputDiv.innerText = "Translation";
+                outputDiv.style.color = "var(--text-sub)";
+                return;
+            }
+
+            outputDiv.style.color = "var(--accent-blue)";
+            outputDiv.innerText = "Translating...";
+
+            debounceTimer = setTimeout(async () => {
+                const src = document.getElementById('src-lang').value;
+                const target = document.getElementById('target-lang').value;
+
+                try {
+                    const gUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${target}&dt=t&q=${encodeURIComponent(inputVal)}`;
+                    const res = await fetch(gUrl);
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    
+                    if (data && data[0]) {
+                        outputDiv.innerText = data[0].map(item => item[0]).join('');
+                        outputDiv.style.color = "var(--text-main)";
+                        return;
+                    }
+                    throw new Error("No Data");
+                } catch (e) {
+                    try {
+                        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(inputVal)}&langpair=${src}|${target}`;
+                        const res = await fetch(url);
+                        const data = await res.json();
+
+                        if (data && data.responseData && data.responseData.translatedText) {
+                            outputDiv.innerText = data.responseData.translatedText;
+                            outputDiv.style.color = "var(--text-main)";
+                        }
+                    } catch (err) {
+                        outputDiv.innerText = "Translation failed.";
+                        outputDiv.style.color = "#ff453a";
+                    }
+                }
+            }, 400);
+        };
+
+        window.swapLanguages = function() {
+            const src = document.getElementById('src-lang');
+            const target = document.getElementById('target-lang');
+            const temp = src.value;
+            src.value = target.value;
+            target.value = temp;
+
+            const inputTxt = document.getElementById('input-text');
+            const outputTxt = document.getElementById('output-text');
+            if (outputTxt.innerText !== "Translation" && !outputTxt.innerText.includes("...")) {
+                inputTxt.value = outputTxt.innerText;
+            }
+            window.autoTranslate();
+        };
+
+        window.toggleVoiceInput = function() {
+            const micBtn = document.getElementById('mic-btn');
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) return alert("Voice recognition not supported.");
+            if (isListening) return recognition.stop();
+
+            recognition = new SpeechRecognition();
+            const srcLang = document.getElementById('src-lang').value;
+            const langLocales = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA' };
+
+            recognition.lang = langLocales[srcLang] || 'en-US';
+            recognition.interimResults = false;
+
+            recognition.onstart = () => { isListening = true; micBtn.classList.add('mic-listening'); };
+            recognition.onresult = (event) => {
+                document.getElementById('input-text').value = event.results[0][0].transcript;
+                window.autoTranslate();
+            };
+            recognition.onend = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
+            recognition.onerror = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
+
+            recognition.start();
+        };
+
+        window.playSpeech = function(pane) {
+            let text = pane === 'input' ? document.getElementById('input-text').value.trim() : document.getElementById('output-text').innerText.trim();
+            let lang = pane === 'input' ? document.getElementById('src-lang').value : document.getElementById('target-lang').value;
+
+            if (!text || text === "Translation" || text.includes("...")) return;
+
+            if (activeAudio) activeAudio.pause();
+            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+            activeAudio = new Audio(audioUrl);
+            activeAudio.play().catch(e => {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    const locs = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA' };
+                    utterance.lang = locs[lang] || 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                }
+            });
+        };
+
+        window.copyTranslation = function() {
+            const txt = document.getElementById('output-text').innerText;
+            if (txt && txt !== "Translation") navigator.clipboard.writeText(txt);
+        }
+
+        // ------------------------------
+        // PRAYER TIMES
+        // ------------------------------
+        window.fetchPrayerTimes = async function() {
             try {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
                     const lat = pos.coords.latitude;
@@ -778,11 +1026,11 @@
                         document.getElementById('t-maghrib').innerText = t.Maghrib;
                         document.getElementById('t-isha').innerText = t.Isha;
                     }
-                }, () => fetchRiyadhPrayerTimes());
-            } catch(e) { fetchRiyadhPrayerTimes(); }
+                }, () => window.fetchRiyadhPrayerTimes());
+            } catch(e) { window.fetchRiyadhPrayerTimes(); }
         }
 
-        async function fetchRiyadhPrayerTimes() {
+        window.fetchRiyadhPrayerTimes = async function() {
             const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=Saudi Arabia&method=4`);
             const data = await res.json();
             if (data && data.data) {
@@ -795,41 +1043,174 @@
             }
         }
 
-        function switchSportsTab(sport) {
+        // ------------------------------
+        // LIVE SPORTS
+        // ------------------------------
+        window.switchSportsTab = function(sport) {
             document.getElementById('tab-cricket').className = sport === 'cricket' ? 'sports-tab-btn active' : 'sports-tab-btn';
             document.getElementById('tab-football').className = sport === 'football' ? 'sports-tab-btn active' : 'sports-tab-btn';
-            loadLiveSportsScores(sport);
+            window.loadLiveSportsScores(sport);
         }
 
-        function loadLiveSportsScores(sport) {
+        window.loadLiveSportsScores = async function(sport) {
             const container = document.getElementById('sports-scores-container');
-            container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-sub);">Updating scores...</p>';
+            container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-sub);">Fetching real-time matches...</p>';
 
-            setTimeout(() => {
+            try {
                 if (sport === 'cricket') {
-                    container.innerHTML = `
-                        <div class="score-card">
-                            <div><strong>IND vs AUS</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 245/4 (42.3 ov)</span></div>
-                            <span style="color:var(--accent-blue); font-size:0.85rem;">Test Series</span>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML = `
-                        <div class="score-card">
-                            <div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div>
-                            <span style="color:var(--accent-blue); font-size:0.85rem;">La Liga</span>
-                        </div>
-                    `;
+                    const res = await fetch('https://api.cricapi.com/v1/cricScore?apikey=demo');
+                    const data = await res.json();
+                    if (data && data.data && data.data.length > 0) {
+                        container.innerHTML = data.data.slice(0, 3).map(m => `
+                            <div class="score-card">
+                                <div><strong>${m.t1} vs ${m.t2}</strong> <span class="live-tag">${m.ms}</span><br><span style="font-size:0.8rem; color:var(--text-sub);">${m.status}</span></div>
+                            </div>
+                        `).join('');
+                        return;
+                    }
                 }
-            }, 500);
+            } catch(e) {}
+
+            container.innerHTML = sport === 'cricket' ? `
+                <div class="score-card"><div><strong>SA vs BAN</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">BAN 182/6 (34.1 ov)</span></div></div>
+            ` : `
+                <div class="score-card"><div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>
+            `;
         }
 
+        // ------------------------------
+        // CALCULATOR
+        // ------------------------------
         const calcDisplay = document.getElementById('calc-display');
         let currentCalc = '0';
-        function appendCalc(val) { if (currentCalc === '0' && val !== '.') { currentCalc = val; } else { currentCalc += val; } calcDisplay.value = currentCalc; }
-        function clearCalc() { currentCalc = '0'; calcDisplay.value = currentCalc; }
-        function toggleSign() { if (currentCalc !== '0') { currentCalc = currentCalc.startsWith('-') ? currentCalc.substring(1) : '-' + currentCalc; calcDisplay.value = currentCalc; } }
-        function calculate() { try { calcDisplay.value = eval(currentCalc.replace(/%/g, '/100')).toString(); currentCalc = calcDisplay.value; } catch(e) { calcDisplay.value = 'Error'; currentCalc = '0'; } }
+        window.appendCalc = function(val) { if (currentCalc === '0' && val !== '.') { currentCalc = val; } else { currentCalc += val; } calcDisplay.value = currentCalc; }
+        window.clearCalc = function() { currentCalc = '0'; calcDisplay.value = currentCalc; }
+        window.toggleSign = function() { if (currentCalc !== '0') { currentCalc = currentCalc.startsWith('-') ? currentCalc.substring(1) : '-' + currentCalc; calcDisplay.value = currentCalc; } }
+        window.calculate = function() { try { calcDisplay.value = eval(currentCalc.replace(/%/g, '/100')).toString(); currentCalc = calcDisplay.value; } catch(e) { calcDisplay.value = 'Error'; currentCalc = '0'; } }
+
+        // ------------------------------
+        // GAMES SUITE
+        // ------------------------------
+        window.initGames = function() {
+            // Memory Match Setup
+            const symbols = ['⚽','🏀','🎮','🎲','⚽','🏀','🎮','🎲'];
+            symbols.sort(() => 0.5 - Math.random());
+            const memGrid = document.getElementById('memory-grid');
+            memGrid.innerHTML = '';
+            let flipped = [];
+
+            symbols.forEach((sym) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.sym = sym;
+                card.onclick = () => {
+                    if (flipped.length < 2 && !card.classList.contains('flipped')) {
+                        card.classList.add('flipped');
+                        card.innerText = sym;
+                        flipped.push(card);
+                        if (flipped.length === 2) {
+                            setTimeout(() => {
+                                if (flipped[0].dataset.sym !== flipped[1].dataset.sym) {
+                                    flipped[0].classList.remove('flipped'); flipped[0].innerText = '';
+                                    flipped[1].classList.remove('flipped'); flipped[1].innerText = '';
+                                }
+                                flipped = [];
+                            }, 800);
+                        }
+                    }
+                };
+                memGrid.appendChild(card);
+            });
+
+            // Connect 4 Setup
+            const c4Board = document.getElementById('c4-board');
+            c4Board.innerHTML = '';
+            let c4Grid = Array(42).fill(0);
+            let pTurn = 1;
+
+            for (let i = 0; i < 42; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'c4-cell';
+                cell.onclick = () => {
+                    let col = i % 7;
+                    for (let r = 5; r >= 0; r--) {
+                        let idx = r * 7 + col;
+                        if (c4Grid[idx] === 0) {
+                            c4Grid[idx] = pTurn;
+                            c4Board.children[idx].classList.add(pTurn === 1 ? 'p1' : 'p2');
+                            pTurn = pTurn === 1 ? 2 : 1;
+                            break;
+                        }
+                    }
+                };
+                c4Board.appendChild(cell);
+            }
+            window.resetGame();
+        }
+
+        // Tic-Tac-Toe
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameActive = true;
+        let gameMode = "2P";
+        
+        window.setMode = function(mode) {
+            gameMode = mode;
+            document.getElementById('btn-2p').className = mode === '2P' ? 'mode-btn mode-active' : 'mode-btn';
+            document.getElementById('btn-ai').className = mode === 'AI' ? 'mode-btn mode-active' : 'mode-btn';
+            window.resetGame();
+        }
+
+        window.makeMove = function(idx) {
+            if (board[idx] !== "" || !gameActive || (gameMode === "AI" && currentPlayer === "O")) return;
+            playTurn(idx);
+            if (gameActive && gameMode === "AI" && currentPlayer === "O") {
+                document.getElementById('game-status').innerText = "Robot thinking...";
+                setTimeout(robotMove, 500);
+            }
+        }
+
+        function robotMove() {
+            if (!gameActive) return;
+            let available = [];
+            for (let i = 0; i < 9; i++) { if (board[i] === "") available.push(i); }
+            if (available.length > 0) {
+                let randomSpot = available[Math.floor(Math.random() * available.length)];
+                playTurn(randomSpot);
+            }
+        }
+
+        function playTurn(index) {
+            board[index] = currentPlayer;
+            const cells = document.querySelectorAll('.cell');
+            cells[index].innerText = currentPlayer;
+            cells[index].style.color = currentPlayer === "X" ? "var(--accent-blue)" : "#ff453a";
+            
+            const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
+            let roundWon = false;
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) { roundWon = true; break; }
+            }
+
+            const statusDisplay = document.getElementById('game-status');
+            if (roundWon) { 
+                statusDisplay.innerText = `Player ${currentPlayer} Wins! 🎉`; 
+                gameActive = false; 
+                return; 
+            }
+            if (!board.includes("")) { statusDisplay.innerText = "It's a Draw!"; gameActive = false; return; }
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            statusDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+        }
+
+        window.resetGame = function() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            currentPlayer = "X";
+            gameActive = true;
+            document.getElementById('game-status').innerText = `Player X's Turn`;
+            document.querySelectorAll('.cell').forEach(cell => { cell.innerText = ""; cell.style.color = "var(--text-main)"; });
+        }
     </script>
 </body>
 </html>
