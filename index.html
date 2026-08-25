@@ -1,715 +1,1181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash — Executive Portal Pro</title>
-    
-    <!-- Fonts for Apple Aesthetic & Arabic Script -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- External Libraries: PDF, QR Generator, QR Scanner -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akash — Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --bg:#fbfbfd;--surface:#fff;--text:#1d1d1f;--text-sub:#6e6e73;--text-tert:#86868b;
+  --fill:rgba(0,0,0,.04);--fill-2:rgba(0,0,0,.06);--hairline:rgba(0,0,0,.08);
+  --glass:rgba(255,255,255,.72);--glass-strong:rgba(255,255,255,.92);
+  --accent:#0071e3;--accent-hover:#0077ed;--accent-soft:rgba(0,113,227,.1);
+  --green:#34c759;--red:#ff3b30;--orange:#ff9500;--yellow:#ffcc00;--purple:#af52de;
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
+  --shadow-lg:0 8px 28px rgba(0,0,0,.08);
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--r-xl:24px;
+}
+body.theme-dark{
+  --bg:#000;--surface:#1c1c1e;--text:#f5f5f7;--text-sub:#a1a1a6;--text-tert:#86868b;
+  --fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.09);--hairline:rgba(255,255,255,.1);
+  --glass:rgba(28,28,30,.72);--glass-strong:rgba(28,28,30,.92);
+  --accent:#0a84ff;--accent-hover:#1a8cff;--accent-soft:rgba(10,132,255,.18);
+  --shadow:0 1px 3px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.4);
+  --shadow-lg:0 10px 32px rgba(0,0,0,.55);
+}
+body.theme-moonlight{
+  --bg:#0b132b;--surface:#1b263b;--text:#e0e1dd;--text-sub:#778da9;--text-tert:#415a77;
+  --fill:rgba(255,255,255,.04);--fill-2:rgba(255,255,255,.07);--hairline:rgba(119,141,169,.2);
+  --glass:rgba(27,38,59,.65);--glass-strong:rgba(27,38,59,.92);
+  --accent:#64dfdf;--accent-hover:#7be8e8;--accent-soft:rgba(100,223,223,.15);
+  --shadow:0 2px 8px rgba(5,10,25,.5),0 6px 20px rgba(5,10,25,.6);
+  --shadow-lg:0 12px 36px rgba(5,10,25,.75);
+}
+body{background:var(--bg);color:var(--text);line-height:1.47;min-height:100vh;overflow-x:hidden;transition:background .4s ease,color .4s ease}
+::selection{background:var(--accent-soft)}
 
-    <style>
-        /* BASE APPLE-STYLE CSS */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
-        
-        :root {
-            --bg-color: #000000; --text-main: #f5f5f7; --text-sub: #86868b;
-            --glass-bg: rgba(28, 28, 30, 0.65); --glass-border: rgba(255, 255, 255, 0.1);
-            --nav-bg: rgba(18, 18, 18, 0.85); --card-bg: rgba(255, 255, 255, 0.05);
-            --input-bg: rgba(255, 255, 255, 0.08); --input-border: rgba(255, 255, 255, 0.12);
-            --accent-blue: #0A84FF; --3d-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            --calc-num-bg: #333336; --calc-num-text: #ffffff; --calc-ctrl-bg: #a5a5a5; --calc-ctrl-text: #000000;
-        }
+.ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:inline-block;vertical-align:middle;flex-shrink:0}
+.ico-sm{width:16px;height:16px}
+.ico-lg{width:28px;height:28px}
 
-        body.theme-light {
-            --bg-color: #f5f5f7; --text-main: #1d1d1f; --text-sub: #86868b;
-            --glass-bg: rgba(255, 255, 255, 0.7); --glass-border: rgba(0, 0, 0, 0.1);
-            --nav-bg: rgba(255, 255, 255, 0.85); --card-bg: rgba(0, 0, 0, 0.03);
-            --input-bg: rgba(0, 0, 0, 0.05); --input-border: rgba(0, 0, 0, 0.1);
-            --accent-blue: #0071e3; --3d-shadow: 0 15px 30px rgba(0,0,0,0.08);
-            --calc-num-bg: #e5e5ea; --calc-num-text: #000000; --calc-ctrl-bg: #d1d1d6; --calc-ctrl-text: #000000;
-        }
+.glass{background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--hairline);border-radius:var(--r-xl);box-shadow:var(--shadow)}
+.panel{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-xl);box-shadow:var(--shadow)}
 
-        body.theme-moonlight {
-            --bg-color: #0b132b; --text-main: #e0e1dd; --text-sub: #778da9;
-            --glass-bg: rgba(27, 38, 59, 0.65); --glass-border: rgba(119, 141, 169, 0.2);
-            --nav-bg: rgba(11, 19, 43, 0.88); --card-bg: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.05); --input-border: rgba(119, 141, 169, 0.25);
-            --accent-blue: #64dfdf; --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8);
-            --calc-num-bg: #1b263b; --calc-num-text: #ffffff; --calc-ctrl-bg: #415a77; --calc-ctrl-text: #ffffff;
-        }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;border:none;border-radius:var(--r-md);cursor:pointer;font-weight:500;font-size:17px;transition:all .25s cubic-bezier(.4,0,.2,1);background:var(--fill);color:var(--text)}
+.btn:hover{background:var(--fill-2)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-ghost:hover{background:var(--accent-soft)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-pill{padding:8px 16px;border-radius:980px;font-size:14px;width:auto;font-weight:500}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-link{background:none;border:none;color:var(--accent);cursor:pointer;font-size:14px;font-weight:400;padding:0;margin-top:14px}
+.err{color:var(--red);font-size:13px;margin-top:10px;font-weight:400}
 
-        body { background: var(--bg-color); color: var(--text-main); line-height: 1.5; min-height: 100vh; overflow-x: hidden; transition: background 0.4s ease; }
+input[type=text],input[type=email],input[type=password],input[type=tel],textarea,select{
+  width:100%;padding:14px 16px;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);
+  color:var(--text);font-size:17px;outline:none;transition:all .25s ease;font-family:inherit
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--surface)}
+textarea{resize:vertical;font-family:inherit}
+select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%236e6e73' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
 
-        /* APPLE FROSTED GLASS PANELS */
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--3d-shadow); transition: transform 0.3s ease; }
-        
-        /* GENERAL UI */
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: 0.2s; }
-        .btn-primary { background: var(--accent-blue); color: #fff; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-        .btn-secondary { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); }
-        .btn-secondary:hover { background: var(--card-bg); }
-        .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 10px; font-weight: 500; }
-        .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 14px; font-size: 0.9rem; display: inline-block; font-weight: 500; }
-        input[type="text"], input[type="email"], input[type="password"], textarea, select { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); border-radius: 12px; padding: 14px; outline: none; transition: 0.2s; width: 100%; font-size: 0.95rem; }
-        input:focus, textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2); }
-        
-        /* OVERLAYS */
-        #welcome-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .apple-spinner { width: 36px; height: 36px; border: 3px solid var(--input-border); border-top: 3px solid var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.spinner{width:32px;height:32px;border:3px solid var(--fill-2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:24px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes typing{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+.fade-in{animation:fadeIn .5s ease}
+.msg-in{animation:msgIn .35s cubic-bezier(.4,0,.2,1)}
 
-        /* AUTH CARDS */
-        .auth-card { max-width: 400px; margin: 100px auto; padding: 40px; text-align: center; }
-        .auth-card h2 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; }
+.auth{max-width:420px;margin:80px auto;padding:48px 40px;text-align:center}
+.auth h2{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
+.auth p{color:var(--text-sub);font-size:15px;margin-bottom:28px}
 
-        /* NAVBAR */
-        #main-site { display: none; }
-        navbar { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); }
-        .profile-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; }
-        
-        /* DASHBOARD LAYOUT */
-        .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1400px; margin: 30px auto; padding: 0 20px; align-items: flex-start; }
-        .sidebar-left { flex: 1; min-width: 360px; display: flex; flex-direction: column; gap: 20px; }
-        .main-right { flex: 2.2; min-width: 440px; display: flex; flex-direction: column; gap: 20px; }
-        @media (max-width: 900px) { .sidebar-left, .main-right { min-width: 100%; } }
+#main-site{display:none}
+nav.bar{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hairline);padding:0 22px;height:52px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:14px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;cursor:pointer;border:1px solid var(--hairline)}
+.brand-logo{font-weight:600}
+.brand-logo span{font-weight:300;color:var(--text-sub)}
+.theme-select{background:var(--fill);border:1px solid var(--hairline);border-radius:980px;padding:6px 30px 6px 14px;font-size:13px;color:var(--text);outline:none;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%236e6e73' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 10px center}
+.clock{font-variant-numeric:tabular-nums;font-weight:500;font-size:14px;color:var(--text-sub)}
 
-        /* FOLDERS / ACCORDIONS */
-        details.folder { border-radius: 20px; overflow: hidden; background: var(--glass-bg); }
-        summary.folder-tab { padding: 20px; font-weight: 600; font-size: 1.1rem; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; user-select: none; }
-        summary.folder-tab::-webkit-details-marker { display: none; }
-        summary.folder-tab::after { content: '›'; font-size: 1.5rem; color: var(--text-sub); transform: rotate(90deg); transition: 0.3s; }
-        details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
-        .folder-content { padding: 20px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.1); }
+.wrap{max-width:1180px;margin:0 auto;padding:32px 22px;display:grid;grid-template-columns:1fr 1.4fr;gap:22px;align-items:flex-start}
+@media(max-width:920px){.wrap{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:22px;min-width:0}
 
-        /* PRAYER TIMES & COUNTDOWN */
-        .next-prayer-box { display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); border:1px solid var(--input-border); border-radius:14px; padding:12px 16px; margin:10px 0 16px; }
-        .next-prayer-label { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; color:var(--text-sub); }
-        .next-prayer-name { font-size:1.05rem; font-weight:600; color:var(--text-main); }
-        .next-prayer-count { font-size:1.5rem; font-weight:700; color:var(--accent-blue); font-variant-numeric:tabular-nums; }
-        .prayer-card.is-next { border-color:var(--accent-blue); box-shadow:0 0 0 2px rgba(41,151,255,0.25); }
-        .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; }
-        .prayer-card { background: var(--input-bg); padding: 10px; border-radius: 12px; border: 1px solid transparent; transition: 0.3s; }
-        .prayer-name { font-size: 0.75rem; color: var(--text-sub); font-weight: 600; }
-        .prayer-time { font-size: 0.95rem; font-weight: 700; margin-top: 5px; }
+details.acc{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-xl);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .3s}
+details.acc[open]{box-shadow:var(--shadow-lg)}
+summary.tab{padding:18px 22px;font-size:17px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;user-select:none}
+summary.tab::-webkit-details-marker{display:none}
+summary.tab .chev{transition:transform .3s cubic-bezier(.4,0,.2,1);color:var(--text-tert)}
+details[open] summary.tab .chev{transform:rotate(90deg)}
+.acc-body{padding:0 22px 22px;border-top:1px solid var(--hairline);padding-top:22px}
 
-        /* QURAN READER TAB */
-        .q-tabs { display:flex; gap:8px; margin-bottom:12px; }
-        .q-tab { flex:1; padding:8px; border-radius:10px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--text-sub); font-weight:600; font-size:0.85rem; cursor:pointer; }
-        .q-tab.active { background:#0071e3; color:#fff; border-color:#0071e3; }
-        .quran-reader { max-height:340px; overflow-y:auto; padding:14px 16px; border-radius:14px; background:var(--bg-color); border:1px solid var(--input-border); box-shadow:inset 0 2px 10px rgba(0,0,0,0.25); margin-top:10px;}
-        .ayah-row { padding:12px 0; border-bottom:1px solid var(--glass-border); }
-        .ayah-row:last-child { border-bottom:none; }
-        .ayah-ar { font-family:'Amiri', 'Traditional Arabic', serif; font-size:1.6rem; line-height:2.3; direction:rtl; text-align:right; color:var(--text-main); }
-        .ayah-num { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:26px; border-radius:50%; background:var(--input-bg); border:1px solid var(--accent-blue); color:var(--accent-blue); font-family:inherit; font-size:0.75rem; margin-right:6px; }
-        .ayah-tr { font-size:0.85rem; color:var(--text-sub); margin-top:8px; line-height:1.5; }
+/* AI ASSISTANT — Apple style */
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.ai-chip{padding:7px 14px;background:var(--fill);border:1px solid var(--hairline);border-radius:980px;font-size:13px;font-weight:500;color:var(--text-sub);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:6px}
+.ai-chip:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.ai-chip svg{width:14px;height:14px}
 
-        /* QR STUDIO */
-        .qr-field { width:100%; padding:12px 14px; margin-bottom:10px; background:var(--input-bg); border:1px solid var(--input-border); color:var(--text-main); border-radius:12px; font-size:0.9rem; outline:none; }
-        .qr-out { text-align:center; margin-top:14px; padding:14px; background:#fff; border-radius:14px; display:flex; justify-content:center;}
-        .qr-scan-result { margin-top:12px; padding:14px; background:var(--input-bg); border:1px solid var(--input-border); border-radius:12px; font-size:0.9rem; word-break:break-word; }
-        .qr-secret { font-family:ui-monospace,Menlo,monospace; font-size:1.05rem; font-weight:700; color:#30d158; letter-spacing:0.04em; }
+.ai-chat-box{max-height:340px;overflow-y:auto;padding:14px;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);margin-bottom:12px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.ai-chat-box::-webkit-scrollbar{width:6px}
+.ai-chat-box::-webkit-scrollbar-thumb{background:var(--fill-2);border-radius:3px}
 
-        /* MODERN CHAT UI */
-        details.chat-shutter { overflow: visible; }
-        .chat-container-modern { display: flex; flex-direction: column; height: 650px; padding: 0 !important; background: transparent; }
-        .chat-body-split { display: flex; flex: 1; overflow: hidden; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
-        .dm-user-list { width: 30%; border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); }
-        .dm-user-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-radius: 12px; margin-bottom: 5px; transition: 0.2s; }
-        .dm-user-item:hover, .dm-user-item.active { background: var(--input-bg); }
-        .dm-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-        
-        .messages-scroll-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .li-msg-item { display: flex; gap: 12px; align-items: flex-start; }
-        .li-msg-content { flex: 1; }
-        .li-msg-header { margin-bottom: 4px; font-size: 0.9rem; }
-        .li-msg-name { font-weight: 600; color: var(--text-main); }
-        .li-msg-time { font-size: 0.75rem; color: var(--text-sub); margin-left: 8px; }
-        .li-msg-text { font-size: 1rem; line-height: 1.4; word-break: break-word; }
-        .li-msg-img { max-width: 250px; border-radius: 12px; margin-top: 8px; }
-        
-        .msg-actions { display: none; gap: 10px; margin-left: auto; padding-left: 10px; }
-        .li-msg-item:hover .msg-actions { display: flex; }
-        .action-btn { background: none; border: none; cursor: pointer; color: var(--text-sub); font-size: 1rem; }
-        
-        .chat-input-wrapper { background: var(--input-bg); border-top: 1px solid var(--glass-border); padding: 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;}
-        .toolbar-icons { display: flex; gap: 18px; align-items: center; color: var(--text-sub); font-size: 1.3rem; margin-top: 10px; cursor: pointer; }
-        .send-btn-modern { background: var(--input-border); color: var(--text-sub); border: none; padding: 8px 24px; border-radius: 20px; font-weight: 600; cursor: not-allowed; transition: 0.2s;}
-        .send-btn-modern.active { background: var(--accent-blue); color: white; cursor: pointer; }
+.ai-msg{display:flex;gap:10px;align-items:flex-start;animation:msgIn .35s cubic-bezier(.4,0,.2,1)}
+.ai-msg.user{flex-direction:row-reverse}
+.ai-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.ai-avatar.ai{background:linear-gradient(135deg,var(--accent),var(--purple))}
+.ai-avatar.user{background:linear-gradient(135deg,var(--green),var(--accent))}
+.ai-bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;word-break:break-word;white-space:pre-wrap}
+.ai-msg.user .ai-bubble{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.ai-msg.ai .ai-bubble{background:var(--surface);color:var(--text);border:1px solid var(--hairline);border-bottom-left-radius:4px}
+.ai-bubble a{color:var(--accent);text-decoration:underline}
+.ai-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;color:var(--text-tert);padding:20px}
+.ai-empty svg{width:48px;height:48px;opacity:.4;margin-bottom:12px}
+.ai-typing{display:inline-flex;gap:4px;padding:6px 0}
+.ai-typing span{width:8px;height:8px;border-radius:50%;background:var(--text-tert);animation:typing 1.2s infinite}
+.ai-typing span:nth-child(2){animation-delay:.2s}
+.ai-typing span:nth-child(3){animation-delay:.4s}
+.ai-input-row{display:flex;gap:8px}
+.ai-input-row textarea{flex:1;min-height:44px;max-height:120px;resize:none}
+.ai-send{width:44px;height:44px;flex-shrink:0;border-radius:var(--r-md);background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.ai-send:hover{background:var(--accent-hover);transform:scale(1.05)}
+.ai-send:disabled{opacity:.4;cursor:not-allowed}
+.ai-clear{background:none;border:none;color:var(--text-tert);font-size:12px;cursor:pointer;padding:4px 8px;margin-top:6px}
+.ai-clear:hover{color:var(--red)}
 
-        .emoji-picker { position: absolute; bottom: 130px; right: 20px; background: var(--nav-bg); padding: 15px; border-radius: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; z-index: 150; border: 1px solid var(--glass-border); backdrop-filter: blur(20px); }
-        .emoji-picker span, .emoji-picker img { cursor: pointer; transition: 0.2s; }
-        .emoji-picker span:hover { transform: scale(1.2); }
+.next-box{display:flex;justify-content:space-between;align-items:center;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);padding:14px 18px;margin-bottom:18px}
+.next-label{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--text-tert);text-transform:uppercase}
+.next-name{font-size:17px;font-weight:600;color:var(--text);margin-top:2px}
+.next-count{font-size:28px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.prayer-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center}
+.prayer-card{background:var(--fill);padding:12px 8px;border-radius:var(--r-md);border:1px solid transparent;transition:all .3s}
+.prayer-card.is-next{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 3px var(--accent-soft)}
+.p-name{font-size:12px;color:var(--text-sub);font-weight:500}
+.p-time{font-size:15px;font-weight:600;margin-top:4px;color:var(--text)}
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 2000; justify-content: center; align-items: center; }
-        
-        /* MISC COMPONENTS */
-        .translator-bar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center;}
-        .trans-pane { flex: 1; padding: 14px; border-radius: 14px; background: var(--input-bg); border: 1px solid var(--input-border); min-height:160px; display:flex; flex-direction:column;}
-        .score-card { background: var(--input-bg); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width:280px; margin:0 auto; }
-        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.2rem; font-weight: 500; cursor: pointer; }
-        
-        .file-upload-label { display: block; padding: 12px; background: rgba(10,132,255,0.1); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 600; text-align: center; }
+.tabs{display:flex;gap:8px;margin-bottom:14px;background:var(--fill);padding:4px;border-radius:var(--r-md)}
+.tab-btn{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--text-sub);font-weight:500;font-size:13px;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.q-reader{max-height:340px;overflow-y:auto;padding:16px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline);margin-top:12px}
+.ayah-row{padding:12px 0;border-bottom:1px solid var(--hairline)}
+.ayah-row:last-child{border-bottom:none}
+.ayah-ar{font-family:'Amiri','Traditional Arabic',serif;font-size:1.6rem;line-height:2.3;direction:rtl;text-align:right;color:var(--text)}
+.ayah-num{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;margin-right:6px;font-family:inherit}
+.ayah-tr{font-size:13px;color:var(--text-sub);margin-top:8px;line-height:1.5}
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-    </style>
+.qr-out{text-align:center;margin-top:14px;padding:18px;background:#fff;border-radius:var(--r-md);display:flex;justify-content:center}
+.qr-result{margin-top:12px;padding:14px;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);font-size:14px;word-break:break-word;font-family:ui-monospace,Menlo,monospace}
+.qr-secret{color:var(--green);font-weight:600}
+.upload-label{display:block;padding:14px;background:var(--accent-soft);border:1.5px dashed var(--accent);border-radius:var(--r-md);cursor:pointer;color:var(--accent);font-size:14px;font-weight:500;text-align:center;transition:all .25s}
+.upload-label:hover{background:rgba(0,113,227,.15)}
+
+.chat-wrap{display:flex;flex-direction:column;height:600px}
+.chat-split{display:flex;flex:1;overflow:hidden;border-radius:0 0 var(--r-xl) var(--r-xl)}
+.dm-list{width:30%;border-right:1px solid var(--hairline);overflow-y:auto;padding:8px;background:var(--fill)}
+.dm-item{display:flex;align-items:center;gap:10px;padding:10px;cursor:pointer;border-radius:var(--r-md);margin-bottom:4px;transition:background .2s}
+.dm-item:hover,.dm-item.active{background:var(--fill-2)}
+.dm-ava{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.dm-name{font-size:14px;font-weight:500}
+.msg-area{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.msg-item{display:flex;gap:12px;align-items:flex-start}
+.msg-ava{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.msg-body{flex:1;min-width:0}
+.msg-head{font-size:13px;margin-bottom:3px}
+.msg-name{font-weight:600;color:var(--text)}
+.msg-time{color:var(--text-tert);margin-left:8px;font-size:11px}
+.msg-text{font-size:15px;line-height:1.4;word-break:break-word}
+.msg-img{max-width:240px;border-radius:var(--r-md);margin-top:6px;display:block}
+.msg-actions{display:none;gap:6px;margin-left:auto;padding-left:8px}
+.msg-item:hover .msg-actions{display:flex}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--text-tert);padding:4px;border-radius:6px;transition:background .2s}
+.icon-btn:hover{background:var(--fill);color:var(--text)}
+
+.chat-input{border-top:1px solid var(--hairline);padding:14px;background:var(--surface)}
+.preview-box{display:none;position:relative;margin-bottom:10px}
+.preview-box img{height:56px;border-radius:var(--r-sm)}
+.preview-box .x{position:absolute;top:-8px;left:48px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:14px;line-height:1}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.tools{display:flex;gap:18px;color:var(--text-tert);cursor:pointer}
+.tools > *{transition:color .2s}
+.tools > *:hover{color:var(--text)}
+.mic-rec{color:var(--red);font-size:12px;animation:pulse 1s infinite}
+
+.emoji-box{position:absolute;bottom:80px;right:20px;background:var(--glass-strong);backdrop-filter:blur(20px);border:1px solid var(--hairline);border-radius:var(--r-md);padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;z-index:50;box-shadow:var(--shadow-lg)}
+.emoji-box span,.emoji-box img{cursor:pointer;transition:transform .15s}
+.emoji-box span:hover{transform:scale(1.25)}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;padding:22px}
+.modal-card{background:var(--surface);border-radius:var(--r-xl);padding:32px;max-width:400px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
+.modal-card h3{font-size:20px;font-weight:600;margin-bottom:14px}
+
+.trans-bar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.trans-pane{flex:1;padding:14px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline)}
+.swap-btn{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
+.swap-btn:hover{background:var(--accent-soft)}
+
+.score{background:var(--fill);padding:14px;border-radius:var(--r-md);display:flex;justify-content:space-between;align-items:center}
+.badge{background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.04em}
+
+.pdf-thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:12px}
+.pdf-thumb{height:80px;border-radius:var(--r-sm);border:1px solid var(--hairline)}
+
+hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
+</style>
 </head>
-<body class="theme-dark">
+<body class="theme-light">
 
-    <!-- CALL OVERLAY -->
-    <div id="call-overlay" class="modal-overlay">
-        <div class="glass-panel" style="padding: 40px; width: 350px; text-align: center;">
-            <h3 id="call-status" style="font-size:1.5rem; margin-bottom:10px;">Calling...</h3>
-            <p id="call-target-name" style="color:var(--accent-blue); font-weight:600; margin-bottom:20px;">User</p>
-            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px;">
-                <video id="local-video" autoplay muted playsinline style="width:120px; height:120px; background:#000; border-radius:12px; display:none;"></video>
-                <video id="remote-video" autoplay playsinline style="width:120px; height:120px; background:#222; border-radius:12px; display:none;"></video>
-                <div id="audio-call-avatar" style="width:100px; height:100px; border-radius:50%; background:var(--input-bg); border:2px solid var(--accent-blue); display:none; align-items:center; justify-content:center; font-size:3rem;">👤</div>
+<div id="call-overlay" class="modal">
+  <div class="modal-card">
+    <h3 id="call-status">Calling…</h3>
+    <p id="call-target-name" style="color:var(--accent);font-weight:600;margin-bottom:20px"></p>
+    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px">
+      <video id="local-video" autoplay muted playsinline style="width:120px;height:120px;background:#000;border-radius:12px;display:none"></video>
+      <video id="remote-video" autoplay playsinline style="width:120px;height:120px;background:#222;border-radius:12px;display:none"></video>
+      <div id="audio-call-avatar" style="width:96px;height:96px;border-radius:50%;background:var(--fill);border:2px solid var(--accent);display:none;align-items:center;justify-content:center;color:var(--accent)"></div>
+    </div>
+    <button onclick="endCall()" class="btn btn-danger">End Call</button>
+  </div>
+</div>
+
+<div id="welcome-overlay" class="overlay">
+  <svg class="ico" style="width:64px;height:64px;color:var(--accent)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  <h2 style="margin-top:16px;font-size:28px;font-weight:600;letter-spacing:-.02em">Akash Portal</h2>
+  <p style="color:var(--text-sub);margin-top:4px">Preparing your workspace…</p>
+  <div class="spinner"></div>
+</div>
+
+<div id="profile-modal" class="modal">
+  <div class="modal-card">
+    <h3>Profile Picture</h3>
+    <img id="modal-avatar-preview" src="https://via.placeholder.com/150" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:10px auto 16px;border:2px solid var(--accent)">
+    <label for="device-file-input" class="btn btn-ghost" style="margin-bottom:10px">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Choose Image
+    </label>
+    <input type="file" id="device-file-input" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+    <button id="btn-save-avatar" class="btn btn-primary" disabled>Save</button>
+    <button onclick="closeProfileModal()" class="btn-link">Cancel</button>
+  </div>
+</div>
+
+<div id="login-screen" class="auth glass fade-in">
+  <svg class="ico" style="width:48px;height:48px;color:var(--accent);margin-bottom:16px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  <h2>Sign In</h2>
+  <p>Access your secure workspace.</p>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+    <input type="text" id="login-identifier" placeholder="Username or Email">
+    <input type="password" id="login-password" placeholder="Password">
+  </div>
+  <button id="btn-login" class="btn btn-primary" style="margin-top:16px">Sign In</button>
+  <button id="btn-goto-forgot" class="btn-link">Forgot password?</button>
+  <button id="btn-goto-register" class="btn" style="margin-top:10px;background:var(--fill)">Create Account</button>
+  <p id="login-error" class="err"></p>
+</div>
+
+<div id="forgot-screen" class="auth glass" style="display:none">
+  <h2>Reset Password</h2>
+  <p>We'll send a reset link to your email.</p>
+  <input type="email" id="forgot-email" placeholder="Your registered Gmail" style="margin-top:20px">
+  <button id="btn-send-reset" class="btn btn-primary" style="margin-top:16px">Send Reset Link</button>
+  <button id="btn-back-login-forgot" class="btn-link">Return to Sign In</button>
+</div>
+
+<div id="reg-email-screen" class="auth glass" style="display:none">
+  <h2>Create Account</h2>
+  <p>Start your journey with Akash Portal.</p>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+    <input type="text" id="reg-username" placeholder="Choose username">
+    <input type="email" id="reg-email" placeholder="Gmail address">
+  </div>
+  <button id="btn-reg-next" class="btn btn-primary" style="margin-top:16px">Continue</button>
+  <button id="btn-back-login1" class="btn-link">Return to Sign In</button>
+</div>
+
+<div id="reg-pass-screen" class="auth glass" style="display:none">
+  <h2>Set Password</h2>
+  <p>Minimum 6 characters.</p>
+  <input type="password" id="reg-password" placeholder="Password" style="margin-top:20px">
+  <button id="btn-reg-finish" class="btn btn-primary" style="margin-top:16px">Complete Registration</button>
+</div>
+
+<div id="reg-sent-screen" class="auth glass" style="display:none">
+  <svg class="ico" style="width:48px;height:48px;color:var(--green);margin-bottom:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+  <h2>Verify Email</h2>
+  <p>Verification link sent. Check your inbox.</p>
+  <button id="btn-sent-to-login" class="btn btn-primary" style="margin-top:20px">Return to Sign In</button>
+</div>
+
+<div id="main-site">
+  <nav class="bar">
+    <div class="brand">
+      <img id="nav-avatar" src="https://via.placeholder.com/150" class="avatar" onclick="openProfileModal()">
+      <div class="brand-logo">Akash <span>Portal</span></div>
+      <select id="theme-dropdown" class="theme-select" onchange="document.body.className=this.value==='light'?'':'theme-'+this.value">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="moonlight">Midnight</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:18px;align-items:center">
+      <div class="clock" id="live-clock">00:00:00</div>
+      <button id="btn-logout" class="btn btn-pill" style="background:var(--fill);color:var(--text)">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="col">
+
+      <!-- AI SMART ASSISTANT (NEW) -->
+      <details class="acc" open>
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
+            AI Smart Assistant
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="ai-chips">
+            <span class="ai-chip" onclick="aiQuick('Summarize this text:')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+              Summarize
+            </span>
+            <span class="ai-chip" onclick="aiQuick('Draft a professional message:')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Draft
+            </span>
+            <span class="ai-chip" onclick="aiQuick('Explain simply:')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+              Explain
+            </span>
+            <span class="ai-chip" onclick="aiQuick('Translate to English:')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>
+              Translate
+            </span>
+            <span class="ai-chip" onclick="aiClearChat()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              Clear
+            </span>
+          </div>
+
+          <div id="ai-chat-box" class="ai-chat-box">
+            <div class="ai-empty" id="ai-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              <p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p>
+              <p style="font-size:12px">Powered by Pollinations AI — no API key needed</p>
             </div>
-            <button onclick="endCall()" class="btn" style="background:#ff453a; color:white;">End Call</button>
+          </div>
+
+          <div class="ai-input-row">
+            <textarea id="ai-input" placeholder="Ask AI anything…" rows="1"></textarea>
+            <button id="ai-send" class="ai-send" onclick="sendAIMessage()">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 11 13 11 9 22 2"/></svg>
+            </button>
+          </div>
         </div>
-    </div>
+      </details>
 
-    <!-- WELCOME OVERLAY -->
-    <div id="welcome-overlay"><div class="welcome-content"><h1 class="welcome-title">Welcome</h1><p class="welcome-subtitle">Preparing portal...</p><div class="apple-spinner"></div></div></div>
-
-    <!-- PROFILE MODAL -->
-    <div id="profile-modal" class="modal-overlay">
-        <div class="glass-panel" style="max-width: 400px; padding: 30px; text-align: center;">
-            <h3 style="margin-bottom:10px;">Profile Picture</h3>
-            <img id="modal-avatar-preview" src="https://via.placeholder.com/150" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin:10px auto; border:2px solid var(--accent-blue);">
-            <label for="device-file-input" class="btn btn-secondary" style="display:block; margin-top:10px;">📁 Choose Image File</label>
-            <input type="file" id="device-file-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-            <button id="btn-save-avatar" class="btn btn-primary" disabled>Save</button>
-            <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:10px;">Cancel</button>
+      <!-- Prayer -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/></svg>
+            Daily Prayer
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="next-box">
+            <div>
+              <div class="next-label">Next Prayer</div>
+              <div class="next-name" id="next-prayer-name">—</div>
+            </div>
+            <div class="next-count" id="next-prayer-count">--:--:--</div>
+          </div>
+          <div class="prayer-grid">
+            <div class="prayer-card" id="card-Fajr"><div class="p-name">Fajr</div><div class="p-time" id="t-fajr">--:--</div></div>
+            <div class="prayer-card" id="card-Dhuhr"><div class="p-name">Dhuhr</div><div class="p-time" id="t-dhuhr">--:--</div></div>
+            <div class="prayer-card" id="card-Asr"><div class="p-name">Asr</div><div class="p-time" id="t-asr">--:--</div></div>
+            <div class="prayer-card" id="card-Maghrib"><div class="p-name">Maghrib</div><div class="p-time" id="t-maghrib">--:--</div></div>
+            <div class="prayer-card" id="card-Isha"><div class="p-name">Isha</div><div class="p-time" id="t-isha">--:--</div></div>
+          </div>
         </div>
+      </details>
+
+      <!-- Quran -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Holy Quran
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="tabs">
+            <button id="q-tab-audio" class="tab-btn active" onclick="switchQuranTab('audio')">
+              <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              Listen
+            </button>
+            <button id="q-tab-read" class="tab-btn" onclick="switchQuranTab('read')">
+              <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Read
+            </button>
+          </div>
+          <select id="quran-surah" onchange="loadQuranSurah()">
+            <option value="1">1. Al-Fatihah</option>
+            <option value="2">2. Al-Baqarah</option>
+            <option value="18">18. Al-Kahf</option>
+            <option value="36">36. Ya-Sin</option>
+            <option value="55">55. Ar-Rahman</option>
+            <option value="67">67. Al-Mulk</option>
+            <option value="112">112. Al-Ikhlas</option>
+          </select>
+          <div id="quran-audio-view">
+            <select id="quran-reciter" style="margin-top:10px" onchange="loadQuranSurah()">
+              <option value="ar.alafasy">Alafasy</option>
+              <option value="ar.sudais">Sudais</option>
+            </select>
+            <audio id="quran-audio-player" style="width:100%;margin-top:12px" controls></audio>
+          </div>
+          <div id="quran-read-view" style="display:none">
+            <p id="quran-surah-title" style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-align:center"></p>
+            <div id="quran-text-box" class="q-reader"></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Translator -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>
+            Translator
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="trans-bar">
+            <select id="src-lang" style="flex:1" onchange="autoTranslate()"><option value="en">English</option><option value="bn">Bangla</option><option value="ar">Arabic</option></select>
+            <button onclick="swapLanguages()" class="swap-btn">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
+            <select id="target-lang" style="flex:1" onchange="autoTranslate()"><option value="bn">Bangla</option><option value="en">English</option><option value="ar">Arabic</option></select>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <textarea id="trans-input-text" placeholder="Enter text…" oninput="autoTranslate()" style="flex:1;height:100px;resize:none"></textarea>
+            <div id="trans-output-text" class="trans-pane" style="flex:1;height:100px;overflow-y:auto">Translation appears here</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Sports -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20M2 12h20"/></svg>
+            Live Sports
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="tabs">
+            <button id="tab-cricket" class="tab-btn active" onclick="switchSportsTab('cricket')">Cricket</button>
+            <button id="tab-football" class="tab-btn" onclick="switchSportsTab('football')">Football</button>
+          </div>
+          <div id="sports-scores-container">
+            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov)</span></div></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- QR -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v1"/></svg>
+            QR Studio
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <select id="qr-mode" onchange="toggleQrMode()">
+            <option value="text">Text / URL QR</option>
+            <option value="wifi">WiFi Network QR</option>
+          </select>
+          <div id="qr-text-fields" style="margin-top:10px">
+            <input type="text" id="qr-text" placeholder="example.com or any text">
+          </div>
+          <div id="qr-wifi-fields" style="display:none;margin-top:10px">
+            <input type="text" id="qr-wifi-ssid" placeholder="Network name (SSID)" style="margin-bottom:10px">
+            <input type="text" id="qr-wifi-pass" placeholder="WiFi password" style="margin-bottom:10px">
+            <select id="qr-wifi-enc">
+              <option value="WPA">WPA / WPA2 / WPA3</option>
+              <option value="WEP">WEP</option>
+              <option value="nopass">Open (no password)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="buildQR()" style="margin-top:14px">Generate QR Code</button>
+          <div id="qr-output-wrap" style="display:none">
+            <div class="qr-out"><img id="qr-output-img" src="" alt="QR" style="width:220px;height:220px"></div>
+            <a id="qr-download" href="#" download="akash-qr.png" class="btn btn-ghost" style="margin-top:10px;text-decoration:none">
+              <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PNG
+            </a>
+          </div>
+          <hr class="sep">
+          <p style="font-size:13px;color:var(--text-sub);margin-bottom:10px">Upload a WiFi QR screenshot to reveal the hidden password.</p>
+          <label for="qr-scan-input" class="upload-label">
+            <svg class="ico ico-sm" style="display:inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+            Upload QR Image to Decode
+          </label>
+          <input type="file" id="qr-scan-input" accept="image/*" style="display:none" onchange="scanQRFile(event)">
+          <div id="qr-scan-result" class="qr-result" style="display:none"></div>
+        </div>
+      </details>
+
+      <!-- PDF -->
+      <details class="acc">
+        <summary class="tab">
+          <span style="display:flex;align-items:center;gap:12px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Image to PDF
+          </span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </summary>
+        <div class="acc-body">
+          <label for="img-pdf-input" class="upload-label">
+            <svg class="ico ico-sm" style="display:inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Select Images
+          </label>
+          <input type="file" id="img-pdf-input" accept="image/*" multiple style="display:none" onchange="handleImageToPdfSelect(event)">
+          <div id="pdf-preview-container" class="pdf-thumbs"></div>
+          <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()" style="margin-top:14px">Download PDF</button>
+        </div>
+      </details>
+
     </div>
 
-    <!-- AUTH SCREENS -->
-    <div id="login-screen" class="auth-card glass-panel">
-        <h2>Akash Portal</h2><p>Sign in to access your secure environment.</p>
-        <input type="text" id="login-identifier" placeholder="Username or Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button id="btn-login" class="btn btn-primary">Log In</button>
-        <button id="btn-goto-forgot" class="btn-link" style="margin-bottom:10px;">Forgot Password?</button>
-        <button id="btn-goto-register" class="btn btn-secondary">Create Account</button>
-        <p id="login-error" class="error-msg"></p>
-    </div>
-
-    <div id="forgot-screen" class="auth-card glass-panel" style="display:none;">
-        <h2>Reset Password</h2>
-        <input type="email" id="forgot-email" placeholder="Enter registered Gmail" required>
-        <button id="btn-send-reset" class="btn btn-primary">Send Reset Link</button>
-        <button id="btn-back-login-forgot" class="btn-link">← Return to Sign In</button>
-    </div>
-
-    <div id="reg-email-screen" class="auth-card glass-panel" style="display:none;">
-        <h2>Create Account</h2>
-        <input type="text" id="reg-username" placeholder="Choose username" required>
-        <input type="email" id="reg-email" placeholder="Enter Gmail address" required>
-        <button id="btn-reg-next" class="btn btn-primary">Continue →</button>
-        <button id="btn-back-login1" class="btn-link">← Return to Log In</button>
-    </div>
-
-    <div id="reg-pass-screen" class="auth-card glass-panel" style="display:none;">
-        <h2>Set Password</h2>
-        <input type="password" id="reg-password" placeholder="Password (min 6 chars)" required>
-        <button id="btn-reg-finish" class="btn btn-primary">Complete</button>
-    </div>
-
-    <div id="reg-sent-screen" class="auth-card glass-panel" style="display:none;">
-        <h2>Verify Email</h2>
-        <div style="color:#30d158; padding:15px; background:rgba(48,209,88,0.1); border-radius:12px;">Verification link sent.</div>
-        <button id="btn-sent-to-login" class="btn btn-primary">Return to Sign In</button>
-    </div>
-
-    <!-- MAIN DASHBOARD -->
-    <div id="main-site">
-        <navbar>
-            <div class="brand-container">
-                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()">
-                <div class="brand-logo">AKASH <span style="font-weight:400; color:var(--text-sub);">PORTAL</span></div>
-                <select id="theme-dropdown" style="background:var(--input-bg); border:none; color:var(--text-main); padding:6px 12px; border-radius:12px; outline:none;" onchange="document.body.className = this.value === 'dark' ? '' : 'theme-'+this.value;">
-                    <option value="dark">Dark Mode</option><option value="light">Light Mode</option><option value="moonlight">Moonlight</option>
-                </select>
+    <!-- RIGHT COLUMN — CHAT -->
+    <div class="col">
+      <details class="acc" open>
+        <summary class="tab">
+          <div style="display:flex;align-items:center;gap:14px">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Messaging</span>
+            <div style="display:flex;gap:6px" onclick="event.preventDefault()">
+              <button id="tab-global" class="btn btn-pill" style="background:var(--accent);color:#fff" onclick="switchChat('global')">Global</button>
+              <button id="tab-private" class="btn btn-pill" style="background:transparent;color:var(--text-sub);border:1px solid var(--hairline)" onclick="switchChat('private')">Direct</button>
             </div>
-            <div style="display:flex; gap:15px; align-items:center;">
-                <div style="font-weight:600; color:var(--accent-blue);" id="live-digital-clock">00:00:00</div>
-                <button id="btn-logout" style="background:rgba(255,69,58,0.1); color:#ff453a; border:none; padding:8px 16px; border-radius:12px; font-weight:600; cursor:pointer;">Sign Out</button>
-            </div>
-        </navbar>
-        
-        <main class="dashboard-container">
-            <!-- LEFT SIDEBAR -->
-            <div class="sidebar-left">
-                <!-- 1: PRAYER TIMES WITH COUNTDOWN -->
-                <details class="folder glass-panel" open>
-                    <summary class="folder-tab">🕋 Islamic Daily Prayer</summary>
-                    <div class="folder-content">
-                        <div class="next-prayer-box">
-                            <div>
-                                <div class="next-prayer-label">NEXT PRAYER</div>
-                                <div class="next-prayer-name" id="next-prayer-name">—</div>
-                            </div>
-                            <div class="next-prayer-count" id="next-prayer-count">--:--:--</div>
-                        </div>
-                        <div class="prayer-grid">
-                            <div class="prayer-card" id="card-Fajr"><div class="prayer-name">Fajr</div><div class="prayer-time" id="t-fajr">--:--</div></div>
-                            <div class="prayer-card" id="card-Dhuhr"><div class="prayer-name">Dhuhr</div><div class="prayer-time" id="t-dhuhr">--:--</div></div>
-                            <div class="prayer-card" id="card-Asr"><div class="prayer-name">Asr</div><div class="prayer-time" id="t-asr">--:--</div></div>
-                            <div class="prayer-card" id="card-Maghrib"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="t-maghrib">--:--</div></div>
-                            <div class="prayer-card" id="card-Isha"><div class="prayer-name">Isha</div><div class="prayer-time" id="t-isha">--:--</div></div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- 2: QURAN ARABIC READER -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">📖 Holy Quran Suite</summary>
-                    <div class="folder-content">
-                        <div class="q-tabs">
-                            <button id="q-tab-audio" class="q-tab active" onclick="switchQuranTab('audio')">🔊 Listen</button>
-                            <button id="q-tab-read" class="q-tab" onclick="switchQuranTab('read')">📜 Read</button>
-                        </div>
-                        <select id="quran-surah" class="qr-field" onchange="loadQuranSurah()">
-                            <option value="1">1. Al-Fatihah</option>
-                            <option value="2">2. Al-Baqarah</option>
-                            <option value="18">18. Al-Kahf</option>
-                            <option value="36">36. Ya-Sin</option>
-                            <option value="55">55. Ar-Rahman</option>
-                            <option value="67">67. Al-Mulk</option>
-                            <option value="112">112. Al-Ikhlas</option>
-                        </select>
-                        <div id="quran-audio-view">
-                            <select id="quran-reciter" class="qr-field" onchange="loadQuranSurah()">
-                                <option value="ar.alafasy">Alafasy</option>
-                                <option value="ar.sudais">Sudais</option>
-                            </select>
-                            <audio id="quran-audio-player" style="width:100%; margin-top:10px;" controls></audio>
-                        </div>
-                        <div id="quran-read-view" style="display:none;">
-                            <p id="quran-surah-title" style="font-size:0.8rem; font-weight:600; color:var(--accent-blue); margin-bottom:8px; text-align:center;"></p>
-                            <div id="quran-text-box" class="quran-reader"></div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- 3: TRANSLATOR -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">🌐 Pro Translator</summary>
-                    <div class="folder-content">
-                        <div class="translator-bar">
-                            <select id="src-lang" class="qr-field" style="flex:1; margin:0;" onchange="autoTranslate()"><option value="en">English</option><option value="bn">Bangla</option><option value="ar">Arabic</option></select>
-                            <button onclick="swapLanguages()" style="background:transparent; border:none; color:var(--accent-blue); font-size:1.5rem; cursor:pointer;">⇄</button>
-                            <select id="target-lang" class="qr-field" style="flex:1; margin:0;" onchange="autoTranslate()"><option value="bn">Bangla</option><option value="en">English</option><option value="ar">Arabic</option></select>
-                        </div>
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <textarea id="trans-input-text" class="qr-field" placeholder="Enter text..." oninput="autoTranslate()" style="flex:1; height:100px; resize:none;"></textarea>
-                            <div class="qr-field" id="trans-output-text" style="flex:1; height:100px; overflow-y:auto; background:var(--bg-color);">Translation</div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- 4: SPORTS -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">⚽ Live Sports</summary>
-                    <div class="folder-content">
-                        <div class="q-tabs">
-                            <button id="tab-cricket" class="q-tab active" onclick="switchSportsTab('cricket')">Cricket 🏏</button>
-                            <button id="tab-football" class="q-tab" onclick="switchSportsTab('football')">Football ⚽</button>
-                        </div>
-                        <div id="sports-scores-container">
-                            <div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>IND vs AUS</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 210/4 (18.2 ov)</span></div></div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- 5: QR GENERATOR & WIFI SCANNER -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">🔳 QR Studio & WiFi Scanner</summary>
-                    <div class="folder-content">
-                        <select id="qr-mode" class="qr-field" onchange="toggleQrMode()">
-                            <option value="text">Text / URL QR</option>
-                            <option value="wifi">WiFi Network QR</option>
-                        </select>
-                        <div id="qr-text-fields">
-                            <input type="text" id="qr-text" class="qr-field" placeholder="example.com or any text">
-                        </div>
-                        <div id="qr-wifi-fields" style="display:none;">
-                            <input type="text" id="qr-wifi-ssid" class="qr-field" placeholder="Network name (SSID)">
-                            <input type="text" id="qr-wifi-pass" class="qr-field" placeholder="WiFi password">
-                            <select id="qr-wifi-enc" class="qr-field">
-                                <option value="WPA">WPA / WPA2 / WPA3</option>
-                                <option value="WEP">WEP</option>
-                                <option value="nopass">Open (no password)</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" onclick="buildQR()">Generate QR Code</button>
-                        <div id="qr-output-wrap" style="display:none;">
-                            <div class="qr-out"><img id="qr-output-img" src="" alt="QR code" style="width:220px; height:220px;"></div>
-                            <a id="qr-download" href="#" download="akash-portal-qr.png" class="btn btn-secondary" style="display:block; text-decoration:none; text-align:center; margin-top:10px;">Download PNG ⬇️</a>
-                        </div>
-                        
-                        <hr style="border:none; border-top:1px solid var(--glass-border); margin:18px 0;">
-                        
-                        <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:10px;">Upload a WiFi QR screenshot to reveal the hidden password.</p>
-                        <label for="qr-scan-input" class="file-upload-label">🔍 Upload QR Image to Decode</label>
-                        <input type="file" id="qr-scan-input" accept="image/*" style="display:none;" onchange="scanQRFile(event)">
-                        <div id="qr-scan-result" class="qr-scan-result" style="display:none;"></div>
-                    </div>
-                </details>
-                
-                <!-- 6: PDF CONVERTER -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">📄 Image to PDF Converter</summary>
-                    <div class="folder-content">
-                        <label for="img-pdf-input" class="file-upload-label">🖼️ Select Images</label>
-                        <input type="file" id="img-pdf-input" accept="image/*" multiple style="display:none;" onchange="handleImageToPdfSelect(event)">
-                        <div id="pdf-preview-container" style="display:flex; gap:8px; overflow-x:auto; margin-top:10px;"></div>
-                        <button id="btn-generate-pdf" class="btn btn-primary" disabled onclick="generatePDF()" style="margin-top:10px;">Download PDF</button>
-                    </div>
-                </details>
-
-            </div>
-
-            <!-- RIGHT SIDEBAR: CHAT SHUTTER -->
-            <div class="main-right">
-                
-                <!-- CHAT WRAPPED IN SHUTTER -->
-                <details class="folder glass-panel" open style="margin-bottom:1.25rem;">
-                  <summary class="folder-tab">
-                      <div style="display:flex; align-items:center; gap:15px;">
-                          <span>💬 Portal Messaging</span>
-                          <div style="display:flex; gap:8px;" onclick="event.preventDefault()">
-                              <button id="tab-global" style="background:var(--accent-blue); color:#fff; border:none; padding:4px 12px; border-radius:12px; cursor:pointer;" onclick="switchChat('global')">Global</button>
-                              <button id="tab-private" style="background:transparent; color:var(--text-sub); border:1px solid var(--input-border); padding:4px 12px; border-radius:12px; cursor:pointer;" onclick="switchChat('private')">DMs</button>
-                          </div>
-                      </div>
-                      <div id="dm-call-icons" style="display:none; gap:15px; color:var(--accent-blue); align-items:center;" onclick="event.preventDefault()">
-                          <span id="dm-head-name" style="color:var(--text-main); font-weight:600; font-size:0.9rem; margin-right:10px;">User</span>
-                          <span style="cursor:pointer;" onclick="startCall('audio')">📞</span>
-                          <span style="cursor:pointer;" onclick="startCall('video')">📹</span>
-                      </div>
-                  </summary>
-                  
-                  <div class="folder-content" style="padding:0;">
-                    <section class="chat-container-modern" style="padding:0; display:flex; flex-direction:column; height:650px; background:transparent;">
-                        <div class="chat-body-split">
-                            <div id="dm-list" class="dm-user-list" style="display:none;"></div>
-                            
-                            <div style="flex:1; display:flex; flex-direction:column; position:relative;">
-                                <div id="chat-messages" class="messages-scroll-area"></div>
-                                
-                                <div class="chat-input-wrapper">
-                                    <div id="img-preview-box" style="display:none; position:relative; margin-bottom:10px;">
-                                        <img id="img-preview" src="" style="height:60px; border-radius:8px;">
-                                        <button onclick="clearChatMedia()" style="position:absolute; top:-5px; left:50px; background:#ff453a; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;">×</button>
-                                    </div>
-                                    <textarea id="chat-input-text" placeholder="Type a message..."></textarea>
-                                    
-                                    <div class="chat-toolbar">
-                                        <div class="toolbar-icons">
-                                            <label for="img-up" title="Attach Image">🖼️</label><input type="file" id="img-up" accept="image/*" style="display:none;" onchange="attachImage(event)">
-                                            <span style="font-weight:bold; font-size:0.8rem; border:2px solid currentColor; border-radius:4px; padding:0 3px;" onclick="toggleP('gif')">GIF</span>
-                                            <span onclick="toggleP('emoji')">😊</span>
-                                            <span id="btn-mic" onclick="toggleMic()">🎙️</span>
-                                            <span id="mic-status" style="display:none; color:#ff453a; font-size:0.8rem; animation:pulse 1s infinite;">Rec...</span>
-                                        </div>
-                                        <button id="btn-send-msg" class="btn btn-primary" style="width:auto; margin:0; padding:8px 20px;">Send</button>
-                                    </div>
-                                </div>
-
-                                <!-- Pickers -->
-                                <div id="emoji-picker" class="emoji-picker" style="display:none;">
-                                    <span onclick="addE('😀')">😀</span><span onclick="addE('😂')">😂</span><span onclick="addE('🔥')">🔥</span><span onclick="addE('👍')">👍</span>
-                                </div>
-                                <div id="gif-picker" class="emoji-picker" style="display:none; width:220px; grid-template-columns:1fr 1fr;">
-                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWwxY2pxZHp3ejlhNnh2cnd4aWZub3pveGlqY3R4Z2EycTVpZDNkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0AM4154T6T25w9mU/giphy.gif" style="width:100%; height:60px; border-radius:6px;" onclick="addG(this.src)">
-                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcHVwbTBmNWszM281bGlveWptMnA2MmhxcWhnMGlubzBicnI2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKsjLu23I3p99pC/giphy.gif" style="width:100%; height:60px; border-radius:6px;" onclick="addG(this.src)">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+          </div>
+          <div id="dm-call-icons" style="display:none;gap:12px;align-items:center" onclick="event.preventDefault()">
+            <span id="dm-head-name" style="color:var(--text);font-weight:500;font-size:14px;margin-right:8px"></span>
+            <span style="cursor:pointer;color:var(--accent)" onclick="startCall('audio')">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span style="cursor:pointer;color:var(--accent)" onclick="startCall('video')">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </span>
+          </div>
+        </summary>
+        <div class="acc-body" style="padding:0">
+          <section class="chat-wrap">
+            <div class="chat-split">
+              <div id="dm-list" class="dm-list" style="display:none"></div>
+              <div style="flex:1;display:flex;flex-direction:column;position:relative">
+                <div id="chat-messages" class="msg-area"></div>
+                <div class="chat-input">
+                  <div id="img-preview-box" class="preview-box">
+                    <img id="img-preview" src="">
+                    <button class="x" onclick="clearChatMedia()">×</button>
                   </div>
-                </details>
+                  <textarea id="chat-input-text" placeholder="Type a message…" style="min-height:44px"></textarea>
+                  <div class="toolbar">
+                    <div class="tools">
+                      <label for="img-up" title="Attach image">
+                        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                      </label>
+                      <input type="file" id="img-up" accept="image/*" style="display:none" onchange="attachImage(event)">
+                      <span title="GIF" onclick="toggleP('gif')" style="font-size:11px;font-weight:700;border:1.5px solid currentColor;border-radius:4px;padding:1px 4px">GIF</span>
+                      <span title="Emoji" onclick="toggleP('emoji')">
+                        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                      </span>
+                      <span id="btn-mic" onclick="toggleMic()" title="Voice">
+                        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                      </span>
+                      <span id="mic-status" class="mic-rec" style="display:none">Rec…</span>
+                    </div>
+                    <button id="btn-send-msg" class="btn btn-primary btn-pill">
+                      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 11 13 11 9 22 2"/></svg>
+                      Send
+                    </button>
+                  </div>
+                </div>
+                <div id="emoji-picker" class="emoji-box" style="display:none">
+                  <span onclick="addE('😀')">😀</span><span onclick="addE('😂')">😂</span><span onclick="addE('🔥')">🔥</span><span onclick="addE('👍')">👍</span>
+                </div>
+                <div id="gif-picker" class="emoji-box" style="display:none;width:220px;grid-template-columns:1fr 1fr">
+                  <img src="https://media.giphy.com/media/l0AM4154T6T25w9mU/giphy.gif" style="width:100%;height:60px;border-radius:6px" onclick="addG(this.src)">
+                  <img src="https://media.giphy.com/media/3o7TKsjLu23I3p99pC/giphy.gif" style="width:100%;height:60px;border-radius:6px" onclick="addG(this.src)">
+                </div>
+              </div>
             </div>
-        </main>
+          </section>
+        </div>
+      </details>
     </div>
+  </div>
+</div>
 
-    <!-- FIREBASE AND CORE LOGIC SCRIPT -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<!-- SCRIPT 1: FIREBASE & AUTH -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const app = initializeApp({
-            apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
-            authDomain: "an46-7d0f3.firebaseapp.com",
-            projectId: "an46-7d0f3",
-            storageBucket: "an46-7d0f3.firebasestorage.app",
-            messagingSenderId: "265002186410",
-            appId: "1:265002186410:web:0ba24a52e883c013e4c2d3"
-        });
-        const auth = getAuth(app); const db = getFirestore(app);
-        window.currentUserObj = null;
+const app = initializeApp({
+  apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
+  authDomain: "an46-7d0f3.firebaseapp.com",
+  projectId: "an46-7d0f3",
+  storageBucket: "an46-7d0f3.firebasestorage.app",
+  messagingSenderId: "265002186410",
+  appId: "1:265002186410:web:0ba24a52e883c013e4c2d3"
+});
+const auth = getAuth(app); const db = getFirestore(app);
+window.currentUserObj = null;
 
-        function sanitizeText(str) { const t = document.createElement('div'); t.textContent = str; return t.innerHTML; }
+function sanitizeText(str){const t=document.createElement('div');t.textContent=str;return t.innerHTML}
+function hideAllScreens(){document.querySelectorAll('.auth').forEach(c=>c.style.display='none');document.getElementById('main-site').style.display='none'}
 
-        function hideAllScreens() {
-            document.querySelectorAll('.auth-card').forEach(c => c.style.display='none');
-            document.getElementById('main-site').style.display = 'none';
+document.getElementById('btn-goto-register').onclick=()=>{hideAllScreens();document.getElementById('reg-email-screen').style.display='block'};
+document.getElementById('btn-reg-next').onclick=()=>{hideAllScreens();document.getElementById('reg-pass-screen').style.display='block'};
+document.getElementById('btn-goto-forgot').onclick=()=>{hideAllScreens();document.getElementById('forgot-screen').style.display='block'};
+document.getElementById('btn-back-login1').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
+document.getElementById('btn-back-login-forgot').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
+document.getElementById('btn-sent-to-login').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
+
+document.getElementById('btn-reg-finish').onclick=()=>{
+  const u=sanitizeText(document.getElementById('reg-username').value.trim());
+  const e=sanitizeText(document.getElementById('reg-email').value.trim());
+  const p=document.getElementById('reg-password').value;
+  if(!u||!e||p.length<6){alert('Please fill all fields. Password must be 6+ chars.');return}
+  createUserWithEmailAndPassword(auth,e,p).then(c=>{
+    updateProfile(c.user,{displayName:u,photoURL:`https://ui-avatars.com/api/?name=${encodeURIComponent(u)}&background=0A84FF&color=fff`}).then(()=>{
+      sendEmailVerification(c.user).then(()=>{auth.signOut();hideAllScreens();document.getElementById('reg-sent-screen').style.display='block'});
+    });
+  }).catch(er=>alert(er.message));
+};
+
+document.getElementById('btn-send-reset').onclick=()=>{
+  const e=document.getElementById('forgot-email').value.trim();
+  if(!e){alert('Enter email');return}
+  sendPasswordResetEmail(auth,e).then(()=>alert('Reset link sent to '+e)).catch(er=>alert(er.message));
+};
+
+document.getElementById('btn-login').onclick=()=>{
+  const i=sanitizeText(document.getElementById('login-identifier').value.trim());
+  const p=document.getElementById('login-password').value;
+  signInWithEmailAndPassword(auth,i.includes('@')?i:`${i}@akashportal.com`,p).catch(()=>{
+    document.getElementById('login-error').innerText='Invalid credentials.';
+  });
+};
+document.getElementById('btn-logout').onclick=()=>signOut(auth);
+
+onAuthStateChanged(auth,(user)=>{
+  if(user && user.emailVerified){
+    window.currentUserObj=user;
+    document.getElementById('nav-avatar').src=localStorage.getItem('localAvatar')||user.photoURL||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.email[0])}&background=0A84FF&color=fff`;
+    setDoc(doc(db,"users",user.uid),{uid:user.uid,username:user.displayName||user.email.split('@')[0],photoURL:document.getElementById('nav-avatar').src},{merge:true});
+    hideAllScreens();
+    document.getElementById('main-site').style.display='block';
+    window.switchChat('global');
+    window.fetchPrayerTimes();
+    window.loadQuranSurah(false);
+  }else{
+    hideAllScreens();
+    document.getElementById('login-screen').style.display='block';
+  }
+});
+
+let chatMode='global';let dmTarget=null;let chatUnsub=null;
+window.chatBase64=null;window.chatAudio=null;
+
+window.switchChat=function(mode){
+  chatMode=mode;
+  const g=document.getElementById('tab-global'),p=document.getElementById('tab-private');
+  g.style.background=mode==='global'?'var(--accent)':'transparent';
+  g.style.color=mode==='global'?'#fff':'var(--text-sub)';
+  g.style.border=mode==='global'?'none':'1px solid var(--hairline)';
+  p.style.background=mode==='private'?'var(--accent)':'transparent';
+  p.style.color=mode==='private'?'#fff':'var(--text-sub)';
+  p.style.border=mode==='private'?'none':'1px solid var(--hairline)';
+  document.getElementById('dm-list').style.display=mode==='private'?'block':'none';
+  document.getElementById('dm-call-icons').style.display=mode==='private'&&dmTarget?'flex':'none';
+  if(mode==='private'){loadUsers();if(dmTarget)loadChat();else document.getElementById('chat-messages').innerHTML='<p style="text-align:center;color:var(--text-sub);margin-top:20px">Select a user to start chatting.</p>'}
+  else loadChat();
+};
+
+async function loadUsers(){
+  const list=document.getElementById('dm-list');
+  const snaps=await getDocs(collection(db,"users"));
+  let h='';
+  snaps.forEach(d=>{
+    const u=d.data();
+    if(u.uid!==window.currentUserObj.uid){
+      h+=`<div class="dm-item ${dmTarget===u.uid?'active':''}" onclick="openDM('${u.uid}','${sanitizeText(u.username)}')"><img src="${u.photoURL}" class="dm-ava"><div class="dm-name">${sanitizeText(u.username)}</div></div>`;
+    }
+  });
+  list.innerHTML=h;
+}
+window.openDM=function(uid,name){dmTarget=uid;document.getElementById('dm-head-name').innerText=name;document.getElementById('dm-call-icons').style.display='flex';loadUsers();loadChat()};
+
+function loadChat(){
+  if(chatUnsub)chatUnsub();
+  const box=document.getElementById('chat-messages');box.innerHTML='';
+  let q;
+  if(chatMode==='global')q=query(collection(db,"group_messages"),orderBy("timestamp","asc"));
+  else{
+    if(!dmTarget)return;
+    const cid=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
+    q=query(collection(db,"private_messages"),where("chatId","==",cid));
+  }
+  chatUnsub=onSnapshot(q,(snap)=>{
+    box.innerHTML='';
+    let arr=[];
+    snap.forEach(d=>arr.push({id:d.id,...d.data()}));
+    arr.sort((a,b)=>(a.timestamp?a.timestamp.toMillis():0)-(b.timestamp?b.timestamp.toMillis():0));
+    arr.forEach(data=>{
+      const time=data.timestamp?data.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'Now';
+      let content='',actions='';
+      if(data.isDeleted)content=`<div style="color:var(--text-tert);font-style:italic;font-size:14px">Message deleted</div>`;
+      else{
+        content=(data.text?`<div class="msg-text">${sanitizeText(data.text)}</div>`:'')+
+          (data.attachedImage?`<img src="${data.attachedImage}" class="msg-img">`:'')+
+          (data.attachedAudio?`<audio controls src="${data.attachedAudio}" style="height:35px;margin-top:6px;outline:none;border-radius:15px">`:'');
+        if(data.senderId===window.currentUserObj.uid){
+          actions=`<div class="msg-actions"><button class="icon-btn" onclick="delMsg('${data.id}','${chatMode}')"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>`;
         }
+      }
+      box.innerHTML+=`<div class="msg-item"><img src="${data.photoURL}" class="msg-ava"><div class="msg-body"><div class="msg-head"><span class="msg-name">${sanitizeText(data.username)}</span><span class="msg-time">${time}</span></div>${content}</div>${actions}</div>`;
+    });
+    box.scrollTop=box.scrollHeight;
+  });
+}
 
-        // AUTHENTICATION
-        document.getElementById('btn-goto-register').onclick = () => { hideAllScreens(); document.getElementById('reg-email-screen').style.display='block'; };
-        document.getElementById('btn-reg-next').onclick = () => { hideAllScreens(); document.getElementById('reg-pass-screen').style.display='block'; };
-        document.getElementById('btn-goto-forgot').onclick = () => { hideAllScreens(); document.getElementById('forgot-screen').style.display='block'; };
-        document.getElementById('btn-back-login1').onclick = () => { hideAllScreens(); document.getElementById('login-screen').style.display='block'; };
-        document.getElementById('btn-back-login-forgot').onclick = () => { hideAllScreens(); document.getElementById('login-screen').style.display='block'; };
+document.getElementById('btn-send-msg').onclick=async()=>{
+  const txt=document.getElementById('chat-input-text').value.trim();
+  if(!txt&&!window.chatBase64&&!window.chatAudio)return;
+  const payload={text:txt,attachedImage:window.chatBase64,attachedAudio:window.chatAudio,senderId:window.currentUserObj.uid,username:window.currentUserObj.displayName||"User",photoURL:window.currentUserObj.photoURL,timestamp:serverTimestamp()};
+  document.getElementById('chat-input-text').value='';
+  window.clearChatMedia();
+  if(chatMode==='global')await addDoc(collection(db,"group_messages"),payload);
+  else if(dmTarget){
+    payload.chatId=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
+    await addDoc(collection(db,"private_messages"),payload);
+  }
+};
 
-        document.getElementById('btn-reg-finish').onclick = () => {
-            const u = sanitizeText(document.getElementById('reg-username').value.trim()); 
-            const e = sanitizeText(document.getElementById('reg-email').value.trim()); 
-            const p = document.getElementById('reg-password').value;
-            createUserWithEmailAndPassword(auth, e, p).then(c => {
-                updateProfile(c.user, { displayName: u, photoURL: `https://ui-avatars.com/api/?name=${u}&background=0A84FF&color=fff` }).then(() => {
-                    sendEmailVerification(c.user).then(() => { auth.signOut(); hideAllScreens(); document.getElementById('reg-sent-screen').style.display='block'; });
-                });
-            }).catch(er => alert(er.message));
+window.delMsg=async function(id,mode){
+  if(confirm('Delete this message?')){
+    await updateDoc(doc(db,mode==='global'?'group_messages':'private_messages',id),{isDeleted:true,text:null,attachedImage:null,attachedAudio:null});
+  }
+};
+
+window.startCall=function(type){
+  const ov=document.getElementById('call-overlay');
+  document.getElementById('call-status').innerText=type==='video'?'Video call…':'Calling…';
+  document.getElementById('call-target-name').innerText=document.getElementById('dm-head-name').innerText||'User';
+  ov.style.display='flex';
+};
+window.endCall=function(){document.getElementById('call-overlay').style.display='none'};
+window.openProfileModal=function(){document.getElementById('profile-modal').style.display='flex'};
+window.closeProfileModal=function(){document.getElementById('profile-modal').style.display='none'};
+window.handleFileSelect=function(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('modal-avatar-preview').src=ev.target.result;
+    document.getElementById('btn-save-avatar').disabled=false;
+  };
+  r.readAsDataURL(file);
+};
+document.getElementById('btn-save-avatar').onclick=()=>{
+  const src=document.getElementById('modal-avatar-preview').src;
+  localStorage.setItem('localAvatar',src);
+  document.getElementById('nav-avatar').src=src;
+  if(window.currentUserObj){
+    setDoc(doc(db,"users",window.currentUserObj.uid),{photoURL:src},{merge:true});
+  }
+  closeProfileModal();
+};
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('welcome-overlay').style.display='none',900);
+});
+</script>
+
+<!-- SCRIPT 2: TOOLS + AI ASSISTANT -->
+<script>
+// ===== AI SMART ASSISTANT (Pollinations AI) =====
+let aiHistory = [];
+
+function aiAddMessage(role, text, isHTML=false){
+  const box = document.getElementById('ai-chat-box');
+  document.getElementById('ai-empty')?.remove();
+  const msg = document.createElement('div');
+  msg.className = 'ai-msg msg-in ' + (role === 'user' ? 'user' : 'ai');
+  const avatar = document.createElement('div');
+  avatar.className = 'ai-avatar ' + (role === 'user' ? 'user' : 'ai');
+  avatar.innerHTML = role === 'user'
+    ? '<svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+    : '<svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>';
+  const bubble = document.createElement('div');
+  bubble.className = 'ai-bubble';
+  if(isHTML) bubble.innerHTML = text;
+  else bubble.textContent = text;
+  msg.appendChild(avatar);
+  msg.appendChild(bubble);
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+}
+
+function aiShowTyping(){
+  const box = document.getElementById('ai-chat-box');
+  const msg = document.createElement('div');
+  msg.className = 'ai-msg ai';
+  msg.id = 'ai-typing-msg';
+  msg.innerHTML = '<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div><div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+}
+
+function aiHideTyping(){document.getElementById('ai-typing-msg')?.remove()}
+
+function aiFormatResponse(text){
+  // Basic markdown-ish formatting
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`(.+?)`/g,'<code style="background:var(--fill);padding:1px 5px;border-radius:4px;font-family:ui-monospace,monospace;font-size:13px">$1</code>')
+    .replace(/\n/g,'<br>');
+}
+
+window.sendAIMessage = async function(){
+  const input = document.getElementById('ai-input');
+  const q = input.value.trim();
+  if(!q) return;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('ai-send').disabled = true;
+  
+  aiAddMessage('user', q);
+  aiHistory.push({role:'user', content:q});
+  aiShowTyping();
+  
+  try{
+    // Pollinations AI — free, no API key needed
+    const contextPrompt = aiHistory.slice(-6).map(m => `${m.role==='user'?'User':'Assistant'}: ${m.content}`).join('\n');
+    const prompt = encodeURIComponent(contextPrompt + '\nAssistant:');
+    const url = `https://text.pollinations.ai/${prompt}?model=openai`;
+    
+    const res = await fetch(url);
+    let answer = await res.text();
+    answer = answer.replace(/^Assistant:\s*/i,'').trim();
+    
+    if(!answer) answer = 'I could not generate a response. Please try again.';
+    
+    aiHideTyping();
+    aiAddMessage('ai', aiFormatResponse(answer), true);
+    aiHistory.push({role:'assistant', content:answer});
+  }catch(err){
+    aiHideTyping();
+    aiAddMessage('ai', 'Sorry, I encountered an error. Please check your connection and try again.');
+    console.error('AI Error:', err);
+  }finally{
+    document.getElementById('ai-send').disabled = false;
+    document.getElementById('ai-input').focus();
+  }
+};
+
+window.aiQuick = function(prefix){
+  const input = document.getElementById('ai-input');
+  input.value = prefix + ' ';
+  input.focus();
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+};
+
+window.aiClearChat = function(){
+  aiHistory = [];
+  const box = document.getElementById('ai-chat-box');
+  box.innerHTML = '<div class="ai-empty" id="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p><p style="font-size:12px">Powered by Pollinations AI — no API key needed</p></div>';
+};
+
+// AI input auto-resize + Enter to send
+const aiInput = document.getElementById('ai-input');
+aiInput.addEventListener('input', ()=>{
+  aiInput.style.height = 'auto';
+  aiInput.style.height = Math.min(aiInput.scrollHeight, 120) + 'px';
+});
+aiInput.addEventListener('keydown', e=>{
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendAIMessage();
+  }
+});
+
+// ===== CHAT UI & INPUT =====
+const chatInput = document.getElementById('chat-input-text');
+chatInput.addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('btn-send-msg').click()}});
+chatInput.addEventListener('input', ()=>{chatInput.style.height='auto';chatInput.style.height=Math.min(chatInput.scrollHeight,120)+'px'});
+document.addEventListener('click', e=>{
+  const em=document.getElementById('emoji-picker'),gf=document.getElementById('gif-picker');
+  if(e.target.closest('.tools')||e.target.closest('.emoji-box'))return;
+  em.style.display='none';gf.style.display='none';
+});
+window.attachImage=function(e){
+  const r=new FileReader();
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.createElement('canvas');const s=Math.min(300/img.width,300/img.height);
+      c.width=img.width*s;c.height=img.height*s;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      window.chatBase64=c.toDataURL('image/jpeg',0.6);
+      document.getElementById('img-preview').src=window.chatBase64;
+      document.getElementById('img-preview-box').style.display='block';
+    };
+    img.src=ev.target.result;
+  };
+  r.readAsDataURL(e.target.files[0]);
+};
+window.clearChatMedia=function(){window.chatBase64=null;window.chatAudio=null;document.getElementById('img-preview-box').style.display='none';document.getElementById('img-up').value=''};
+window.toggleP=function(t){document.getElementById('gif-picker').style.display='none';document.getElementById('emoji-picker').style.display='none';document.getElementById(t+'-picker').style.display='grid'};
+window.addE=function(e){document.getElementById('chat-input-text').value+=e;document.getElementById('emoji-picker').style.display='none'};
+window.addG=function(u){window.chatBase64=u;document.getElementById('img-preview').src=u;document.getElementById('img-preview-box').style.display='block';document.getElementById('gif-picker').style.display='none'};
+
+let mRec;let aChk=[];let isRec=false;
+window.toggleMic=async function(){
+  if(!isRec){
+    try{
+      mRec=new MediaRecorder(await navigator.mediaDevices.getUserMedia({audio:true}));
+      mRec.start();isRec=true;
+      document.getElementById('btn-mic').style.color='var(--red)';
+      document.getElementById('mic-status').style.display='inline';
+      mRec.ondataavailable=e=>aChk.push(e.data);
+      mRec.onstop=()=>{
+        const r=new FileReader();
+        r.onloadend=()=>{
+          window.chatAudio=r.result;
+          document.getElementById('chat-input-text').value+=' 🎵 [Audio]';
         };
+        r.readAsDataURL(new Blob(aChk,{type:'audio/webm'}));
+        aChk=[];
+      };
+    }catch(e){alert('Microphone access denied')}
+  }else{
+    mRec.stop();isRec=false;
+    document.getElementById('btn-mic').style.color='currentColor';
+    document.getElementById('mic-status').style.display='none';
+  }
+};
 
-        document.getElementById('btn-login').onclick = () => {
-            const i = sanitizeText(document.getElementById('login-identifier').value.trim()); const p = document.getElementById('login-password').value;
-            signInWithEmailAndPassword(auth, i.includes('@') ? i : `${i}@akashportal.com`, p).catch(() => document.getElementById('login-error').innerText = "Invalid credentials.");
-        };
-        document.getElementById('btn-logout').onclick = () => signOut(auth);
+// ===== LIVE CLOCK =====
+function updateClock(){
+  const d=new Date();
+  document.getElementById('live-clock').innerText=d.toLocaleTimeString('en-US',{hour12:false});
+}
+setInterval(updateClock,1000);updateClock();
 
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.emailVerified) {
-                window.currentUserObj = user;
-                document.getElementById('nav-avatar').src = localStorage.getItem('localAvatar') || user.photoURL || `https://ui-avatars.com/api/?name=${user.email[0]}&background=0A84FF&color=fff`;
-                setDoc(doc(db, "users", user.uid), { uid: user.uid, username: user.displayName || user.email.split('@')[0], photoURL: document.getElementById('nav-avatar').src }, { merge: true });
-                hideAllScreens(); document.getElementById('main-site').style.display = 'block';
-                window.switchChat('global'); window.fetchPrayerTimes(); window.loadQuranSurah(false);
-            } else { hideAllScreens(); document.getElementById('login-screen').style.display = 'block'; }
-        });
+// ===== PRAYER COUNTDOWN =====
+let prayerMap=null,prayerTimer=null;
+const PRAYER_ORDER=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+function cleanTime(v){return String(v).trim().split(' ')[0]}
+function to12h(hhmm){
+  const [h,m]=cleanTime(hhmm).split(':').map(Number);
+  const ap=h>=12?'PM':'AM';
+  return `${((h+11)%12)+1}:${String(m).padStart(2,'0')} ${ap}`;
+}
+window.applyPrayerTimings=function(t){
+  prayerMap={Fajr:t.Fajr,Dhuhr:t.Dhuhr,Asr:t.Asr,Maghrib:t.Maghrib,Isha:t.Isha};
+  document.getElementById('t-fajr').innerText=to12h(t.Fajr);
+  document.getElementById('t-dhuhr').innerText=to12h(t.Dhuhr);
+  document.getElementById('t-asr').innerText=to12h(t.Asr);
+  document.getElementById('t-maghrib').innerText=to12h(t.Maghrib);
+  document.getElementById('t-isha').innerText=to12h(t.Isha);
+  clearInterval(prayerTimer);
+  tickPrayerCountdown();
+  prayerTimer=setInterval(tickPrayerCountdown,1000);
+};
+function tickPrayerCountdown(){
+  if(!prayerMap)return;
+  const now=new Date();
+  let target=null,name='';
+  PRAYER_ORDER.forEach(p=>document.getElementById('card-'+p).classList.remove('is-next'));
+  for(const p of PRAYER_ORDER){
+    const [h,m]=cleanTime(prayerMap[p]).split(':').map(Number);
+    const d=new Date(now);d.setHours(h,m,0,0);
+    if(d>now){target=d;name=p;document.getElementById('card-'+p).classList.add('is-next');break}
+  }
+  if(!target){
+    const [h,m]=cleanTime(prayerMap.Fajr).split(':').map(Number);
+    target=new Date(now);target.setDate(target.getDate()+1);target.setHours(h,m,0,0);
+    name='Fajr';
+    document.getElementById('card-Fajr').classList.add('is-next');
+  }
+  document.getElementById('next-prayer-name').innerText=name;
+  const diff=Math.max(0,target-now);
+  const hh=String(Math.floor(diff/3600000)).padStart(2,'0');
+  const mm=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  const ss=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  document.getElementById('next-prayer-count').innerText=`${hh}:${mm}:${ss}`;
+}
+window.fetchPrayerTimes=function(){
+  window.applyPrayerTimings({Fajr:'05:12',Dhuhr:'12:00',Asr:'16:15',Maghrib:'18:02',Isha:'19:18'});
+};
 
-        // CHAT ENGINE
-        let chatMode = 'global'; let dmTarget = null; let chatUnsub = null;
-        window.chatBase64 = null; window.chatAudio = null;
+// ===== QURAN =====
+function switchQuranTab(tab){
+  document.getElementById('q-tab-audio').classList.toggle('active',tab==='audio');
+  document.getElementById('q-tab-read').classList.toggle('active',tab==='read');
+  document.getElementById('quran-audio-view').style.display=tab==='audio'?'block':'none';
+  document.getElementById('quran-read-view').style.display=tab==='read'?'block':'none';
+}
+window.switchQuranTab=switchQuranTab;
+window.loadQuranSurah=function(play=true){
+  const s=document.getElementById('quran-surah').value;
+  const r=document.getElementById('quran-reciter').value;
+  fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${s}`)
+    .then(r=>r.json())
+    .then(d=>{
+      const verses=d.quran.verses||[];
+      document.getElementById('quran-surah-title').innerText='Surah '+s;
+      const box=document.getElementById('quran-text-box');
+      box.innerHTML=verses.map(v=>
+        `<div class="ayah-row"><div class="ayah-ar"><span class="ayah-num">${v.verse_key.split(':')[1]}</span>${v.text_uthmani}</div><div class="ayah-tr">Verse ${v.verse_key}</div></div>`
+      ).join('');
+    }).catch(()=>{document.getElementById('quran-text-box').innerHTML='<p style="text-align:center;color:var(--text-sub)">Unable to load.</p>'});
+  if(play!==false){
+    const a=document.getElementById('quran-audio-player');
+    a.src=`https://cdn.islamic.network/quran/audio/128/${r}/${s}.mp3`;
+    a.load();
+  }
+};
 
-        window.switchChat = function(mode) {
-            chatMode = mode;
-            document.getElementById('tab-global').style.background = mode === 'global' ? 'var(--accent-blue)' : 'transparent';
-            document.getElementById('tab-global').style.color = mode === 'global' ? '#fff' : 'var(--text-sub)';
-            document.getElementById('tab-private').style.background = mode === 'private' ? 'var(--accent-blue)' : 'transparent';
-            document.getElementById('tab-private').style.color = mode === 'private' ? '#fff' : 'var(--text-sub)';
-            
-            document.getElementById('dm-list').style.display = mode === 'private' ? 'block' : 'none';
-            document.getElementById('dm-call-icons').style.display = mode === 'private' && dmTarget ? 'flex' : 'none';
-            
-            if(mode === 'private') { loadUsers(); if(dmTarget) loadChat(); else document.getElementById('chat-messages').innerHTML='<p style="text-align:center; color:var(--text-sub); margin-top:20px;">Select a user.</p>'; }
-            else loadChat();
-        };
+// ===== TRANSLATOR =====
+window.autoTranslate=function(){
+  const src=document.getElementById('src-lang').value;
+  const tgt=document.getElementById('target-lang').value;
+  const txt=document.getElementById('trans-input-text').value.trim();
+  if(!txt){document.getElementById('trans-output-text').innerText='Translation appears here';return}
+  fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=${src}|${tgt}`)
+    .then(r=>r.json())
+    .then(d=>{
+      document.getElementById('trans-output-text').innerText=d.responseData?.translatedText||'Error';
+    })
+    .catch(()=>{document.getElementById('trans-output-text').innerText='Translation failed.'});
+};
+window.swapLanguages=function(){
+  const s=document.getElementById('src-lang'),t=document.getElementById('target-lang');
+  const tmp=s.value;s.value=t.value;t.value=tmp;
+  window.autoTranslate();
+};
 
-        async function loadUsers() {
-            const list = document.getElementById('dm-list');
-            const snaps = await getDocs(collection(db, "users"));
-            let h = '';
-            snaps.forEach(d => {
-                const u = d.data();
-                if(u.uid !== window.currentUserObj.uid) {
-                    h += `<div class="dm-user-item ${dmTarget===u.uid?'active':''}" onclick="openDM('${u.uid}','${sanitizeText(u.username)}')">
-                            <img src="${u.photoURL}" class="dm-avatar"> <div class="dm-username">${sanitizeText(u.username)}</div>
-                          </div>`;
-                }
-            });
-            list.innerHTML = h;
+// ===== SPORTS =====
+function switchSportsTab(tab){
+  document.getElementById('tab-cricket').classList.toggle('active',tab==='cricket');
+  document.getElementById('tab-football').classList.toggle('active',tab==='football');
+  document.getElementById('sports-scores-container').innerHTML=
+    tab==='cricket'
+    ?`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov)</span></div></div>`
+    :`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">BAR vs RMA</strong><br><span style="font-size:13px;color:var(--text-sub)">2-1 (78')</span></div></div>`;
+}
+window.switchSportsTab=switchSportsTab;
+
+// ===== QR STUDIO =====
+function toggleQrMode(){
+  const m=document.getElementById('qr-mode').value;
+  document.getElementById('qr-text-fields').style.display=m==='text'?'block':'none';
+  document.getElementById('qr-wifi-fields').style.display=m==='wifi'?'block':'none';
+}
+window.toggleQrMode=toggleQrMode;
+window.buildQR=function(){
+  const m=document.getElementById('qr-mode').value;
+  let data='';
+  if(m==='text')data=document.getElementById('qr-text').value||'';
+  else{
+    const s=document.getElementById('qr-wifi-ssid').value;
+    const p=document.getElementById('qr-wifi-pass').value;
+    const e=document.getElementById('qr-wifi-enc').value;
+    data=`WIFI:T:${e};S:${s};P:${p};;`;
+  }
+  if(!data){alert('Please fill in the required fields.');return}
+  const wrap=document.getElementById('qr-output-wrap');
+  wrap.style.display='block';
+  document.getElementById('qr-output-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(data)}`;
+  document.getElementById('qr-download').href=document.getElementById('qr-output-img').src;
+};
+window.scanQRFile=function(event){
+  const file=event.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas');
+      c.width=img.width;c.height=img.height;
+      c.getContext('2d').drawImage(img,0,0);
+      const data=c.getContext('2d').getImageData(0,0,c.width,c.height);
+      const code=jsQR(data.data,data.width,data.height);
+      const out=document.getElementById('qr-scan-result');
+      out.style.display='block';
+      if(code){
+        let v=code.data;
+        if(v.startsWith('WIFI:')){
+          const ssid=(v.match(/S:([^;]*)/)||[])[1]||'';
+          const pass=(v.match(/P:([^;]*)/)||[])[1]||'';
+          const enc=(v.match(/T:([^;]*)/)||[])[1]||'';
+          out.innerHTML=`SSID: <strong>${ssid}</strong><br>Encryption: ${enc}<br>Password: <span class="qr-secret">${pass||'(open network)'}</span>`;
+        }else{
+          out.innerText=v;
         }
-        window.openDM = function(uid, name) { dmTarget = uid; document.getElementById('dm-head-name').innerText = name; document.getElementById('dm-call-icons').style.display = 'flex'; loadUsers(); loadChat(); };
+      }else{
+        out.innerText='No QR code detected in image.';
+      }
+    };
+    img.src=ev.target.result;
+  };
+  r.readAsDataURL(file);
+};
 
-        function loadChat() {
-            if(chatUnsub) chatUnsub();
-            const box = document.getElementById('chat-messages'); box.innerHTML = '';
-            let q;
-            if(chatMode === 'global') q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
-            else {
-                if(!dmTarget) return;
-                const cid = window.currentUserObj.uid < dmTarget ? `${window.currentUserObj.uid}_${dmTarget}` : `${dmTarget}_${window.currentUserObj.uid}`;
-                q = query(collection(db, "private_messages"), where("chatId", "==", cid)); // Handled locally for order
-            }
-
-            chatUnsub = onSnapshot(q, (snap) => {
-                box.innerHTML = '';
-                let arr = []; snap.forEach(d => arr.push({id: d.id, ...d.data()}));
-                arr.sort((a,b) => (a.timestamp?a.timestamp.toMillis():0) - (b.timestamp?b.timestamp.toMillis():0));
-
-                arr.forEach(data => {
-                    const time = data.timestamp ? data.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : 'Now';
-                    let content = '', actions = '';
-                    if(data.isDeleted) content = `<div class="deleted-msg">🚫 Message deleted.</div>`;
-                    else {
-                        content = (data.text ? `<div class="li-msg-text">${sanitizeText(data.text)}</div>` : '') + 
-                                  (data.attachedImage ? `<img src="${data.attachedImage}" class="li-msg-img">` : '') + 
-                                  (data.attachedAudio ? `<audio controls src="${data.attachedAudio}" style="height:35px; margin-top:5px; outline:none; border-radius:15px;"></audio>` : '');
-                        if(data.senderId === window.currentUserObj.uid) {
-                            actions = `<div class="msg-actions"><button class="action-btn delete" onclick="delMsg('${data.id}','${chatMode}')">🗑️</button></div>`;
-                        }
-                    }
-                    box.innerHTML += `<div class="li-msg-item"><img src="${data.photoURL}" class="li-msg-avatar"><div class="li-msg-content"><div class="li-msg-header"><span class="li-msg-name">${sanitizeText(data.username)}</span> <span class="li-msg-time">${time}</span></div>${content}</div>${actions}</div>`;
-                });
-                box.scrollTop = box.scrollHeight;
-            });
-        }
-
-        document.getElementById('btn-send-msg').onclick = async () => {
-            const txt = document.getElementById('chat-input-text').value.trim();
-            if(!txt && !window.chatBase64 && !window.chatAudio) return;
-            
-            const payload = { text: txt, attachedImage: window.chatBase64, attachedAudio: window.chatAudio, senderId: window.currentUserObj.uid, username: window.currentUserObj.displayName||"User", photoURL: window.currentUserObj.photoURL, timestamp: serverTimestamp() };
-            document.getElementById('chat-input-text').value = ''; window.clearChatMedia();
-            
-            if(chatMode === 'global') await addDoc(collection(db, "group_messages"), payload);
-            else if(dmTarget) {
-                payload.chatId = window.currentUserObj.uid < dmTarget ? `${window.currentUserObj.uid}_${dmTarget}` : `${dmTarget}_${window.currentUserObj.uid}`;
-                await addDoc(collection(db, "private_messages"), payload);
-            }
-        };
-
-        window.delMsg = async function(id, mode) { if(confirm("Delete?")) await updateDoc(doc(db, mode==='global'?'group_messages':'private_messages', id), {isDeleted: true, text: null, attachedImage: null, attachedAudio: null}); };
-    </script>
-
-    <!-- SCRIPT 2: TOOLS (PRAYER, QURAN, QR, CHAT UI) -->
-    <script>
-        // CHAT UI & INPUT
-        const input = document.getElementById('chat-input-text');
-        input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('btn-send-msg').click(); } });
-        input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; });
-        document.addEventListener('click', e => {
-            const em = document.getElementById('emoji-picker'), gf = document.getElementById('gif-picker');
-            if (e.target.closest('.toolbar-icons') || e.target.closest('.emoji-picker')) return;
-            if (em) em.style.display = 'none'; if (gf) gf.style.display = 'none';
-        });
-
-        window.attachImage = function(e) {
-            const r = new FileReader(); r.onload = ev => {
-                const img = new Image(); img.onload = () => {
-                    const c = document.createElement('canvas'); const s = Math.min(300/img.width, 300/img.height);
-                    c.width = img.width*s; c.height = img.height*s; c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-                    window.chatBase64 = c.toDataURL('image/jpeg', 0.6);
-                    document.getElementById('img-preview').src = window.chatBase64; document.getElementById('img-preview-box').style.display='block';
-                }; img.src = ev.target.result;
-            }; r.readAsDataURL(e.target.files[0]);
-        };
-        window.clearChatMedia = function() { window.chatBase64=null; window.chatAudio=null; document.getElementById('img-preview-box').style.display='none'; document.getElementById('img-up').value=''; };
-        window.toggleP = function(t) { document.getElementById('gif-picker').style.display='none'; document.getElementById('emoji-picker').style.display='none'; document.getElementById(t+'-picker').style.display='grid'; };
-        window.addE = function(e) { document.getElementById('chat-input-text').value+=e; document.getElementById('emoji-picker').style.display='none'; };
-        window.addG = function(u) { window.chatBase64=u; document.getElementById('img-preview').src=u; document.getElementById('img-preview-box').style.display='block'; document.getElementById('gif-picker').style.display='none'; };
-
-        let mRec; let aChk=[]; let isRec=false;
-        window.toggleMic = async function() {
-            if(!isRec) {
-                try { mRec = new MediaRecorder(await navigator.mediaDevices.getUserMedia({audio:true})); mRec.start(); isRec=true; document.getElementById('btn-mic').style.color='#ff453a'; document.getElementById('mic-status').style.display='inline';
-                mRec.ondataavailable = e => aChk.push(e.data); mRec.onstop = () => { const r = new FileReader(); r.onloadend = () => { window.chatAudio = r.result; document.getElementById('chat-input-text').value+=' 🎵 [Audio]'; }; r.readAsDataURL(new Blob(aChk, {type:'audio/webm'})); aChk=[]; };
-                } catch(e) { alert("Mic access denied"); }
-            } else { mRec.stop(); isRec=false; document.getElementById('btn-mic').style.color='currentColor'; document.getElementById('mic-status').style.display='none'; }
-        };
-
-        // PRAYER COUNTDOWN
-        let prayerMap = null, prayerTimer = null;
-        const PRAYER_ORDER = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
-        function cleanTime(v) { return String(v).trim().split(' ')[0]; }
-        function to12h(hhmm) { const [h, m] = cleanTime(hhmm).split(':').map(Number); const ap = h >= 12 ? 'PM' : 'AM'; return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${ap}`; }
-        window.applyPrayerTimings = function(t) {
-            prayerMap = { Fajr: t.Fajr, Dhuhr: t.Dhuhr, Asr: t.Asr, Maghrib: t.Maghrib, Isha: t.Isha };
-            document.getElementById('t-fajr').innerText = to12h(t.Fajr); document.getElementById('t-dhuhr').innerText = to12h(t.Dhuhr); document.getElementById('t-asr').innerText = to12h(t.Asr); document.getElementById('t-maghrib').innerText = to12h(t.Maghrib); document.getElementById('t-isha').innerText = to12h(t.Isha);
-            clearInterval(prayerTimer); tickPrayerCountdown(); prayerTimer = setInterval(tickPrayerCountdown, 1000);
-        };
-        function tickPrayerCountdown() {
-            if (!prayerMap) return; const now = new Date(); let target = null, name = '';
-            for (const p of PRAYER_ORDER) { const [h, m] = cleanTime(prayerMap[p]).split(':').map(Number); const d = new Date(now); d.setHours(h, m, 0, 0); if (d > now) { target = d; name = p; break; } }
-            if (!target) { const [h, m] = cleanTime(prayerMap.Fajr).split(':').map(Number); target = new Date(now); target.setDate(target.getDate() + 1); target.setHours(h, m, 0, 0); name = 'Fajr'; }
-            let s = Math.max(0, Math.floor((target - now) / 1000));
-            document.getElementById('next-prayer-name').innerText = `${name} · ${to12h(prayerMap[name])}`;
-            document.getElementById('next-prayer-count').innerText = `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
-            PRAYER_ORDER.forEach(p => { const c = document.getElementById('card-' + p); if (c) c.classList.toggle('is-next', p === name); });
-        }
-        window.fetchPrayerTimes = function() {
-            if (!navigator.geolocation) return window.fetchRiyadhPrayerTimes();
-            navigator.geolocation.getCurrentPosition(async (pos) => { try {
-                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=4`);
-                const data = await res.json(); if (data && data.data) { document.getElementById('prayer-location-title').innerText = "Local Prayer Times"; window.applyPrayerTimings(data.data.timings); }
-            } catch (e) { window.fetchRiyadhPrayerTimes(); } }, () => window.fetchRiyadhPrayerTimes(), { timeout: 8000 });
-        };
-        window.fetchRiyadhPrayerTimes = async function() {
-            try { const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=Saudi Arabia&method=4'); const data = await res.json(); if (data && data.data) { document.getElementById('prayer-location-title').innerText = 'Riyadh, Saudi Arabia'; window.applyPrayerTimings(data.data.timings); } } catch (e) {}
-        };
-
-        // QURAN READER
-        let quranTab = 'audio';
-        window.switchQuranTab = function(tab) {
-            quranTab = tab;
-            document.getElementById('q-tab-audio').classList.toggle('active', tab === 'audio'); document.getElementById('q-tab-read').classList.toggle('active', tab === 'read');
-            document.getElementById('quran-audio-view').style.display = tab === 'audio' ? 'block' : 'none'; document.getElementById('quran-read-view').style.display = tab === 'read' ? 'block' : 'none';
-            if (tab === 'read') window.loadQuranText();
-        };
-        window.loadQuranText = async function() {
-            const surah = document.getElementById('quran-surah').value; const box = document.getElementById('quran-text-box');
-            box.innerHTML = '<p style="color:var(--text-sub); text-align:center;">Loading Arabic text…</p>';
-            try {
-                const res = await fetch(`https://api.alquran.cloud/v1/surah/${surah}/editions/quran-uthmani,en.sahih`); const json = await res.json();
-                const ar = json.data[0], en = json.data[1]; document.getElementById('quran-surah-title').innerText = `${ar.englishName} — ${ar.name} · ${ar.numberOfAyahs} ayat`;
-                box.innerHTML = ar.ayahs.map((a, i) => `<div class="ayah-row"><div class="ayah-ar">${a.text}<span class="ayah-num">${a.numberInSurah}</span></div><div class="ayah-tr">${en.ayahs[i].text}</div></div>`).join('');
-            } catch (e) { box.innerHTML = '<p style="color:#ff453a; text-align:center;">Failed to load.</p>'; }
-        };
-        window.loadQuranSurah = function(autoPlay = true) {
-            const player = document.getElementById('quran-audio-player'); player.src = `https://cdn.islamic.network/quran/audio-surah/128/${document.getElementById('quran-reciter').value}/${document.getElementById('quran-surah').value}.mp3`;
-            if (autoPlay && quranTab === 'audio') player.play().catch(() => {}); if (quranTab === 'read') window.loadQuranText();
-        };
-
-        // QR STUDIO
-        function escWifi(v) { return String(v).replace(/([\\;,:"])/g, '\\$1'); }
-        window.toggleQrMode = function() { const wifi = document.getElementById('qr-mode').value === 'wifi'; document.getElementById('qr-wifi-fields').style.display = wifi ? 'block' : 'none'; document.getElementById('qr-text-fields').style.display = wifi ? 'none' : 'block'; };
-        window.buildQR = function() {
-            let payload;
-            if (document.getElementById('qr-mode').value === 'wifi') {
-                const ssid = document.getElementById('qr-wifi-ssid').value.trim(); if (!ssid) return alert('Enter network name.');
-                const enc = document.getElementById('qr-wifi-enc').value; const pass = enc === 'nopass' ? '' : document.getElementById('qr-wifi-pass').value;
-                payload = `WIFI:T:${enc};S:${escWifi(ssid)};P:${escWifi(pass)};;`;
-            } else { payload = document.getElementById('qr-text').value.trim(); if (!payload) return alert('Enter text.'); }
-            const src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(payload)}`;
-            document.getElementById('qr-output-img').src = src; document.getElementById('qr-download').href = src; document.getElementById('qr-output-wrap').style.display = 'block';
-        };
-        window.scanQRFile = function(event) {
-            const file = event.target.files[0]; if (!file) return; const out = document.getElementById('qr-scan-result'); out.style.display = 'block'; out.innerHTML = 'Scanning…';
-            const reader = new FileReader(); reader.onload = e => {
-                const img = new Image(); img.onload = () => {
-                    const canvas = document.createElement('canvas'); const scale = Math.min(1, 1200 / Math.max(img.width, img.height));
-                    canvas.width = img.width * scale; canvas.height = img.height * scale;
-                    const ctx = canvas.getContext('2d', { willReadFrequently: true }); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    const px = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = (typeof jsQR === 'function') ? jsQR(px.data, canvas.width, canvas.height, { inversionAttempts: 'attemptBoth' }) : null;
-                    if (code && /^WIFI:/i.test(code.data)) {
-                        const field = k => { const m = code.data.match(new RegExp(k + ':((?:[^;\\\\]|\\\\.)*);', 'i')); return m ? m[1].replace(/\\(.)/g, '$1') : ''; };
-                        out.innerHTML = `<strong>📡 Network:</strong> ${field('S')}<br><strong>🔑 Pass:</strong> <span class="qr-secret">${field('P')}</span>`;
-                    } else if (code) out.innerHTML = `Decoded: ${code.data}`; else out.innerHTML = '<span style="color:#ff453a;">No QR code detected.</span>';
-                }; img.src = e.target.result;
-            }; reader.readAsDataURL(file); event.target.value = '';
-        };
-
-        // OTHERS
-        window.switchSportsTab = function(s) { document.getElementById('tab-cricket').className = s === 'cricket' ? 'q-tab active' : 'q-tab'; document.getElementById('tab-football').className = s === 'football' ? 'q-tab active' : 'q-tab'; document.getElementById('sports-scores-container').innerHTML = s === 'cricket' ? `<div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>IND vs AUS</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 210/4 (18.2 ov)</span></div></div>` : `<div class="score-card"><div><span style="background:#ff453a;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.7rem;font-weight:bold;">LIVE</span> <strong>Real Madrid vs Barcelona</strong><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div></div>`; }
-        
-        let pdfImages = [];
-        window.handleImageToPdfSelect = function(e) { const files = e.target.files; const prev = document.getElementById('pdf-preview-container'); const btn = document.getElementById('btn-generate-pdf'); prev.innerHTML = ''; pdfImages = []; if(files.length > 0) { btn.disabled = false; Array.from(files).forEach(f => { const r = new FileReader(); r.onload = ev => { pdfImages.push(ev.target.result); const img = document.createElement('img'); img.src = ev.target.result; img.style = "height:60px; width:60px; object-fit:cover; border-radius:8px; border:1px solid var(--glass-border);"; prev.appendChild(img); }; r.readAsDataURL(f); }); } else btn.disabled = true; };
-        window.generatePDF = function() { if(pdfImages.length===0) return; const btn = document.getElementById('btn-generate-pdf'); btn.innerText = "Generating..."; btn.disabled = true; setTimeout(() => { const { jsPDF } = window.jspdf; const pdf = new jsPDF(); pdfImages.forEach((imgData, i) => { if (i > 0) pdf.addPage(); const props = pdf.getImageProperties(imgData); const w = pdf.internal.pageSize.getWidth(); const h = (props.height * w) / props.width; let fH = h, fW = w, xM = 0, yM = 0; if(h > pdf.internal.pageSize.getHeight()) { fH = pdf.internal.pageSize.getHeight(); fW = (props.width * fH) / props.height; xM = (w - fW)/2; } else yM = (pdf.internal.pageSize.getHeight() - fH)/2; pdf.addImage(imgData, 'JPEG', xM, yM, fW, fH); }); pdf.save("Akash_Portal.pdf"); btn.innerText = "Download PDF"; btn.disabled = false; document.getElementById('pdf-preview-container').innerHTML = ''; pdfImages = []; }, 100); };
-    </script>
+// ===== IMAGE TO PDF =====
+let pdfImages=[];
+window.handleImageToPdfSelect=function(event){
+  const files=Array.from(event.target.files);
+  files.forEach(file=>{
+    const r=new FileReader();
+    r.onload=ev=>{
+      pdfImages.push(ev.target.result);
+      const preview=document.getElementById('pdf-preview-container');
+      const img=document.createElement('img');
+      img.src=ev.target.result;
+      img.className='pdf-thumb';
+      preview.appendChild(img);
+      document.getElementById('btn-generate-pdf').disabled=pdfImages.length===0;
+    };
+    r.readAsDataURL(file);
+  });
+};
+window.generatePDF=function(){
+  if(pdfImages.length===0){alert('No images selected.');return}
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF();
+  pdfImages.forEach((src,i)=>{
+    if(i>0)pdf.addPage();
+    const img=new Image();
+    img.src=src;
+    const pw=pdf.internal.pageSize.getWidth();
+    const ph=pdf.internal.pageSize.getHeight();
+    const ratio=Math.min(pw/img.width,ph/img.height);
+    const w=img.width*ratio,h=img.height*ratio;
+    pdf.addImage(src,'JPEG',(pw-w)/2,(ph-h)/2,w,h);
+  });
+  pdf.save('akash-portal-document.pdf');
+  pdfImages=[];
+  document.getElementById('pdf-preview-container').innerHTML='';
+  document.getElementById('btn-generate-pdf').disabled=true;
+};
+</script>
 </body>
 </html>
