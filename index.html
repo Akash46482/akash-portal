@@ -1032,14 +1032,10 @@ window.startClock=function(){
 };
 
 /* ===================== AI SMART ASSISTANT ===================== */
-/* Fast streaming AI — unlimited questions, instant response */
+/* Tries 6 different free AI services + optional Gemini key */
 let aiHistory=[];
 
-function escapeHtml(str){
-  const d=document.createElement('div');
-  d.textContent=str;
-  return d.innerHTML;
-}
+function escapeHtml(str){const d=document.createElement('div');d.textContent=str;return d.innerHTML}
 
 function formatAIReply(text){
   let safe=escapeHtml(text);
@@ -1047,6 +1043,20 @@ function formatAIReply(text){
   safe=safe.replace(/`([^`]+)`/g,'<code style="background:var(--fill-2);padding:1px 5px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:13px">$1</code>');
   safe=safe.replace(/\n/g,'<br>');
   return safe;
+}
+
+function isErrorResponse(text){
+  if(!text)return true;
+  const t=text.trim().toLowerCase();
+  if(!t)return true;
+  if(t.includes('402')&&t.includes('payment'))return true;
+  if(t.includes('payment_required'))return true;
+  if(t.startsWith('{"error"'))return true;
+  if(t.includes('"success":false'))return true;
+  if(t.includes('deprecation_notice'))return true;
+  if(t.includes('api key budget'))return true;
+  if(t.length<2)return true;
+  return false;
 }
 
 window.aiQuick=function(prompt){
@@ -1059,28 +1069,37 @@ window.aiQuick=function(prompt){
 window.aiClearChat=function(){
   aiHistory=[];
   const box=document.getElementById('ai-chat-box');
-  box.innerHTML=`
-    <div class="ai-empty" id="ai-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      <p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p>
-      <p style="font-size:12px">Fast AI — unlimited, instant streaming</p>
-    </div>`;
+  box.innerHTML=`<div class="ai-empty" id="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p><p style="font-size:12px">Free AI — unlimited questions</p></div>`;
   document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
 };
 
-/* Typing simulation — shows text instantly in chunks */
+window.toggleAiSettings=function(){
+  const s=document.getElementById('ai-settings');
+  s.style.display=s.style.display==='none'?'block':'none';
+  const k=localStorage.getItem('gemini_api_key');
+  if(k)document.getElementById('gemini-key-input').value=k;
+};
+
+window.saveGeminiKey=function(){
+  const k=document.getElementById('gemini-key-input').value.trim();
+  if(!k){alert('Please paste your API key');return}
+  localStorage.setItem('gemini_api_key',k);
+  alert('Gemini API key saved! AI will respond fast and reliably now.');
+  document.getElementById('ai-settings').style.display='none';
+};
+
+window.clearGeminiKey=function(){
+  localStorage.removeItem('gemini_api_key');
+  document.getElementById('gemini-key-input').value='';
+  alert('API key removed. AI will use free public services.');
+};
+
 function typeOut(text,bubble,box){
   return new Promise(resolve=>{
     let i=0;
-    const speed=4;
     function step(){
-      i+=speed;
-      if(i>=text.length){
-        bubble.innerHTML=formatAIReply(text);
-        box.scrollTop=box.scrollHeight;
-        resolve();
-        return;
-      }
+      i+=5;
+      if(i>=text.length){bubble.innerHTML=formatAIReply(text);box.scrollTop=box.scrollHeight;resolve();return}
       bubble.innerHTML=formatAIReply(text.slice(0,i));
       box.scrollTop=box.scrollHeight;
       requestAnimationFrame(step);
@@ -1089,19 +1108,180 @@ function typeOut(text,bubble,box){
   });
 }
 
-function showError(box){
-  const errMsg=document.createElement('div');
-  errMsg.className='ai-msg ai';
-  errMsg.innerHTML=`
-    <div class="ai-avatar ai">
-      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    </div>
-    <div class="ai-bubble" style="color:var(--red)">AI service busy. Please try again.</div>`;
-  box.appendChild(errMsg);
+function showError(box,msg){
+  const e=document.createElement('div');
+  e.className='ai-msg ai';
+  e.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="ai-bubble" style="color:var(--red)">${msg||'All AI services busy. Try again or add a free Gemini API key in Settings.'}</div>`;
+  box.appendChild(e);
   box.scrollTop=box.scrollHeight;
   document.getElementById('ai-status').innerText='Error — retry';
 }
 
+/* ====== SERVICE 1: Google Gemini (if user has key) — FASTEST & MOST RELIABLE ====== */
+async function callGemini(prompt){
+  const key=localStorage.getItem('gemini_api_key');
+  if(!key)return null;
+  try{
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key='+key,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:0.7,maxOutputTokens:800}
+      })
+    });
+    if(!res.ok)return null;
+    const j=await res.json();
+    if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
+      return j.candidates[0].content.parts[0].text;
+    }
+    return null;
+  }catch(e){return null}
+}
+
+/* ====== SERVICE 2: Pollinations.ai GET (anonymous) ====== */
+async function callPollinations(prompt){
+  const urls=[
+    'https://text.pollinations.ai/'+encodeURIComponent(prompt),
+    'https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?referrer=akash',
+    'https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?seed='+Math.floor(Math.random()*999999),
+  ];
+  for(const url of urls){
+    try{
+      const c=new AbortController();
+      const tid=setTimeout(()=>c.abort(),8000);
+      const res=await fetch(url,{signal:c.signal,credentials:'omit'});
+      clearTimeout(tid);
+      if(!res.ok)continue;
+      const t=await res.text();
+      if(t&&!isErrorResponse(t))return t.trim();
+    }catch(e){}
+  }
+  return null;
+}
+
+/* ====== SERVICE 3: Pollinations via CORS proxy ====== */
+async function callPollinationsProxy(prompt){
+  const proxies=[
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy/?quest=',
+  ];
+  const target='https://text.pollinations.ai/'+encodeURIComponent(prompt);
+  for(const proxy of proxies){
+    try{
+      const c=new AbortController();
+      const tid=setTimeout(()=>c.abort(),8000);
+      const url=proxy+encodeURIComponent(target);
+      const res=await fetch(url,{signal:c.signal});
+      clearTimeout(tid);
+      if(!res.ok)continue;
+      const t=await res.text();
+      if(t&&!isErrorResponse(t))return t.trim();
+    }catch(e){}
+  }
+  return null;
+}
+
+/* ====== SERVICE 4: Free GPT proxy ====== */
+async function callGptProxy(prompt){
+  const proxies=[
+    {url:'https://free.churchless.tech/v1/chat/completions',model:'gpt-3.5-turbo'},
+    {url:'https://api.chimeragpt.net/v1/chat/completions',model:'gpt-3.5-turbo'},
+    {url:'https://api.naga.ac/v1/chat/completions',model:'gpt-3.5-turbo'},
+  ];
+  for(const p of proxies){
+    try{
+      const c=new AbortController();
+      const tid=setTimeout(()=>c.abort(),8000);
+      const res=await fetch(p.url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:p.model,
+          messages:[{role:'user',content:prompt}]
+        }),
+        signal:c.signal
+      });
+      clearTimeout(tid);
+      if(!res.ok)continue;
+      const j=await res.json();
+      if(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content){
+        return j.choices[0].message.content;
+      }
+    }catch(e){}
+  }
+  return null;
+}
+
+/* ====== SERVICE 5: DuckDuckGo AI Chat ====== */
+async function callDuckDuckGo(prompt){
+  try{
+    const c1=new AbortController();
+    const tid1=setTimeout(()=>c1.abort(),5000);
+    const statusRes=await fetch('https://duckduckgo.com/duckchat/v1/status',{
+      headers:{'x-vqd-accept':'1'},
+      signal:c1.signal
+    });
+    clearTimeout(tid1);
+    const token=statusRes.headers.get('x-vqd-4');
+    if(!token)return null;
+
+    const c2=new AbortController();
+    const tid2=setTimeout(()=>c2.abort(),8000);
+    const chatRes=await fetch('https://duckduckgo.com/duckchat/v1/chat',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-vqd-4':token
+      },
+      body:JSON.stringify({
+        model:'gpt-4o-mini',
+        messages:[{role:'user',content:prompt}]
+      }),
+      signal:c2.signal
+    });
+    clearTimeout(tid2);
+    if(!chatRes.ok)return null;
+    const text=await chatRes.text();
+    /* Parse SSE response */
+    const lines=text.split('\n');
+    let reply='';
+    for(const line of lines){
+      if(line.startsWith('data: ')){
+        const data=line.slice(6).trim();
+        if(data==='[DONE]')break;
+        try{
+          const j=JSON.parse(data);
+          if(j.message)reply+=j.message;
+        }catch(e){}
+      }
+    }
+    if(reply.trim())return reply.trim();
+  }catch(e){}
+  return null;
+}
+
+/* ====== SERVICE 6: You.com / alternative ====== */
+async function callAlternative(prompt){
+  try{
+    const c=new AbortController();
+    const tid=setTimeout(()=>c.abort(),8000);
+    const res=await fetch('https://api.binjie.fun/api/generateStream',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt:prompt,options:{}}),
+      signal:c.signal
+    });
+    clearTimeout(tid);
+    if(!res.ok)return null;
+    const t=await res.text();
+    if(t&&!isErrorResponse(t))return t.trim();
+  }catch(e){}
+  return null;
+}
+
+/* ====== MAIN: Try all services in order ====== */
 window.sendAIMessage=async function(){
   const inp=document.getElementById('ai-input');
   const text=inp.value.trim();
@@ -1110,26 +1290,18 @@ window.sendAIMessage=async function(){
   const empty=document.getElementById('ai-empty');
   if(empty)empty.remove();
 
-  /* Show user message */
+  /* User message */
   const userMsg=document.createElement('div');
   userMsg.className='ai-msg user';
-  userMsg.innerHTML=`
-    <div class="ai-avatar user">
-      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </div>
-    <div class="ai-bubble">${escapeHtml(text)}</div>`;
+  userMsg.innerHTML=`<div class="ai-avatar user"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ai-bubble">${escapeHtml(text)}</div>`;
   box.appendChild(userMsg);
   box.scrollTop=box.scrollHeight;
 
-  /* Show typing indicator */
+  /* Typing indicator */
   const typing=document.createElement('div');
   typing.className='ai-msg ai';
   typing.id='ai-typing-indicator';
-  typing.innerHTML=`
-    <div class="ai-avatar ai">
-      <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
-    </div>
-    <div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>`;
+  typing.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg></div><div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>`;
   box.appendChild(typing);
   box.scrollTop=box.scrollHeight;
 
@@ -1138,144 +1310,74 @@ window.sendAIMessage=async function(){
   document.getElementById('ai-status').innerText='Thinking...';
   document.getElementById('ai-send').disabled=true;
 
-  /* Build MINIMAL context for speed — last exchange only, truncated */
+  /* Build minimal context */
   let promptText=text;
   if(aiHistory.length>=2){
-    const lastQ=aiHistory[aiHistory.length-2].content;
-    const lastA=aiHistory[aiHistory.length-1].content;
-    promptText=`[Prev Q: ${lastQ.slice(0,100)}]\n[Prev A: ${lastA.slice(0,150)}]\n\n${text}`;
+    const lq=aiHistory[aiHistory.length-2].content;
+    const la=aiHistory[aiHistory.length-1].content;
+    promptText=`[Context: Q="${lq.slice(0,80)}" A="${la.slice(0,120)}"]\n\n${text}`;
   }
 
-  let reply='';
+  let reply=null;
 
-  /* ====== FAST METHOD: GET with streaming + 12s timeout ====== */
-  try{
-    const controller=new AbortController();
-    const timeoutId=setTimeout(()=>controller.abort(),12000);
+  /* Try services in order — first one that works wins */
+  const services=[
+    {name:'Gemini',fn:()=>callGemini(promptText)},
+    {name:'Pollinations',fn:()=>callPollinations(promptText)},
+    {name:'Pollinations-Proxy',fn:()=>callPollinationsProxy(promptText)},
+    {name:'GPT-Proxy',fn:()=>callGptProxy(text)},
+    {name:'DuckDuckGo',fn:()=>callDuckDuckGo(text)},
+    {name:'Alternative',fn:()=>callAlternative(text)},
+  ];
 
-    const url='https://text.pollinations.ai/'+encodeURIComponent(promptText);
-    const res=await fetch(url,{signal:controller.signal});
-    clearTimeout(timeoutId);
+  for(const svc of services){
+    document.getElementById('ai-status').innerText='Trying '+svc.name+'...';
+    try{
+      reply=await svc.fn();
+    }catch(e){
+      reply=null;
+    }
+    if(reply&&!isErrorResponse(reply)){
+      reply=reply.trim();
+      break;
+    }
+    reply=null;
+  }
 
-    /* Remove typing, create live bubble */
-    typing.remove();
+  /* Remove typing */
+  if(typing.parentNode)typing.remove();
+
+  if(reply){
     const aiMsg=document.createElement('div');
     aiMsg.className='ai-msg ai';
-    aiMsg.innerHTML=`
-      <div class="ai-avatar ai">
-        <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
-      </div>
-      <div class="ai-bubble" id="ai-live-bubble" style="min-height:20px"></div>`;
+    const bubble=document.createElement('div');
+    bubble.className='ai-bubble';
+    aiMsg.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg></div>`;
+    aiMsg.appendChild(bubble);
     box.appendChild(aiMsg);
-    const bubble=aiMsg.querySelector('.ai-bubble');
-
-    /* Try streaming response — text appears instantly as it arrives */
-    if(res.body&&res.body.getReader){
-      const reader=res.body.getReader();
-      const decoder=new TextDecoder();
-
-      while(true){
-        const{done,value}=await reader.read();
-        if(done)break;
-        reply+=decoder.decode(value,{stream:true});
-        if(reply.trim()){
-          bubble.innerHTML=formatAIReply(reply);
-          box.scrollTop=box.scrollHeight;
-        }
-      }
-    } else {
-      /* No streaming — get full text then simulate typing */
-      reply=await res.text();
-      if(reply.trim()){
-        await typeOut(reply.trim(),bubble,box);
-      }
+    await typeOut(reply,bubble,box);
+    aiHistory.push({role:'user',content:text});
+    aiHistory.push({role:'assistant',content:reply});
+    document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
+  }else{
+    const hasKey=!!localStorage.getItem('gemini_api_key');
+    if(hasKey){
+      showError(box,'All services failed. Check your Gemini API key in Settings.');
+    }else{
+      showError(box,'All free services busy. Click "API Key" button above to add a FREE Gemini key for reliable AI.');
     }
-
-    reply=reply.trim();
-
-    if(reply){
-      bubble.innerHTML=formatAIReply(reply);
-      box.scrollTop=box.scrollHeight;
-      aiHistory.push({role:'user',content:text});
-      aiHistory.push({role:'assistant',content:reply});
-      document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
-      document.getElementById('ai-send').disabled=false;
-      return;
-    } else {
-      throw new Error('Empty response');
-    }
-  }catch(err){
-    console.log('GET method failed:',err.message);
-    if(typing.parentNode)typing.remove();
-  }
-
-  /* ====== FALLBACK: POST method with 12s timeout ====== */
-  try{
-    const controller2=new AbortController();
-    const timeoutId2=setTimeout(()=>controller2.abort(),12000);
-
-    const res=await fetch('https://text.pollinations.ai/openai',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        messages:[
-          {role:'system',content:'You are Akash AI. Be concise and helpful.'},
-          ...aiHistory.slice(-2),
-          {role:'user',content:text}
-        ]
-      }),
-      signal:controller2.signal
-    });
-    clearTimeout(timeoutId2);
-
-    const raw=await res.text();
-    try{
-      const j=JSON.parse(raw);
-      reply=j.choices&&j.choices[0]&&j.choices[0].message?j.choices[0].message.content:'';
-      if(!reply&&j.response)reply=j.response;
-      if(!reply&&j.text)reply=j.text;
-    }catch(e){
-      reply=raw;
-    }
-    reply=reply.trim();
-
-    if(reply){
-      const aiMsg=document.createElement('div');
-      aiMsg.className='ai-msg ai';
-      const tempBubble=document.createElement('div');
-      tempBubble.className='ai-bubble';
-      aiMsg.innerHTML=`
-        <div class="ai-avatar ai">
-          <svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg>
-        </div>`;
-      aiMsg.appendChild(tempBubble);
-      box.appendChild(aiMsg);
-      await typeOut(reply,tempBubble,box);
-      aiHistory.push({role:'user',content:text});
-      aiHistory.push({role:'assistant',content:reply});
-      document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
-    } else {
-      showError(box);
-    }
-  }catch(err2){
-    console.log('POST method failed:',err2.message);
-    showError(box);
   }
 
   document.getElementById('ai-send').disabled=false;
 };
 
-/* Enter key to send */
+/* Enter key */
 document.addEventListener('keydown',function(e){
   if(e.target&&e.target.id==='ai-input'){
-    if(e.key==='Enter'&&!e.shiftKey){
-      e.preventDefault();
-      sendAIMessage();
-    }
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAIMessage()}
   }
 });
-
-/* Auto-resize textarea */
+/* Auto-resize */
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='ai-input'){
     e.target.style.height='auto';
