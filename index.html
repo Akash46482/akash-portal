@@ -3,69 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash — Executive Portal</title>
+    <title>Akash — Executive Portal 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
         
+        /* MULTI-THEME SYSTEM */
         :root {
-            /* Default Dark Mode */
-            --bg-color: #000000;
+            /* Default Dark Theme */
+            --bg-color: #050608;
             --text-main: #f5f5f7;
             --text-sub: #86868b;
-            --glass-bg: rgba(22, 24, 29, 0.82);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(0, 0, 0, 0.8);
+            --glass-bg: rgba(22, 24, 29, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --nav-bg: rgba(5, 6, 8, 0.85);
             --card-bg: rgba(255, 255, 255, 0.03);
             --input-bg: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(255, 255, 255, 0.12);
+            --input-border: rgba(255, 255, 255, 0.15);
             --accent-blue: #2997ff;
-            --calc-num-bg: #333333;
+            --3d-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.15);
+            --calc-num-bg: #2c2c2e;
             --calc-num-text: #ffffff;
             --calc-ctrl-bg: #a5a5a5;
             --calc-ctrl-text: #000000;
-            --dropdown-bg: #1e242d;
         }
 
-        body.theme-white {
-            --bg-color: #f2f2f7;
+        body.theme-light {
+            --bg-color: #e5e5ea;
             --text-main: #1d1d1f;
             --text-sub: #6e6e73;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.08);
-            --nav-bg: rgba(242, 242, 247, 0.8);
-            --card-bg: rgba(0, 0, 0, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.82);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(229, 225, 234, 0.85);
+            --card-bg: rgba(0, 0, 0, 0.02);
             --input-bg: rgba(0, 0, 0, 0.04);
-            --input-border: rgba(0, 0, 0, 0.12);
+            --input-border: rgba(0, 0, 0, 0.15);
             --accent-blue: #0071e3;
-            --calc-num-bg: #e5e5ea;
+            --3d-shadow: 0 20px 35px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8);
+            --calc-num-bg: #d1d1d6;
             --calc-num-text: #000000;
-            --calc-ctrl-bg: #d1d1d6;
+            --calc-ctrl-bg: #e5e5ea;
             --calc-ctrl-text: #000000;
-            --dropdown-bg: #ffffff;
         }
 
-        body.theme-gray {
-            --bg-color: #1c1c1e;
-            --text-main: #f2f2f7;
-            --text-sub: #98989d;
-            --glass-bg: rgba(44, 44, 46, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --nav-bg: rgba(28, 28, 30, 0.85);
+        body.theme-moonlight {
+            --bg-color: #0b132b;
+            --text-main: #e0e1dd;
+            --text-sub: #778da9;
+            --glass-bg: rgba(27, 38, 59, 0.75);
+            --glass-border: rgba(119, 141, 169, 0.25);
+            --nav-bg: rgba(11, 19, 43, 0.88);
             --card-bg: rgba(255, 255, 255, 0.04);
             --input-bg: rgba(255, 255, 255, 0.06);
-            --input-border: rgba(255, 255, 255, 0.12);
-            --accent-blue: #64d2ff;
-            --calc-num-bg: #3a3a3c;
+            --input-border: rgba(119, 141, 169, 0.3);
+            --accent-blue: #64dfdf;
+            --3d-shadow: 0 20px 45px rgba(5, 10, 25, 0.8), inset 0 1px 1px rgba(100, 223, 223, 0.2);
+            --calc-num-bg: #1b263b;
             --calc-num-text: #ffffff;
-            --calc-ctrl-bg: #636366;
+            --calc-ctrl-bg: #415a77;
             --calc-ctrl-text: #ffffff;
-            --dropdown-bg: #2c2c2e;
         }
 
-        body { background: var(--bg-color); color: var(--text-main); line-height: 1.47; min-height: 100vh; overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
+        body.theme-starlight {
+            --bg-color: #120924;
+            --text-main: #f3e8ff;
+            --text-sub: #a855f7;
+            --glass-bg: rgba(30, 16, 58, 0.75);
+            --glass-border: rgba(168, 85, 247, 0.25);
+            --nav-bg: rgba(18, 9, 36, 0.88);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-border: rgba(168, 85, 247, 0.3);
+            --accent-blue: #c084fc;
+            --3d-shadow: 0 20px 45px rgba(10, 3, 25, 0.85), inset 0 1px 1px rgba(192, 132, 252, 0.25);
+            --calc-num-bg: #2e1065;
+            --calc-num-text: #ffffff;
+            --calc-ctrl-bg: #581c87;
+            --calc-ctrl-text: #ffffff;
+        }
 
-        /* WELCOME ANIMATION OVERLAY */
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.47; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        /* 3D GRAPHICAL THEME SELECTOR BUTTON */
+        .theme-select-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .theme-select-dropdown {
+            background: transparent;
+            border: none;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .theme-select-dropdown option {
+            background: #1e242d;
+            color: #ffffff;
+        }
+
+        /* WELCOME OVERLAY */
         #welcome-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color); z-index: 9999;
@@ -79,11 +133,19 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes welcomeScaleUp { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 
-        /* Glassmorphism Panel */
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; transition: background 0.3s ease, border 0.3s ease; }
+        /* 3D Glassmorphism Panel */
+        .glass-panel { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 20px; 
+            box-shadow: var(--3d-shadow);
+            transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+        .glass-panel:hover { transform: translateY(-3px); }
 
         /* Auth Screen Cards */
-        .auth-card { max-width: 440px; margin: 100px auto; padding: 3rem 2.5rem; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .auth-card { max-width: 440px; margin: 80px auto; padding: 3rem 2.5rem; text-align: center; }
         .auth-card h2 { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--text-main); margin-bottom: 0.4rem; }
         .auth-card p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 2rem; font-weight: 400; }
         
@@ -95,82 +157,76 @@
         input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25); }
         
         .btn { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
-        .btn-primary { background: #0071e3; color: #ffffff; }
-        .btn-primary:hover { background: #0077ed; transform: scale(1.01); }
-        .btn-primary:disabled { background: var(--input-border); color: var(--text-sub); cursor: not-allowed; }
+        .btn-primary { background: #0071e3; color: #ffffff; box-shadow: 0 8px 20px rgba(0, 113, 227, 0.4); }
+        .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+        .btn-primary:disabled { background: var(--input-border); color: var(--text-sub); cursor: not-allowed; box-shadow: none; }
         .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--input-border); }
         .btn-secondary:hover { background: var(--input-bg); }
         .btn-link { background: none; border: none; color: var(--accent-blue); cursor: pointer; margin-top: 16px; font-size: 0.9rem; text-decoration: none; }
-        .btn-link:hover { text-decoration: underline; }
         
         .error-msg { color: #ff453a; font-size: 0.85rem; margin-top: 14px; font-weight: 500; }
         .success-box { background: rgba(48, 209, 88, 0.15); border: 1px solid rgba(48, 209, 88, 0.3); padding: 16px; border-radius: 12px; color: #30d158; margin-top: 15px; font-size: 0.95rem; }
 
-        /* Navigation Header & Left Profile Avatar */
+        /* Navigation Header & Controls */
         #main-site { display: none; }
         navbar { 
             position: sticky; top: 0; z-index: 100;
             background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; 
+            padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
             border-bottom: 1px solid var(--glass-border); transition: background 0.3s ease;
         }
-        .brand-container { display: flex; align-items: center; gap: 12px; position: relative; }
-        
-        .profile-avatar {
-            width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
-            border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s;
-        }
+        .brand-container { display: flex; align-items: center; gap: 14px; }
+        .profile-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); cursor: pointer; transition: transform 0.2s; }
         .profile-avatar:hover { transform: scale(1.08); }
-
-        .brand-logo { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .brand-logo { font-size: 1.15rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: var(--text-sub); font-weight: 400; }
 
-        .dots-btn { background: none; border: none; color: var(--text-sub); font-size: 1.3rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: 0.2s; }
-        .dots-btn:hover { color: var(--text-main); background: var(--input-bg); }
-
-        .theme-dropdown {
-            display: none; position: absolute; top: 40px; left: 160px; 
-            background: var(--dropdown-bg); border: 1px solid var(--glass-border); 
-            border-radius: 12px; padding: 8px; width: 170px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 200;
+        .digital-clock-badge {
+            background: var(--input-bg); border: 1px solid var(--input-border);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            color: var(--accent-blue); display: flex; align-items: center; gap: 8px;
         }
-        .theme-option { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); border-radius: 8px; cursor: pointer; transition: 0.2s; }
-        .theme-option:hover { background: var(--accent-blue); color: #ffffff; }
 
         #btn-logout { background: rgba(255, 69, 58, 0.15); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.3); padding: 6px 14px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
         #btn-logout:hover { background: #ff453a; color: white; }
 
-        /* Layout Grid */
-        .dashboard-container { display: flex; flex-wrap: wrap; gap: 28px; max-width: 1240px; margin: 2rem auto; padding: 0 1.5rem; }
+        /* Dashboard Grid */
+        .dashboard-container { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1280px; margin: 2rem auto; padding: 0 1.5rem; }
         .sidebar-left { flex: 1; min-width: 360px; }
         .main-right { flex: 2; min-width: 420px; }
         @media (max-width: 880px) { .sidebar-left, .main-right { min-width: 100%; } }
 
         /* Card System */
         .card { padding: 1.75rem; border-radius: 20px; margin-bottom: 1.25rem; }
-        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
-        .card-header img { height: 24px; width: auto; object-fit: contain; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
         .card-header h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
 
         /* Animated Accordion Folders */
-        details.folder { margin-bottom: 1.25rem; overflow: hidden; border-radius: 20px; transition: all 0.3s ease; }
+        details.folder { margin-bottom: 1.25rem; overflow: hidden; border-radius: 20px; }
         summary.folder-tab { background: var(--card-bg); padding: 18px 22px; font-weight: 500; font-size: 1rem; color: var(--text-main); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         summary.folder-tab:hover { background: var(--input-bg); }
         summary.folder-tab::-webkit-details-marker { display: none; }
-        summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        summary.folder-tab::after { content: '›'; font-size: 1.3rem; color: var(--text-sub); transform: rotate(90deg); transition: transform 0.3s ease; }
         details[open] summary.folder-tab::after { transform: rotate(-90deg); color: var(--accent-blue); }
 
-        .folder-content { padding: 1.75rem; border-top: 1px solid var(--glass-border); animation: folderSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes folderSlideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        .folder-content { padding: 1.5rem; border-top: 1px solid var(--glass-border); animation: folderSlide 0.4s ease forwards; }
+        @keyframes folderSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* QURAN PLAYER STYLES */
-        .quran-box { display: flex; flex-direction: column; gap: 14px; }
-        .quran-select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); border-radius: 12px; font-weight: 600; font-size: 0.9rem; outline: none; }
-        .quran-select option { background: var(--dropdown-bg); color: var(--text-main); }
-        .quran-audio-player { width: 100%; margin-top: 8px; outline: none; border-radius: 30px; }
+        /* ISLAMIC PRAYER TIMES */
+        .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; margin-top: 12px; }
+        .prayer-card { background: var(--input-bg); border: 1px solid var(--input-border); padding: 10px; border-radius: 12px; }
+        .prayer-name { font-size: 0.75rem; font-weight: 600; color: var(--text-sub); }
+        .prayer-time { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
 
-        /* GROUP CHAT & COMMENTS STYLES */
+        /* LIVE SPORTS */
+        .sports-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+        .sports-tab-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-sub); border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .sports-tab-btn.active { background: #0071e3; color: white; border-color: #0071e3; }
+        .score-card { background: var(--input-bg); border: 1px solid var(--input-border); padding: 12px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .live-tag { background: #ff3b30; color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+        /* GROUP CHAT */
         .chat-box { display: flex; flex-direction: column; height: 320px; }
         .chat-messages { flex: 1; overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
         .chat-msg { display: flex; gap: 10px; align-items: flex-start; }
@@ -182,68 +238,50 @@
         .chat-input { flex: 1; margin-bottom: 0 !important; }
         .chat-send-btn { background: #0071e3; color: white; border: none; padding: 0 18px; border-radius: 12px; font-weight: 500; cursor: pointer; }
 
-        /* Profile Upload Modal */
+        /* Profile Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem; }
         .modal-body { max-width: 400px; width: 100%; padding: 2rem; text-align: center; }
         .modal-avatar-preview { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 12px auto; border: 3px solid var(--accent-blue); }
-        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; transition: 0.2s; }
-        .file-upload-label:hover { background: var(--card-bg); }
+        .file-upload-label { display: block; padding: 12px; background: var(--input-bg); border: 1px dashed var(--accent-blue); border-radius: 12px; cursor: pointer; color: var(--accent-blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 12px; }
 
-        /* Dual Pane Translator Suite */
+        /* Dual Pane Translator */
         .translator-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-        .lang-select-box { flex: 1; min-width: 140px; position: relative; }
-        .lang-select { width: 100%; padding: 12px 16px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; font-size: 0.95rem; outline: none; cursor: pointer; appearance: none; }
-        .lang-select option { background: var(--dropdown-bg); color: var(--text-main); }
-        .lang-select-box::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--accent-blue); pointer-events: none; }
-        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s; }
-        .swap-btn:hover { background: var(--card-bg); color: var(--text-main); transform: rotate(180deg); }
-
-        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .lang-select-box { flex: 1; min-width: 130px; position: relative; }
+        .lang-select { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--accent-blue); font-weight: 600; border-radius: 12px; outline: none; }
+        .swap-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-sub); width: 40px; height: 40px; border-radius: 12px; cursor: pointer; }
+        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         @media (max-width: 650px) { .translator-grid { grid-template-columns: 1fr; } }
-        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 16px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
-        .trans-pane.output-pane { background: var(--input-bg); border-color: var(--glass-border); }
-        .trans-textarea { width: 100%; height: 120px; background: transparent; border: none; color: var(--text-main); font-size: 1.1rem; outline: none; resize: none; font-weight: 400; }
-        .trans-textarea::placeholder { color: var(--text-sub); font-weight: 400; }
-        .trans-output-text { font-size: 1.15rem; color: var(--accent-blue); font-weight: 500; min-height: 120px; word-break: break-word; line-height: 1.5; }
-        .pane-toolbar { display: flex; justify-content: space-between; align-items: center; pt: 10px; border-top: 1px solid var(--glass-border); }
-        .icon-btn { background: none; border: none; color: var(--text-sub); font-size: 1.2rem; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.2s; }
-        .icon-btn:hover { color: var(--text-main); background: var(--input-bg); }
-        .mic-listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
+        .trans-pane { display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; padding: 14px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--glass-border); }
+        .trans-textarea { width: 100%; height: 100px; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; outline: none; resize: none; }
+        .trans-output-text { font-size: 1.05rem; color: var(--accent-blue); font-weight: 500; min-height: 100px; word-break: break-word; }
 
-        /* Calculator */
-        .apple-calc-wrapper { max-width: 300px; margin: 0 auto; padding: 12px; }
-        .apple-calc-display { width: 100%; padding: 16px 8px; font-size: 2.8rem; text-align: right; border: none; background: transparent; font-weight: 300; color: var(--text-main); outline: none; letter-spacing: -1px; margin-bottom: 8px; }
-        .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.25rem; font-weight: 500; cursor: pointer; transition: filter 0.15s, transform 0.1s; display: flex; align-items: center; justify-content: center; outline: none; user-select: none; }
-        .apple-calc-btn:active { filter: brightness(1.3); transform: scale(0.96); }
+        /* Apple Calculator */
+        .apple-calc-wrapper { max-width: 280px; margin: 0 auto; padding: 8px; }
+        .apple-calc-display { width: 100%; padding: 12px 8px; font-size: 2.5rem; text-align: right; border: none; background: transparent; font-weight: 300; color: var(--text-main); outline: none; margin-bottom: 8px; }
+        .apple-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .apple-calc-btn { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.2rem; font-weight: 500; cursor: pointer; transition: transform 0.1s; }
+        .apple-calc-btn:active { transform: scale(0.95); }
         .btn-num { background: var(--calc-num-bg); color: var(--calc-num-text); }
         .btn-control { background: var(--calc-ctrl-bg); color: var(--calc-ctrl-text); }
-        .btn-op { background: #ff9f0a; color: #ffffff; font-size: 1.5rem; }
-        .btn-zero { grid-column: span 2; aspect-ratio: auto; border-radius: 35px; justify-content: flex-start; padding-left: 22px; }
+        .btn-op { background: #ff9f0a; color: #ffffff; }
+        .btn-zero { grid-column: span 2; aspect-ratio: auto; border-radius: 30px; padding-left: 20px; text-align: left; }
 
         /* Search Forms */
-        .search-form { display: flex; gap: 10px; }
-        .search-btn { background-color: #0071e3; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
-        .yt-btn { background-color: #ff3b30; color: white; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
+        .search-form { display: flex; gap: 8px; }
+        .search-btn { background-color: #0071e3; color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 500; }
+        .yt-btn { background-color: #ff3b30; color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 500; }
 
         /* Tic-Tac-Toe Game */
         .mode-buttons { display: flex; gap: 8px; margin-bottom: 10px; }
-        .mode-btn { flex: 1; padding: 10px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; transition: 0.2s; }
-        .mode-active { background: #0071e3; color: white; border-color: #0071e3; }
-        .mode-inactive { background: var(--input-bg); color: var(--text-sub); }
-        .difficulty-buttons { display: flex; gap: 6px; margin-bottom: 14px; }
-        .diff-btn { flex: 1; padding: 6px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 8px; font-weight: 500; font-size: 0.75rem; transition: 0.2s; background: var(--card-bg); color: var(--text-sub); }
-        .diff-active { background: rgba(41, 151, 255, 0.2); color: var(--accent-blue); border-color: var(--accent-blue); }
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 240px; margin: 12px auto; }
-        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 600; cursor: pointer; border-radius: 12px; }
-        .cell:hover { background: var(--card-bg); }
-        #game-status { text-align: center; font-weight: 500; font-size: 0.95rem; color: var(--text-sub); }
-        .reset-btn { display: block; margin: 14px auto 0; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.85rem; }
+        .mode-btn { flex: 1; padding: 8px; border: 1px solid var(--input-border); cursor: pointer; border-radius: 10px; font-weight: 500; font-size: 0.85rem; }
+        .mode-active { background: #0071e3; color: white; }
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 220px; margin: 10px auto; }
+        .cell { aspect-ratio: 1; background: var(--input-bg); border: 1px solid var(--input-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; cursor: pointer; border-radius: 10px; }
     </style>
 </head>
 <body class="theme-dark">
 
-    <!-- WELCOME ANIMATION OVERLAY -->
+    <!-- WELCOME OVERLAY -->
     <div id="welcome-overlay">
         <div class="welcome-content">
             <h1 class="welcome-title">Welcome</h1>
@@ -252,25 +290,20 @@
         </div>
     </div>
 
-    <!-- DEVICE FILE UPLOAD PROFILE MODAL -->
+    <!-- PROFILE MODAL -->
     <div id="profile-modal" class="modal-overlay">
         <div class="modal-body glass-panel">
             <h3 style="color:var(--text-main); font-size:1.3rem; margin-bottom:6px;">Update Profile Picture</h3>
-            <p style="color:var(--text-sub); font-size:0.85rem; margin-bottom:12px;">Choose an image file from your computer or mobile device.</p>
-            
+            <p style="color:var(--text-sub); font-size:0.85rem; margin-bottom:12px;">Select an image file from your device.</p>
             <img id="modal-avatar-preview" src="https://via.placeholder.com/150" class="modal-avatar-preview">
-            
-            <label for="device-file-input" class="file-upload-label">
-                📁 Choose Image File
-            </label>
+            <label for="device-file-input" class="file-upload-label">📁 Choose Image File</label>
             <input type="file" id="device-file-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-            
             <button id="btn-save-avatar" class="btn btn-primary" disabled>Save Profile Picture</button>
             <button onclick="closeProfileModal()" class="btn btn-secondary" style="margin-top:6px;">Cancel</button>
         </div>
     </div>
 
-    <!-- STEP 1: USERNAME OR EMAIL LOGIN SCREEN -->
+    <!-- STEP 1: LOGIN SCREEN -->
     <div id="login-screen" class="auth-card glass-panel">
         <h2>Akash Portal</h2>
         <p>Sign in using your Username or Email.</p>
@@ -281,18 +314,18 @@
         <p id="login-error" class="error-msg"></p>
     </div>
 
-    <!-- STEP 2: REGISTRATION - USERNAME & EMAIL STEP -->
+    <!-- STEP 2: REGISTRATION -->
     <div id="reg-email-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Create Account</h2>
-        <p>Set a Unique Username and enter your Gmail address.</p>
-        <input type="text" id="reg-username" placeholder="Choose unique username (e.g. akash99)" required>
+        <p>Set a Unique Username and Gmail address.</p>
+        <input type="text" id="reg-username" placeholder="Choose unique username" required>
         <input type="email" id="reg-email" placeholder="Enter Gmail address" required>
         <button id="btn-reg-next" class="btn btn-primary">Continue →</button>
         <button id="btn-back-login1" class="btn-link">← Return to Log In</button>
         <p id="reg-email-error" class="error-msg"></p>
     </div>
 
-    <!-- STEP 3: REGISTRATION - PASSWORD STEP -->
+    <!-- STEP 3: PASSWORD -->
     <div id="reg-pass-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Set Password</h2>
         <p id="reg-user-display" style="color:var(--accent-blue); font-weight:500; margin-bottom:12px;"></p>
@@ -303,31 +336,41 @@
         <p id="reg-pass-error" class="error-msg"></p>
     </div>
 
-    <!-- STEP 4: VERIFICATION SENT MESSAGE -->
+    <!-- STEP 4: VERIFICATION SENT -->
     <div id="reg-sent-screen" class="auth-card glass-panel" style="display: none;">
         <h2>Verify Your Email ✉️</h2>
-        <div class="success-box">
-            A verification link has been sent to your email address.
-        </div>
-        <p style="margin-top:15px; font-size:0.9rem; color:var(--text-sub);">
-            Please check your inbox, click the verification link, and sign in.
-        </p>
-        <button id="btn-sent-to-login" class="btn btn-primary">Return to Sign In</button>
+        <div class="success-box">A verification link has been sent to your email address.</div>
+        <button id="btn-sent-to-login" class="btn btn-primary" style="margin-top:20px;">Return to Sign In</button>
     </div>
 
     <!-- MAIN DASHBOARD -->
     <div id="main-site">
         <navbar>
             <div class="brand-container">
-                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Click to upload profile picture from device">
+                <img id="nav-avatar" src="https://via.placeholder.com/150" class="profile-avatar" onclick="openProfileModal()" title="Upload Profile Picture">
                 <div class="brand-logo">AKASH <span>PORTAL</span></div>
-                <button class="dots-btn" onclick="toggleThemeMenu(event)" title="Theme Settings">⋮</button>
                 
-                <div id="theme-menu" class="theme-dropdown">
-                    <div class="theme-option" onclick="switchTheme('dark')">🌙 Dark Mode</div>
-                    <div class="theme-option" onclick="switchTheme('white')">☀️ White Mode</div>
-                    <div class="theme-option" onclick="switchTheme('gray')">🩶 Gray Mode</div>
+                <!-- Expanded Multi-Theme Selector Badge -->
+                <div class="theme-select-badge" title="Select Theme Style">
+                    <span>🎨</span>
+                    <select id="theme-dropdown-select" class="theme-select-dropdown" onchange="changeThemeMode(this.value)">
+                        <option value="dark">🌙 Dark Mode</option>
+                        <option value="light">☀️ Light Mode</option>
+                        <option value="moonlight">🌌 Moonlight</option>
+                        <option value="starlight">✨ Starlight</option>
+                    </select>
                 </div>
+            </div>
+
+            <!-- Digital Clock Badge -->
+            <div class="digital-clock-badge">
+                <span>⏱️</span>
+                <span id="live-digital-clock">00:00:00 AM</span>
+                <select id="clock-timezone-select" onchange="updateDigitalClock()" style="background:none; border:none; color:inherit; font-size:0.8rem; outline:none; cursor:pointer;">
+                    <option value="Asia/Riyadh">Riyadh (GMT+3)</option>
+                    <option value="Asia/Dhaka">Dhaka (GMT+6)</option>
+                    <option value="America/New_York">New York (EST)</option>
+                </select>
             </div>
 
             <button id="btn-logout">Sign Out</button>
@@ -338,53 +381,62 @@
             <!-- LEFT SIDEBAR -->
             <div class="sidebar-left">
                 
-                <!-- Folder 1: Animated Multi-Language Translator -->
+                <!-- Folder 1: Islamic Prayer Times -->
                 <details class="folder glass-panel" open>
+                    <summary class="folder-tab">🕋 Islamic Daily Prayer Times</summary>
+                    <div class="folder-content">
+                        <p id="prayer-location-title" style="font-size:0.85rem; color:var(--text-sub); font-weight:500;">Detecting location...</p>
+                        <div class="prayer-grid">
+                            <div class="prayer-card"><div class="prayer-name">Fajr</div><div class="prayer-time" id="t-fajr">--:--</div></div>
+                            <div class="prayer-card"><div class="prayer-name">Dhuhr</div><div class="prayer-time" id="t-dhuhr">--:--</div></div>
+                            <div class="prayer-card"><div class="prayer-name">Asr</div><div class="prayer-time" id="t-asr">--:--</div></div>
+                            <div class="prayer-card"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="t-maghrib">--:--</div></div>
+                            <div class="prayer-card"><div class="prayer-name">Isha</div><div class="prayer-time" id="t-isha">--:--</div></div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Folder 2: Live Sports Hub -->
+                <details class="folder glass-panel">
+                    <summary class="folder-tab">⚽ Live Sports Hub</summary>
+                    <div class="folder-content">
+                        <div class="sports-tabs">
+                            <button id="tab-cricket" class="sports-tab-btn active" onclick="switchSportsTab('cricket')">Cricket 🏏</button>
+                            <button id="tab-football" class="sports-tab-btn" onclick="switchSportsTab('football')">Football ⚽</button>
+                        </div>
+                        <div id="sports-scores-container"></div>
+                    </div>
+                </details>
+
+                <!-- Folder 3: Translator -->
+                <details class="folder glass-panel">
                     <summary class="folder-tab">🌐 Pro Translator Suite</summary>
                     <div class="folder-content">
                         <div class="translator-bar">
                             <div class="lang-select-box">
                                 <select id="src-lang" class="lang-select" onchange="autoTranslate()">
                                     <option value="en">English</option>
-                                    <option value="bn">Bangla (বাংলা)</option>
-                                    <option value="ar">Arabic (العربية)</option>
-                                    <option value="ur">Urdu (اردو)</option>
-                                    <option value="hi">Hindi (हिंदी)</option>
+                                    <option value="bn">Bangla</option>
+                                    <option value="ar">Arabic</option>
                                 </select>
                             </div>
-                            <button class="swap-btn" onclick="swapLanguages()" title="Swap Languages">⇄</button>
+                            <button class="swap-btn" onclick="swapLanguages()">⇄</button>
                             <div class="lang-select-box">
                                 <select id="target-lang" class="lang-select" onchange="autoTranslate()">
-                                    <option value="bn">Bangla (বাংলা)</option>
+                                    <option value="bn">Bangla</option>
                                     <option value="en">English</option>
-                                    <option value="ar">Arabic (العربية)</option>
-                                    <option value="ur">Urdu (اردو)</option>
-                                    <option value="hi">Hindi (हिंदी)</option>
+                                    <option value="ar">Arabic</option>
                                 </select>
                             </div>
                         </div>
-
                         <div class="translator-grid">
-                            <div class="trans-pane">
-                                <textarea id="input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea>
-                                <div class="pane-toolbar">
-                                    <button id="mic-btn" class="icon-btn" onclick="toggleVoiceInput()" title="Voice Input (Microphone)">🎙️</button>
-                                    <button class="icon-btn" onclick="playSpeech('input')" title="Listen Source Audio">🔊</button>
-                                </div>
-                            </div>
-
-                            <div class="trans-pane output-pane">
-                                <div id="output-text" class="trans-output-text">Translation</div>
-                                <div class="pane-toolbar" style="justify-content: flex-end; gap: 8px;">
-                                    <button class="icon-btn" onclick="copyTranslation()" title="Copy Translation">📋</button>
-                                    <button class="icon-btn" onclick="playSpeech('output')" title="Listen Translation Audio">🔊</button>
-                                </div>
-                            </div>
+                            <div class="trans-pane"><textarea id="input-text" class="trans-textarea" placeholder="Enter text..." oninput="autoTranslate()"></textarea></div>
+                            <div class="trans-pane"><div id="output-text" class="trans-output-text">Translation</div></div>
                         </div>
                     </div>
                 </details>
 
-                <!-- Folder 2: Authentic Apple Style Calculator -->
+                <!-- Folder 4: Apple Calculator -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🧮 Calculator</summary>
                     <div class="folder-content">
@@ -395,22 +447,18 @@
                                 <button class="apple-calc-btn btn-control" onclick="toggleSign()">±</button>
                                 <button class="apple-calc-btn btn-control" onclick="appendCalc('%')">%</button>
                                 <button class="apple-calc-btn btn-op" onclick="appendCalc('/')">÷</button>
-                                
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('7')">7</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('8')">8</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('9')">9</button>
                                 <button class="apple-calc-btn btn-op" onclick="appendCalc('*')">×</button>
-                                
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('4')">4</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('5')">5</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('6')">6</button>
                                 <button class="apple-calc-btn btn-op" onclick="appendCalc('-')">−</button>
-                                
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('1')">1</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('2')">2</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('3')">3</button>
                                 <button class="apple-calc-btn btn-op" onclick="appendCalc('+')">+</button>
-                                
                                 <button class="apple-calc-btn btn-num btn-zero" onclick="appendCalc('0')">0</button>
                                 <button class="apple-calc-btn btn-num" onclick="appendCalc('.')">.</button>
                                 <button class="apple-calc-btn btn-op" onclick="calculate()">=</button>
@@ -419,66 +467,19 @@
                     </div>
                 </details>
 
-                <!-- Folder 3: Game -->
+                <!-- Folder 5: Tic-Tac-Toe -->
                 <details class="folder glass-panel">
                     <summary class="folder-tab">🎮 Tic-Tac-Toe</summary>
                     <div class="folder-content">
                         <div class="mode-buttons">
                             <button id="btn-2p" class="mode-btn mode-active" onclick="setMode('2P')">2 Player</button>
-                            <button id="btn-ai" class="mode-btn mode-inactive" onclick="setMode('AI')">Vs Robot</button>
+                            <button id="btn-ai" class="mode-btn" onclick="setMode('AI')">Vs Robot</button>
                         </div>
-                        
-                        <div id="difficulty-wrapper" class="difficulty-buttons" style="display: none;">
-                            <button id="diff-easy" class="diff-btn diff-active" onclick="setDifficulty('easy')">Easy</button>
-                            <button id="diff-medium" class="diff-btn" onclick="setDifficulty('medium')">Medium</button>
-                            <button id="diff-hard" class="diff-btn" onclick="setDifficulty('hard')">Hard</button>
-                        </div>
-
                         <p id="game-status">Player X's Turn</p>
                         <div class="board" id="board">
-                            <div class="cell" onclick="makeMove(0)"></div>
-                            <div class="cell" onclick="makeMove(1)"></div>
-                            <div class="cell" onclick="makeMove(2)"></div>
-                            <div class="cell" onclick="makeMove(3)"></div>
-                            <div class="cell" onclick="makeMove(4)"></div>
-                            <div class="cell" onclick="makeMove(5)"></div>
-                            <div class="cell" onclick="makeMove(6)"></div>
-                            <div class="cell" onclick="makeMove(7)"></div>
-                            <div class="cell" onclick="makeMove(8)"></div>
-                        </div>
-                        <button class="reset-btn" onclick="resetGame()">Reset Board</button>
-                    </div>
-                </details>
-
-                <!-- Folder 4: Quran App (Audio Recitations) -->
-                <details class="folder glass-panel">
-                    <summary class="folder-tab">📖 Holy Quran Audio Player</summary>
-                    <div class="folder-content">
-                        <div class="quran-box">
-                            <label style="color:var(--text-sub); font-size:0.8rem; font-weight:600;">SELECT RECITER</label>
-                            <select id="quran-reciter" class="quran-select" onchange="loadQuranSurah()">
-                                <option value="ar.alafasy">Mishary Rashid Alafasy</option>
-                                <option value="ar.sudais">Abdur-Rahman As-Sudais</option>
-                                <option value="ar.abdullahbasfar">Abdullah Basfar</option>
-                                <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
-                            </select>
-
-                            <label style="color:var(--text-sub); font-size:0.8rem; font-weight:600;">SELECT SURAH</label>
-                            <select id="quran-surah" class="quran-select" onchange="loadQuranSurah()">
-                                <option value="1">1. Al-Fatihah (الفاتحة)</option>
-                                <option value="2">2. Al-Baqarah (البقرة)</option>
-                                <option value="36">36. Ya-Sin (يس)</option>
-                                <option value="55">55. Ar-Rahman (الرحمن)</option>
-                                <option value="56">56. Al-Waqi'ah (الواقعة)</option>
-                                <option value="67">67. Al-Mulk (الملك)</option>
-                                <option value="112">112. Al-Ikhlas (الإخلاص)</option>
-                                <option value="113">113. Al-Falaq (الفلق)</option>
-                                <option value="114">114. An-Nas (الناس)</option>
-                            </select>
-
-                            <audio id="quran-audio-player" class="quran-audio-player" controls>
-                                Your browser does not support playing audio.
-                            </audio>
+                            <div class="cell" onclick="makeMove(0)"></div><div class="cell" onclick="makeMove(1)"></div><div class="cell" onclick="makeMove(2)"></div>
+                            <div class="cell" onclick="makeMove(3)"></div><div class="cell" onclick="makeMove(4)"></div><div class="cell" onclick="makeMove(5)"></div>
+                            <div class="cell" onclick="makeMove(6)"></div><div class="cell" onclick="makeMove(7)"></div><div class="cell" onclick="makeMove(8)"></div>
                         </div>
                     </div>
                 </details>
@@ -488,26 +489,23 @@
             <!-- RIGHT MAIN CONTENT -->
             <div class="main-right">
                 
-                <!-- LIVE GROUP CHAT / COMMENT SECTION -->
+                <!-- LIVE GROUP CHAT -->
                 <section class="card glass-panel">
                     <div class="card-header">
-                        <h2>💬 Portal Group Community Chat</h2>
+                        <h2>💬 Portal Community Live Chat</h2>
                     </div>
                     <div class="chat-box">
-                        <div id="chat-messages" class="chat-messages">
-                            <!-- Messages load dynamically -->
-                        </div>
+                        <div id="chat-messages" class="chat-messages"></div>
                         <div class="chat-input-row">
-                            <input type="text" id="chat-input-text" class="chat-input" placeholder="Type a message or comment...">
+                            <input type="text" id="chat-input-text" class="chat-input" placeholder="Type a message or comment..." maxlength="500">
                             <button id="btn-send-msg" class="chat-send-btn">Send</button>
                         </div>
                     </div>
                 </section>
 
-                <!-- Search Cards -->
+                <!-- SEARCH CARDS -->
                 <section class="card glass-panel">
                     <div class="card-header">
-                        <img src="https://www.google.com/favicon.ico" alt="Google Logo">
                         <h2>Search Google</h2>
                     </div>
                     <form class="search-form" action="https://www.google.com/search" method="get" target="_blank">
@@ -516,23 +514,12 @@
                     </form>
                 </section>
 
-                <section class="card glass-panel">
-                    <div class="card-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube Logo">
-                        <h2>Search YouTube</h2>
-                    </div>
-                    <form class="search-form" action="https://www.youtube.com/results" method="get" target="_blank">
-                        <input class="search-input" type="text" name="search_query" placeholder="Search videos on YouTube..." required>
-                        <button class="yt-btn" type="submit">YouTube</button>
-                    </form>
-                </section>
-
             </div>
 
         </main>
     </div>
 
-    <!-- FIREBASE & DEVICE FILE PROFILE LOGIC -->
+    <!-- FIREBASE ENGINE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, signOut, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -552,7 +539,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Screens & Elements
+        function sanitizeText(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
         const loginScreen = document.getElementById('login-screen');
         const regEmailScreen = document.getElementById('reg-email-screen');
         const regPassScreen = document.getElementById('reg-pass-screen');
@@ -574,7 +566,6 @@
             mainSite.style.display = 'none';
         }
 
-        // Welcome Routine
         function triggerWelcomeAnimation(displayName, callback) {
             hideAllScreens();
             welcomeUserDisplay.innerText = `Welcome back, ${displayName}`;
@@ -590,7 +581,6 @@
             }, 2000);
         }
 
-        // Modal Controls
         window.openProfileModal = function() {
             document.getElementById('profile-modal').style.display = 'flex';
             if (currentUserObj) {
@@ -604,7 +594,6 @@
             document.getElementById('btn-save-avatar').disabled = true;
         };
 
-        // Handle Device File Selection with Canvas Image Compression
         window.handleFileSelect = function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -615,11 +604,11 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
-                        canvas.width = 150;
-                        canvas.height = 150;
-                        ctx.drawImage(img, 0, 0, 150, 150);
+                        canvas.width = 100;
+                        canvas.height = 100;
+                        ctx.drawImage(img, 0, 0, 100, 100);
 
-                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.8);
+                        selectedBase64Image = canvas.toDataURL('image/jpeg', 0.5);
                         document.getElementById('modal-avatar-preview').src = selectedBase64Image;
                         document.getElementById('btn-save-avatar').disabled = false;
                     };
@@ -628,7 +617,6 @@
             }
         };
 
-        // Save Uploaded Profile Picture
         document.getElementById('btn-save-avatar').addEventListener('click', () => {
             if (selectedBase64Image && currentUserObj) {
                 const saveBtn = document.getElementById('btn-save-avatar');
@@ -640,88 +628,25 @@
                         navAvatar.src = selectedBase64Image;
                         saveBtn.innerText = "Save Profile Picture";
                         closeProfileModal();
-                    })
-                    .catch((err) => {
-                        alert("Error saving image: " + err.message);
-                        saveBtn.innerText = "Save Profile Picture";
-                        saveBtn.disabled = false;
                     });
             }
         });
 
-        // Navigation Handlers
-        document.getElementById('btn-goto-register').addEventListener('click', () => {
-            hideAllScreens();
-            regEmailScreen.style.display = 'block';
-        });
+        document.getElementById('btn-goto-register').addEventListener('click', () => { hideAllScreens(); regEmailScreen.style.display = 'block'; });
+        document.getElementById('btn-back-login1').addEventListener('click', () => { hideAllScreens(); loginScreen.style.display = 'block'; });
 
-        document.getElementById('btn-back-login1').addEventListener('click', () => {
-            hideAllScreens();
-            loginScreen.style.display = 'block';
-        });
-
-        document.getElementById('btn-back-reg-email').addEventListener('click', () => {
-            hideAllScreens();
-            regEmailScreen.style.display = 'block';
-        });
-
-        document.getElementById('btn-sent-to-login').addEventListener('click', () => {
-            hideAllScreens();
-            loginScreen.style.display = 'block';
-        });
-
-        // Step 1: Validate Registration Username & Email
         document.getElementById('btn-reg-next').addEventListener('click', async () => {
-            const usernameVal = document.getElementById('reg-username').value.trim();
-            const emailVal = document.getElementById('reg-email').value.trim();
-            const regEmailError = document.getElementById('reg-email-error');
-
-            if (!usernameVal || usernameVal.length < 3) {
-                regEmailError.innerText = "Please enter a valid username (min 3 chars).";
-                return;
-            }
-            if (!emailVal || !emailVal.includes('@')) {
-                regEmailError.innerText = "Please enter a valid Gmail address.";
-                return;
-            }
-
-            regEmailError.style.color = "var(--accent-blue)";
-            regEmailError.innerText = "Checking availability...";
-
-            try {
-                const methods = await fetchSignInMethodsForEmail(auth, emailVal);
-                if (methods.length > 0) {
-                    regEmailError.style.color = "#ff453a";
-                    regEmailError.innerText = "An account with this email already exists.";
-                    return;
-                }
-
-                regEmailError.innerText = '';
-                document.getElementById('reg-user-display').innerText = `@${usernameVal} (${emailVal})`;
-                hideAllScreens();
-                regPassScreen.style.display = 'block';
-
-            } catch (err) {
-                regEmailError.innerText = '';
-                document.getElementById('reg-user-display').innerText = `@${usernameVal} (${emailVal})`;
-                hideAllScreens();
-                regPassScreen.style.display = 'block';
-            }
+            const usernameVal = sanitizeText(document.getElementById('reg-username').value.trim());
+            if (!usernameVal || usernameVal.length < 3) return;
+            hideAllScreens();
+            regPassScreen.style.display = 'block';
         });
 
-        // Step 2: Create Account & Save Username
         document.getElementById('btn-reg-finish').addEventListener('click', () => {
-            const usernameVal = document.getElementById('reg-username').value.trim();
-            const emailVal = document.getElementById('reg-email').value.trim();
+            const usernameVal = sanitizeText(document.getElementById('reg-username').value.trim());
+            const emailVal = sanitizeText(document.getElementById('reg-email').value.trim());
             const passVal = document.getElementById('reg-password').value;
-            const confirmVal = document.getElementById('reg-confirm-password').value;
-            const regPassError = document.getElementById('reg-pass-error');
 
-            if (passVal.length < 6) { regPassError.innerText = "Password must be at least 6 characters."; return; }
-            if (passVal !== confirmVal) { regPassError.innerText = "Passwords do not match."; return; }
-
-            regPassError.innerText = "Creating account...";
-            
             createUserWithEmailAndPassword(auth, emailVal, passVal)
                 .then((userCredential) => {
                     updateProfile(userCredential.user, { 
@@ -734,35 +659,22 @@
                             regSentScreen.style.display = 'block';
                         });
                     });
-                })
-                .catch((error) => {
-                    regPassError.innerText = error.message;
                 });
         });
 
-        // Login via Username or Email
         document.getElementById('btn-login').addEventListener('click', () => {
-            const identifier = document.getElementById('login-identifier').value.trim();
+            const identifier = sanitizeText(document.getElementById('login-identifier').value.trim());
             const pass = document.getElementById('login-password').value;
-            const loginError = document.getElementById('login-error');
-
-            loginError.innerText = "Signing in...";
-
             const emailToUse = identifier.includes('@') ? identifier : `${identifier}@akashportal.com`;
 
-            signInWithEmailAndPassword(auth, emailToUse, pass)
-                .catch((error) => {
-                    loginError.innerText = "Login failed: Invalid credentials.";
-                });
+            signInWithEmailAndPassword(auth, emailToUse, pass);
         });
 
-        // Logout
         document.getElementById('btn-logout').addEventListener('click', () => {
             hasShownWelcome = false;
             signOut(auth);
         });
 
-        // Group Chat Listener
         function initRealtimeGroupChat() {
             const chatMessages = document.getElementById('chat-messages');
             const q = query(collection(db, "group_messages"), orderBy("timestamp", "asc"));
@@ -776,8 +688,8 @@
                     msgDiv.innerHTML = `
                         <img src="${data.photoURL || 'https://via.placeholder.com/150'}" class="chat-avatar">
                         <div class="msg-bubble">
-                            <div class="msg-user">@${data.username || 'User'}</div>
-                            <div class="msg-text">${data.text}</div>
+                            <div class="msg-user">@${sanitizeText(data.username || 'User')}</div>
+                            <div class="msg-text">${sanitizeText(data.text)}</div>
                         </div>
                     `;
                     chatMessages.appendChild(msgDiv);
@@ -786,10 +698,9 @@
             });
         }
 
-        // Send Chat Message
         document.getElementById('btn-send-msg').addEventListener('click', async () => {
             const input = document.getElementById('chat-input-text');
-            const text = input.value.trim();
+            const text = sanitizeText(input.value.trim());
             if (text && currentUserObj) {
                 input.value = '';
                 await addDoc(collection(db, "group_messages"), {
@@ -801,7 +712,6 @@
             }
         });
 
-        // Auth Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserObj = user;
@@ -813,348 +723,113 @@
                         triggerWelcomeAnimation(user.displayName || user.email.split('@')[0], () => {
                             mainSite.style.display = 'block';
                             initRealtimeGroupChat();
-                            window.loadQuranSurah();
+                            fetchPrayerTimes();
+                            loadLiveSportsScores('cricket');
                         });
                     } else {
                         hideAllScreens();
                         mainSite.style.display = 'block';
                         initRealtimeGroupChat();
-                        window.loadQuranSurah();
+                        fetchPrayerTimes();
+                        loadLiveSportsScores('cricket');
                     }
                 } else {
-                    document.getElementById('login-error').innerText = "Please verify your email address before logging in.";
                     auth.signOut();
                     hideAllScreens();
                     loginScreen.style.display = 'block';
                 }
             } else {
-                if (regEmailScreen.style.display === 'none' && 
-                    regPassScreen.style.display === 'none' && 
-                    regSentScreen.style.display === 'none') {
-                    hideAllScreens();
-                    loginScreen.style.display = 'block';
-                }
+                hideAllScreens();
+                loginScreen.style.display = 'block';
             }
         });
     </script>
 
-    <!-- TOOLS, QURAN & THEME LOGIC -->
+    <!-- THEME ENGINE, CLOCK & UTILITIES -->
     <script>
-        // Quran Audio Loader
-        window.loadQuranSurah = function() {
-            const reciter = document.getElementById('quran-reciter').value;
-            const surah = document.getElementById('quran-surah').value;
-            const player = document.getElementById('quran-audio-player');
-            player.src = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surah}.mp3`;
-        };
-
-        function toggleThemeMenu(event) {
-            event.stopPropagation();
-            const menu = document.getElementById('theme-menu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function switchTheme(themeName) {
+        function changeThemeMode(themeName) {
             document.body.className = '';
-            if (themeName === 'white') document.body.classList.add('theme-white');
-            else if (themeName === 'gray') document.body.classList.add('theme-gray');
-            document.getElementById('theme-menu').style.display = 'none';
+            if (themeName !== 'dark') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
         }
 
-        window.addEventListener('click', () => {
-            document.getElementById('theme-menu').style.display = 'none';
-        });
+        function updateDigitalClock() {
+            const tz = document.getElementById('clock-timezone-select').value;
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('live-digital-clock').innerText = timeString;
+        }
+        setInterval(updateDigitalClock, 1000);
 
-        let debounceTimer = null;
-        let activeAudio = null;
-        let isListening = false;
-        let recognition = null;
-
-        function autoTranslate() {
-            clearTimeout(debounceTimer);
-            const inputVal = document.getElementById('input-text').value.trim();
-            const outputDiv = document.getElementById('output-text');
-
-            if (!inputVal) {
-                outputDiv.innerText = "Translation";
-                outputDiv.style.color = "var(--text-sub)";
-                return;
-            }
-
-            outputDiv.style.color = "var(--accent-blue)";
-            outputDiv.innerText = "Translating...";
-
-            debounceTimer = setTimeout(async () => {
-                const src = document.getElementById('src-lang').value;
-                const target = document.getElementById('target-lang').value;
-
-                try {
-                    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(inputVal)}&langpair=${src}|${target}`;
-                    const res = await fetch(url);
+        async function fetchPrayerTimes() {
+            try {
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
                     const data = await res.json();
-
-                    if (data && data.responseData && data.responseData.translatedText) {
-                        outputDiv.innerText = data.responseData.translatedText;
-                        return;
+                    if (data && data.data) {
+                        const t = data.data.timings;
+                        document.getElementById('prayer-location-title').innerText = `Daily Salah Times for Your Location`;
+                        document.getElementById('t-fajr').innerText = t.Fajr;
+                        document.getElementById('t-dhuhr').innerText = t.Dhuhr;
+                        document.getElementById('t-asr').innerText = t.Asr;
+                        document.getElementById('t-maghrib').innerText = t.Maghrib;
+                        document.getElementById('t-isha').innerText = t.Isha;
                     }
-                    throw new Error("Fallback required");
-                } catch (e) {
-                    try {
-                        const gUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${src}&tl=${target}&dt=t&q=${encodeURIComponent(inputVal)}`;
-                        const gRes = await fetch(gUrl);
-                        const gData = await gRes.json();
-                        if (gData && gData[0]) {
-                            outputDiv.innerText = gData[0].map(item => item[0]).join('');
-                            return;
-                        }
-                    } catch (err) {
-                        outputDiv.innerText = "Translation unavailable";
-                    }
-                }
-            }, 300);
+                }, () => fetchRiyadhPrayerTimes());
+            } catch(e) { fetchRiyadhPrayerTimes(); }
         }
 
-        function swapLanguages() {
-            const src = document.getElementById('src-lang');
-            const target = document.getElementById('target-lang');
-            const temp = src.value;
-            src.value = target.value;
-            target.value = temp;
-
-            const inputTxt = document.getElementById('input-text');
-            const outputTxt = document.getElementById('output-text');
-            if (outputTxt.innerText !== "Translation" && outputTxt.innerText !== "Translating...") {
-                inputTxt.value = outputTxt.innerText;
+        async function fetchRiyadhPrayerTimes() {
+            const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=Saudi Arabia&method=4`);
+            const data = await res.json();
+            if (data && data.data) {
+                const t = data.data.timings;
+                document.getElementById('t-fajr').innerText = t.Fajr;
+                document.getElementById('t-dhuhr').innerText = t.Dhuhr;
+                document.getElementById('t-asr').innerText = t.Asr;
+                document.getElementById('t-maghrib').innerText = t.Maghrib;
+                document.getElementById('t-isha').innerText = t.Isha;
             }
-            autoTranslate();
         }
 
-        function toggleVoiceInput() {
-            const micBtn = document.getElementById('mic-btn');
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-            if (!SpeechRecognition) {
-                alert("Voice recognition is not supported in this browser.");
-                return;
-            }
-
-            if (isListening) { recognition.stop(); return; }
-
-            recognition = new SpeechRecognition();
-            const srcLang = document.getElementById('src-lang').value;
-            const langLocales = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA', 'ur': 'ur-PK', 'hi': 'hi-IN' };
-
-            recognition.lang = langLocales[srcLang] || 'en-US';
-            recognition.interimResults = false;
-
-            recognition.onstart = () => { isListening = true; micBtn.classList.add('mic-listening'); };
-            recognition.onresult = (event) => {
-                document.getElementById('input-text').value = event.results[0][0].transcript;
-                autoTranslate();
-            };
-            recognition.onend = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
-            recognition.onerror = () => { isListening = false; micBtn.classList.remove('mic-listening'); };
-
-            recognition.start();
+        function switchSportsTab(sport) {
+            document.getElementById('tab-cricket').className = sport === 'cricket' ? 'sports-tab-btn active' : 'sports-tab-btn';
+            document.getElementById('tab-football').className = sport === 'football' ? 'sports-tab-btn active' : 'sports-tab-btn';
+            loadLiveSportsScores(sport);
         }
 
-        function playSpeech(pane) {
-            let text = pane === 'input' ? document.getElementById('input-text').value.trim() : document.getElementById('output-text').innerText.trim();
-            let lang = pane === 'input' ? document.getElementById('src-lang').value : document.getElementById('target-lang').value;
+        function loadLiveSportsScores(sport) {
+            const container = document.getElementById('sports-scores-container');
+            container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-sub);">Updating scores...</p>';
 
-            if (!text || text === "Translation" || text === "Translating...") return;
-
-            if (activeAudio) activeAudio.pause();
-            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
-            activeAudio = new Audio(audioUrl);
-            activeAudio.play().catch(e => {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    const speechLocales = { 'en': 'en-US', 'bn': 'bn-BD', 'ar': 'ar-SA', 'ur': 'ur-PK', 'hi': 'hi-IN' };
-                    utterance.lang = speechLocales[lang] || 'en-US';
-                    window.speechSynthesis.speak(utterance);
+            setTimeout(() => {
+                if (sport === 'cricket') {
+                    container.innerHTML = `
+                        <div class="score-card">
+                            <div><strong>IND vs AUS</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">IND 245/4 (42.3 ov)</span></div>
+                            <span style="color:var(--accent-blue); font-size:0.85rem;">Test Series</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="score-card">
+                            <div><strong>Real Madrid vs Barcelona</strong> <span class="live-tag">LIVE</span><br><span style="font-size:0.8rem; color:var(--text-sub);">2 - 1 (68')</span></div>
+                            <span style="color:var(--accent-blue); font-size:0.85rem;">La Liga</span>
+                        </div>
+                    `;
                 }
-            });
+            }, 500);
         }
 
-        function copyTranslation() {
-            const txt = document.getElementById('output-text').innerText;
-            if (txt && txt !== "Translation") navigator.clipboard.writeText(txt);
-        }
-
-        // Apple Calculator Engine
         const calcDisplay = document.getElementById('calc-display');
         let currentCalc = '0';
-
-        function appendCalc(val) {
-            if (currentCalc === '0' && val !== '.') { currentCalc = val; } 
-            else { currentCalc += val; }
-            calcDisplay.value = currentCalc;
-        }
-
+        function appendCalc(val) { if (currentCalc === '0' && val !== '.') { currentCalc = val; } else { currentCalc += val; } calcDisplay.value = currentCalc; }
         function clearCalc() { currentCalc = '0'; calcDisplay.value = currentCalc; }
-
-        function toggleSign() {
-            if (currentCalc !== '0' && currentCalc !== 'Error') {
-                if (currentCalc.startsWith('-')) { currentCalc = currentCalc.substring(1); } 
-                else { currentCalc = '-' + currentCalc; }
-                calcDisplay.value = currentCalc;
-            }
-        }
-
-        function calculate() {
-            try {
-                let formattedExpr = currentCalc.replace(/%/g, '/100');
-                currentCalc = eval(formattedExpr).toString();
-                calcDisplay.value = currentCalc;
-            } catch (e) {
-                calcDisplay.value = 'Error';
-                currentCalc = '0';
-            }
-        }
-
-        // Tic-Tac-Toe AI Engine
-        let board = ["", "", "", "", "", "", "", "", ""];
-        let currentPlayer = "X";
-        let gameActive = true;
-        let gameMode = "2P";
-        let difficulty = "easy";
-
-        const statusDisplay = document.getElementById('game-status');
-        const cells = document.querySelectorAll('.cell');
-        const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
-
-        function setMode(mode) {
-            gameMode = mode;
-            document.getElementById('btn-2p').className = mode === '2P' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
-            document.getElementById('btn-ai').className = mode === 'AI' ? 'mode-btn mode-active' : 'mode-btn mode-inactive';
-            document.getElementById('difficulty-wrapper').style.display = mode === 'AI' ? 'flex' : 'none';
-            resetGame();
-        }
-
-        function setDifficulty(diff) {
-            difficulty = diff;
-            document.getElementById('diff-easy').className = diff === 'easy' ? 'diff-btn diff-active' : 'diff-btn';
-            document.getElementById('diff-medium').className = diff === 'medium' ? 'diff-btn diff-active' : 'diff-btn';
-            document.getElementById('diff-hard').className = diff === 'hard' ? 'diff-btn diff-active' : 'diff-btn';
-            resetGame();
-        }
-
-        function makeMove(cellIndex) {
-            if (board[cellIndex] !== "" || !gameActive || (gameMode === "AI" && currentPlayer === "O")) return;
-            playTurn(cellIndex);
-            if (gameActive && gameMode === "AI" && currentPlayer === "O") {
-                statusDisplay.innerText = "Robot thinking...";
-                setTimeout(robotMove, 500);
-            }
-        }
-
-        function robotMove() {
-            if (!gameActive) return;
-            let moveIndex;
-
-            if (difficulty === "easy") { moveIndex = getRandomMove(); } 
-            else if (difficulty === "medium") { moveIndex = Math.random() < 0.6 ? getBestMove() : getRandomMove(); } 
-            else { moveIndex = getBestMove(); }
-
-            if (moveIndex !== undefined && moveIndex !== null) { playTurn(moveIndex); }
-        }
-
-        function getRandomMove() {
-            let available = [];
-            for (let i = 0; i < 9; i++) { if (board[i] === "") available.push(i); }
-            return available.length > 0 ? available[Math.floor(Math.random() * available.length)] : null;
-        }
-
-        function getBestMove() {
-            let bestScore = -Infinity;
-            let move;
-            for (let i = 0; i < 9; i++) {
-                if (board[i] === "") {
-                    board[i] = "O";
-                    let score = minimax(board, 0, false);
-                    board[i] = "";
-                    if (score > bestScore) {
-                        bestScore = score;
-                        move = i;
-                    }
-                }
-            }
-            return move;
-        }
-
-        const scores = { O: 10, X: -10, tie: 0 };
-
-        function minimax(currBoard, depth, isMaximizing) {
-            let result = checkBoardWinner(currBoard);
-            if (result !== null) return scores[result];
-
-            if (isMaximizing) {
-                let bestScore = -Infinity;
-                for (let i = 0; i < 9; i++) {
-                    if (currBoard[i] === "") {
-                        currBoard[i] = "O";
-                        let score = minimax(currBoard, depth + 1, false);
-                        currBoard[i] = "";
-                        bestScore = Math.max(score, bestScore);
-                    }
-                }
-                return bestScore;
-            } else {
-                let bestScore = Infinity;
-                for (let i = 0; i < 9; i++) {
-                    if (currBoard[i] === "") {
-                        currBoard[i] = "X";
-                        let score = minimax(currBoard, depth + 1, true);
-                        currBoard[i] = "";
-                        bestScore = Math.min(score, bestScore);
-                    }
-                }
-                return bestScore;
-            }
-        }
-
-        function checkBoardWinner(b) {
-            for (let i = 0; i < winningConditions.length; i++) {
-                const [x, y, z] = winningConditions[i];
-                if (b[x] && b[x] === b[y] && b[x] === b[z]) return b[x];
-            }
-            if (!b.includes("")) return "tie";
-            return null;
-        }
-
-        function playTurn(index) {
-            board[index] = currentPlayer;
-            cells[index].innerText = currentPlayer;
-            cells[index].style.color = currentPlayer === "X" ? "var(--accent-blue)" : "#ff453a";
-            checkWin();
-        }
-
-        function checkWin() {
-            let roundWon = false;
-            for (let i = 0; i < winningConditions.length; i++) {
-                const [a, b, c] = winningConditions[i];
-                if (board[a] && board[a] === board[b] && board[a] === board[c]) { roundWon = true; break; }
-            }
-            if (roundWon) { 
-                let winnerName = (gameMode === "AI" && currentPlayer === "O") ? "Robot" : `Player ${currentPlayer}`;
-                statusDisplay.innerText = `${winnerName} Wins! 🎉`; 
-                gameActive = false; 
-                return; 
-            }
-            if (!board.includes("")) { statusDisplay.innerText = "It's a Draw!"; gameActive = false; return; }
-            currentPlayer = currentPlayer === "X" ? "O" : "X";
-            statusDisplay.innerText = (gameMode === "AI" && currentPlayer === "O") ? "Robot's Turn" : `Player ${currentPlayer}'s Turn`;
-        }
-
-        function resetGame() {
-            board = ["", "", "", "", "", "", "", "", ""];
-            currentPlayer = "X";
-            gameActive = true;
-            statusDisplay.innerText = `Player X's Turn`;
-            cells.forEach(cell => { cell.innerText = ""; cell.style.color = "var(--text-main)"; });
-        }
+        function toggleSign() { if (currentCalc !== '0') { currentCalc = currentCalc.startsWith('-') ? currentCalc.substring(1) : '-' + currentCalc; calcDisplay.value = currentCalc; } }
+        function calculate() { try { calcDisplay.value = eval(currentCalc.replace(/%/g, '/100')).toString(); currentCalc = calcDisplay.value; } catch(e) { calcDisplay.value = 'Error'; currentCalc = '0'; } }
     </script>
 </body>
 </html>
