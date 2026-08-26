@@ -141,12 +141,32 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .tabs{display:flex;gap:8px;margin-bottom:14px;background:var(--fill);padding:4px;border-radius:var(--r-md)}
 .tab-btn{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--text-sub);font-weight:500;font-size:13px;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.q-reader{max-height:380px;overflow-y:auto;padding:16px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline);margin-top:12px}
-.ayah-row{padding:14px 0;border-bottom:1px solid var(--hairline)}
-.ayah-row:last-child{border-bottom:none}
-.ayah-ar{font-family:'Amiri','Traditional Arabic',serif;font-size:1.6rem;line-height:2.3;direction:rtl;text-align:right;color:var(--text)}
+
+/* ===== Quran: audio player row ===== */
+.qa-now{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.qa-now span{flex:1;text-align:center;font-size:12px;color:var(--text-sub);font-weight:500}
+
+/* ===== Quran: book reading view ===== */
+.book{display:flex;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-lg);margin-top:12px;min-height:300px;position:relative;overflow:hidden;perspective:1200px}
+.book.turning{animation:pageTurn .45s ease}
+@keyframes pageTurn{from{opacity:.25;transform:rotateY(-5deg)}to{opacity:1;transform:none}}
+.book-page{flex:1;padding:18px 22px;overflow-y:auto;max-height:420px;min-width:0}
+.book-page::-webkit-scrollbar{width:5px}
+.book-page::-webkit-scrollbar-thumb{background:var(--fill-2);border-radius:3px}
+.spine{width:1px;background:linear-gradient(180deg,transparent,var(--hairline),transparent);margin:14px 0;flex-shrink:0}
+.book-head{text-align:center;font-weight:600;font-size:13px;color:var(--accent);padding-bottom:8px;border-bottom:1px solid var(--hairline);margin-bottom:10px}
+.bismillah{font-family:'Amiri','Traditional Arabic',serif;font-size:1.2rem;text-align:center;color:var(--text-sub);margin-bottom:12px;direction:rtl}
+.ayah-block{padding:10px 4px;border-bottom:1px dashed var(--hairline);cursor:pointer;border-radius:8px;transition:background .2s}
+.ayah-block:last-child{border-bottom:none}
+.ayah-block:hover{background:var(--fill)}
+.ayah-block.playing{background:var(--accent-soft)}
+.ayah-ar{font-family:'Amiri','Traditional Arabic',serif;font-size:1.5rem;line-height:2.2;direction:rtl;text-align:right;color:var(--text)}
 .ayah-num{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;margin-right:6px;font-family:inherit}
-.ayah-tr{font-size:13px;color:var(--text-sub);margin-top:8px;line-height:1.5}
+.ayah-tr{font-size:13px;color:var(--text-sub);margin-top:6px;line-height:1.5}
+.book-pagenum{text-align:center;font-size:11px;color:var(--text-tert);padding-top:12px}
+.book-loading{text-align:center;color:var(--text-tert);font-size:13px;padding:40px 0}
+.book-nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}
+@media(max-width:640px){.spine,#book-right{display:none}.book-page{max-height:380px}}
 
 .qr-out{text-align:center;margin-top:14px;padding:18px;background:#fff;border-radius:var(--r-md);display:flex;justify-content:center}
 .qr-result{margin-top:12px;padding:14px;background:var(--fill);border:1px solid var(--hairline);border-radius:var(--r-md);font-size:14px;word-break:break-word;font-family:ui-monospace,Menlo,monospace}
@@ -160,7 +180,7 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .dm-item{display:flex;align-items:center;gap:10px;padding:10px;cursor:pointer;border-radius:var(--r-md);margin-bottom:4px;transition:background .2s}
 .dm-item:hover,.dm-item.active{background:var(--fill-2)}
 .dm-ava{width:36px;height:36px;border-radius:50%;object-fit:cover}
-.dm-name{font-size:14px;font-weight:500}
+.dm-name{font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .msg-area{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
 .msg-item{display:flex;gap:12px;align-items:flex-start}
 .msg-ava{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0}
@@ -179,7 +199,7 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .preview-box img{height:56px;border-radius:var(--r-sm)}
 .preview-box .x{position:absolute;top:-8px;left:48px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:14px;line-height:1}
 .toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.tools{display:flex;gap:18px;color:var(--text-tert);cursor:pointer}
+.tools{display:flex;gap:18px;color:var(--text-tert);cursor:pointer;align-items:center}
 .tools > *{transition:color .2s}
 .tools > *:hover{color:var(--text)}
 .mic-rec{color:var(--red);font-size:12px;animation:pulse 1s infinite}
@@ -193,34 +213,131 @@ details[open] summary.tab .chev{transform:rotate(90deg)}
 .trans-pane{flex:1;padding:14px;border-radius:var(--r-md);background:var(--fill);border:1px solid var(--hairline)}
 .swap-btn{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
 .swap-btn:hover{background:var(--accent-soft)}
-.score{background:var(--fill);padding:14px;border-radius:var(--r-md);display:flex;justify-content:space-between;align-items:center}
+.score{background:var(--fill);padding:14px;border-radius:var(--r-md);display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .badge{background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.badge.upcoming{background:var(--text-tert)}
 .pdf-thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:12px}
 .pdf-thumb{height:80px;border-radius:var(--r-sm);border:1px solid var(--hairline)}
 hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
+
+/* ===== Password show/hide (Apple style) ===== */
+.password-field{position:relative}
+.password-field input{padding-right:50px}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:9px;cursor:pointer;color:var(--text-tert);transition:color .2s,background .2s,transform .1s;-webkit-tap-highlight-color:transparent}
+.pw-toggle:hover{color:var(--text);background:var(--fill)}
+.pw-toggle:active{transform:translateY(-50%) scale(.86)}
+.pw-toggle svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.pw-toggle .eye-off{display:none}
+.pw-toggle.visible{color:var(--accent)}
+.pw-toggle.visible .eye-on{display:none}
+.pw-toggle.visible .eye-off{display:block}
+.caps-hint{display:none;font-size:12px;color:var(--orange);margin-top:6px;text-align:left;font-weight:500}
+
+/* ===== Apple-style alert popup ===== */
+#apple-alert{position:fixed;inset:0;z-index:6000;display:flex;justify-content:center;align-items:center;padding:24px;background:rgba(0,0,0,.35);backdrop-filter:blur(10px) saturate(150%);-webkit-backdrop-filter:blur(10px) saturate(150%);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+#apple-alert.show{opacity:1;visibility:visible}
+.alert-card{background:var(--glass-strong);backdrop-filter:saturate(180%) blur(30px);-webkit-backdrop-filter:saturate(180%) blur(30px);border:1px solid var(--hairline);border-radius:22px;width:100%;max-width:330px;padding:30px 26px 22px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.12);transform:scale(.92) translateY(12px);opacity:0;transition:transform .38s cubic-bezier(.32,.72,0,1),opacity .3s ease}
+#apple-alert.show .alert-card{transform:scale(1) translateY(0);opacity:1}
+.alert-icon{width:46px;height:46px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.alert-icon.error{background:rgba(255,59,48,.13);color:var(--red)}
+.alert-icon.warn{background:rgba(255,149,0,.13);color:var(--orange)}
+.alert-icon.success{background:rgba(52,199,89,.13);color:var(--green)}
+.alert-icon svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.alert-card h4{font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:5px}
+.alert-card p{font-size:13px;color:var(--text-sub);line-height:1.45;margin-bottom:20px}
+.alert-actions .btn{padding:11px 16px;font-size:15px;border-radius:12px}
+
+/* ===== Wrong password shake ===== */
+@keyframes shakeX{0%,100%{transform:translateX(0)}15%{transform:translateX(-9px)}30%{transform:translateX(8px)}45%{transform:translateX(-6px)}60%{transform:translateX(5px)}75%{transform:translateX(-3px)}90%{transform:translateX(2px)}}
+.shake{animation:shakeX .5s cubic-bezier(.36,.07,.19,.97)}
+input.input-error{border-color:var(--red)!important;box-shadow:0 0 0 4px rgba(255,59,30,.12)!important}
+
+/* ===== Toast notifications ===== */
+.toast-wrap{position:fixed;top:16px;right:16px;z-index:7000;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{display:flex;gap:12px;align-items:flex-start;background:var(--glass-strong);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border:1px solid var(--hairline);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-lg);cursor:pointer;animation:toastIn .4s cubic-bezier(.32,.72,0,1)}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px) scale(.95)}}
+.toast-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toast-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.toast-ico.error{background:rgba(255,59,48,.13);color:var(--red)}
+.toast-ico.warn{background:rgba(255,149,0,.13);color:var(--orange)}
+.toast-ico.success{background:rgba(52,199,89,.13);color:var(--green)}
+.toast-ico.msg{background:var(--accent-soft);color:var(--accent)}
+.toast b{font-size:14px;display:block}
+.toast p{font-size:12px;color:var(--text-sub);margin-top:2px;line-height:1.4}
+
+/* ===== Nav bell ===== */
+.nav-ico-btn{background:var(--fill);border:1px solid var(--hairline);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-sub);position:relative;transition:all .2s;flex-shrink:0}
+.nav-ico-btn:hover{color:var(--text);background:var(--fill-2)}
+.nav-ico-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bell-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
+
+/* ===== Call modal (1:1 + group) ===== */
+.call-card{max-width:460px}
+.call-video-wrap{margin:16px 0;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:4/3;display:none}
+.call-video-wrap video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.call-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.call-tile{aspect-ratio:1;border-radius:14px;background:var(--fill);border:1px solid var(--hairline);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;overflow:hidden;position:relative;padding:6px}
+.call-tile img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.call-tile .ct-name{font-size:11px;font-weight:500;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.call-tile .ct-status{font-size:10px;color:var(--text-tert)}
+.call-tile.joined{border-color:var(--green)}
+.call-tile.ringing .ct-status{color:var(--orange);animation:pulse 1s infinite}
+.call-tile.me .ct-status{color:var(--green)}
+.call-contacts{max-height:150px;overflow-y:auto;text-align:left;margin:14px 0 4px;display:flex;flex-direction:column;gap:6px}
+.call-contacts::-webkit-scrollbar{width:5px}
+.call-contacts::-webkit-scrollbar-thumb{background:var(--fill-2);border-radius:3px}
+.call-contact{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:var(--fill)}
+.call-contact img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.call-contact .cc-name{font-size:13px;font-weight:500;flex:1}
+.call-invite-btn{background:var(--accent);color:#fff;border:none;border-radius:980px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit}
+.call-invite-btn:disabled{opacity:.4;cursor:default}
+.call-controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:6px}
+.call-ctl{width:48px;height:48px;border-radius:50%;border:none;background:var(--fill);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.call-ctl:hover{background:var(--fill-2)}
+.call-ctl.off{background:var(--red);color:#fff}
+.call-ctl svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.call-controls .btn-danger{width:auto;padding:12px 24px}
 </style>
 </head>
 <body class="theme-light">
 
+<!-- ===== Call modal (1:1 and group) ===== -->
 <div id="call-overlay" class="modal">
-  <div class="modal-card">
+  <div class="modal-card call-card">
     <h3 id="call-status">Calling…</h3>
-    <p id="call-target-name" style="color:var(--accent);font-weight:600;margin-bottom:20px"></p>
-    <button onclick="endCall()" class="btn btn-danger">End Call</button>
+    <p id="call-target-name" style="color:var(--accent);font-weight:600;margin-bottom:6px"></p>
+    <div id="call-video-wrap" class="call-video-wrap">
+      <video id="call-local-video" autoplay muted playsinline></video>
+    </div>
+    <div id="call-participants" class="call-grid" style="display:none"></div>
+    <div id="call-invite-list" class="call-contacts" style="display:none"></div>
+    <div class="call-controls">
+      <button id="btn-call-mute" class="call-ctl" onclick="toggleCallMute()" title="Mute">
+        <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+      </button>
+      <button id="btn-call-cam" class="call-ctl" onclick="toggleCallCam()" title="Camera">
+        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      </button>
+      <button onclick="endCall()" class="btn btn-danger">End Call</button>
+    </div>
   </div>
 </div>
 
-<div id="welcome-overlay" class="overlay">
+<!-- ===== Welcome overlay ===== -->
+<div id="welcome-overlay" class="overlay" style="display:flex">
   <svg class="ico" style="width:64px;height:64px;color:var(--accent)" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
   <h2 style="margin-top:16px;font-size:28px;font-weight:600;letter-spacing:-.02em">Akash Portal</h2>
   <p style="color:var(--text-sub);margin-top:4px">Preparing your workspace…</p>
   <div class="spinner"></div>
 </div>
 
+<!-- ===== Profile modal ===== -->
 <div id="profile-modal" class="modal">
   <div class="modal-card">
     <h3>Profile Picture</h3>
-    <img id="modal-avatar-preview" src="https://via.placeholder.com/150" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:10px auto 16px;border:2px solid var(--accent)">
+    <img id="modal-avatar-preview" src="" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:10px auto 16px;border:2px solid var(--accent)">
     <label for="device-file-input" class="btn btn-ghost" style="margin-bottom:10px">
       <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
       Choose Image
@@ -231,13 +348,29 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   </div>
 </div>
 
+<!-- ===== Apple-style alert popup ===== -->
+<div id="apple-alert" onclick="if(event.target===this)closeAppleAlert()">
+  <div class="alert-card" role="alertdialog" aria-modal="true">
+    <div id="alert-icon" class="alert-icon error"></div>
+    <h4 id="alert-title"></h4>
+    <p id="alert-message"></p>
+    <div class="alert-actions">
+      <button class="btn btn-primary" id="alert-btn" onclick="closeAppleAlert()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast notifications ===== -->
+<div id="toast-wrap" class="toast-wrap"></div>
+
+<!-- ===== LOGIN ===== -->
 <div id="login-screen" class="auth glass fade-in">
   <svg class="ico" style="width:48px;height:48px;color:var(--accent);margin-bottom:16px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
   <h2>Sign In</h2>
   <p>Access your secure workspace.</p>
   <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
-    <input type="text" id="login-identifier" placeholder="Username or Email">
-    <input type="password" id="login-password" placeholder="Password">
+    <input type="text" id="login-identifier" placeholder="Username or Email" autocomplete="username">
+    <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
   </div>
   <button id="btn-login" class="btn btn-primary" style="margin-top:16px">Sign In</button>
   <button id="btn-goto-forgot" class="btn-link">Forgot password?</button>
@@ -257,8 +390,8 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   <h2>Create Account</h2>
   <p>Start your journey with Akash Portal.</p>
   <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
-    <input type="text" id="reg-username" placeholder="Choose username">
-    <input type="email" id="reg-email" placeholder="Gmail address">
+    <input type="text" id="reg-username" placeholder="Choose username" autocomplete="username">
+    <input type="email" id="reg-email" placeholder="Gmail address" autocomplete="email">
   </div>
   <button id="btn-reg-next" class="btn btn-primary" style="margin-top:16px">Continue</button>
   <button id="btn-back-login1" class="btn-link">Return to Sign In</button>
@@ -267,8 +400,9 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
 <div id="reg-pass-screen" class="auth glass" style="display:none">
   <h2>Set Password</h2>
   <p>Minimum 6 characters.</p>
-  <input type="password" id="reg-password" placeholder="Password" style="margin-top:20px">
+  <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" style="margin-top:20px">
   <button id="btn-reg-finish" class="btn btn-primary" style="margin-top:16px">Complete Registration</button>
+  <button id="btn-back-reg-email" class="btn-link">Back</button>
 </div>
 
 <div id="reg-sent-screen" class="auth glass" style="display:none">
@@ -278,10 +412,11 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   <button id="btn-sent-to-login" class="btn btn-primary" style="margin-top:20px">Return to Sign In</button>
 </div>
 
+<!-- ===== MAIN SITE ===== -->
 <div id="main-site">
   <nav class="bar">
     <div class="brand">
-      <img id="nav-avatar" src="https://via.placeholder.com/150" class="avatar" onclick="openProfileModal()">
+      <img id="nav-avatar" src="" class="avatar" onclick="openProfileModal()">
       <div class="brand-logo">Akash <span>Portal</span></div>
       <select id="theme-dropdown" class="theme-select" onchange="document.body.className=this.value==='light'?'':'theme-'+this.value">
         <option value="light">Light</option>
@@ -289,7 +424,11 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
         <option value="moonlight">Midnight</option>
       </select>
     </div>
-    <div style="display:flex;gap:18px;align-items:center">
+    <div style="display:flex;gap:14px;align-items:center">
+      <button id="btn-notify" class="nav-ico-btn" onclick="requestNotify()" title="Enable notifications">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span id="bell-dot" class="bell-dot"></span>
+      </button>
       <div class="clock" id="live-clock">00:00:00</div>
       <button id="btn-logout" class="btn btn-pill" style="background:var(--fill);color:var(--text)">Sign Out</button>
     </div>
@@ -397,120 +536,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
             </button>
           </div>
           <select id="quran-surah" onchange="loadQuranSurah()">
-            <option value="1">1. Al-Fatihah</option>
-            <option value="2">2. Al-Baqarah</option>
-            <option value="3">3. Aal-E-Imran</option>
-            <option value="4">4. An-Nisa</option>
-            <option value="5">5. Al-Maidah</option>
-            <option value="6">6. Al-Anam</option>
-            <option value="7">7. Al-Araf</option>
-            <option value="8">8. Al-Anfal</option>
-            <option value="9">9. At-Tawbah</option>
-            <option value="10">10. Yunus</option>
-            <option value="11">11. Hud</option>
-            <option value="12">12. Yusuf</option>
-            <option value="13">13. Ar-Rad</option>
-            <option value="14">14. Ibrahim</option>
-            <option value="15">15. Al-Hijr</option>
-            <option value="16">16. An-Nahl</option>
-            <option value="17">17. Al-Isra</option>
-            <option value="18">18. Al-Kahf</option>
-            <option value="19">19. Maryam</option>
-            <option value="20">20. Ta-Ha</option>
-            <option value="21">21. Al-Anbiya</option>
-            <option value="22">22. Al-Hajj</option>
-            <option value="23">23. Al-Muminun</option>
-            <option value="24">24. An-Nur</option>
-            <option value="25">25. Al-Furqan</option>
-            <option value="26">26. Ash-Shuara</option>
-            <option value="27">27. An-Naml</option>
-            <option value="28">28. Al-Qasas</option>
-            <option value="29">29. Al-Ankabut</option>
-            <option value="30">30. Ar-Rum</option>
-            <option value="31">31. Luqman</option>
-            <option value="32">32. As-Sajdah</option>
-            <option value="33">33. Al-Ahzab</option>
-            <option value="34">34. Saba</option>
-            <option value="35">35. Fatir</option>
-            <option value="36">36. Ya-Sin</option>
-            <option value="37">37. As-Saffat</option>
-            <option value="38">38. Sad</option>
-            <option value="39">39. Az-Zumar</option>
-            <option value="40">40. Ghafir</option>
-            <option value="41">41. Fussilat</option>
-            <option value="42">42. Ash-Shura</option>
-            <option value="43">43. Az-Zukhruf</option>
-            <option value="44">44. Ad-Dukhan</option>
-            <option value="45">45. Al-Jathiyah</option>
-            <option value="46">46. Al-Ahqaf</option>
-            <option value="47">47. Muhammad</option>
-            <option value="48">48. Al-Fath</option>
-            <option value="49">49. Al-Hujurat</option>
-            <option value="50">50. Qaf</option>
-            <option value="51">51. Adh-Dhariyat</option>
-            <option value="52">52. At-Tur</option>
-            <option value="53">53. An-Najm</option>
-            <option value="54">54. Al-Qamar</option>
-            <option value="55">55. Ar-Rahman</option>
-            <option value="56">56. Al-Waqiah</option>
-            <option value="57">57. Al-Hadid</option>
-            <option value="58">58. Al-Mujadila</option>
-            <option value="59">59. Al-Hashr</option>
-            <option value="60">60. Al-Mumtahanah</option>
-            <option value="61">61. As-Saff</option>
-            <option value="62">62. Al-Jumuah</option>
-            <option value="63">63. Al-Munafiqun</option>
-            <option value="64">64. At-Taghabun</option>
-            <option value="65">65. At-Talaq</option>
-            <option value="66">66. At-Tahrim</option>
-            <option value="67">67. Al-Mulk</option>
-            <option value="68">68. Al-Qalam</option>
-            <option value="69">69. Al-Haqqah</option>
-            <option value="70">70. Al-Maarij</option>
-            <option value="71">71. Nuh</option>
-            <option value="72">72. Al-Jinn</option>
-            <option value="73">73. Al-Muzzammil</option>
-            <option value="74">74. Al-Muddaththir</option>
-            <option value="75">75. Al-Qiyamah</option>
-            <option value="76">76. Al-Insan</option>
-            <option value="77">77. Al-Mursalat</option>
-            <option value="78">78. An-Naba</option>
-            <option value="79">79. An-Nazi'at</option>
-            <option value="80">80. Abasa</option>
-            <option value="81">81. At-Takwir</option>
-            <option value="82">82. Al-Infitar</option>
-            <option value="83">83. Al-Mutaffifin</option>
-            <option value="84">84. Al-Inshiqaq</option>
-            <option value="85">85. Al-Buruj</option>
-            <option value="86">86. At-Tariq</option>
-            <option value="87">87. Al-Ala</option>
-            <option value="88">88. Al-Ghashiyah</option>
-            <option value="89">89. Al-Fajr</option>
-            <option value="90">90. Al-Balad</option>
-            <option value="91">91. Ash-Shams</option>
-            <option value="92">92. Al-Layl</option>
-            <option value="93">93. Ad-Duhaa</option>
-            <option value="94">94. Ash-Sharh</option>
-            <option value="95">95. At-Tin</option>
-            <option value="96">96. Al-Alaq</option>
-            <option value="97">97. Al-Qadr</option>
-            <option value="98">98. Al-Bayyinah</option>
-            <option value="99">99. Az-Zalzalah</option>
-            <option value="100">100. Al-Adiyat</option>
-            <option value="101">101. Al-Qariah</option>
-            <option value="102">102. At-Takathur</option>
-            <option value="103">103. Al-Asr</option>
-            <option value="104">104. Al-Humazah</option>
-            <option value="105">105. Al-Fil</option>
-            <option value="106">106. Quraysh</option>
-            <option value="107">107. Al-Maun</option>
-            <option value="108">108. Al-Kawthar</option>
-            <option value="109">109. Al-Kafirun</option>
-            <option value="110">110. An-Nasr</option>
-            <option value="111">111. Al-Masad</option>
-            <option value="112">112. Al-Ikhlas</option>
-            <option value="113">113. Al-Falaq</option>
-            <option value="114">114. An-Nas</option>
+            <option value="1">1. Al-Fatihah</option><option value="2">2. Al-Baqarah</option><option value="3">3. Aal-E-Imran</option><option value="4">4. An-Nisa</option><option value="5">5. Al-Maidah</option><option value="6">6. Al-Anam</option><option value="7">7. Al-Araf</option><option value="8">8. Al-Anfal</option><option value="9">9. At-Tawbah</option><option value="10">10. Yunus</option><option value="11">11. Hud</option><option value="12">12. Yusuf</option><option value="13">13. Ar-Rad</option><option value="14">14. Ibrahim</option><option value="15">15. Al-Hijr</option><option value="16">16. An-Nahl</option><option value="17">17. Al-Isra</option><option value="18">18. Al-Kahf</option><option value="19">19. Maryam</option><option value="20">20. Ta-Ha</option><option value="21">21. Al-Anbiya</option><option value="22">22. Al-Hajj</option><option value="23">23. Al-Muminun</option><option value="24">24. An-Nur</option><option value="25">25. Al-Furqan</option><option value="26">26. Ash-Shuara</option><option value="27">27. An-Naml</option><option value="28">28. Al-Qasas</option><option value="29">29. Al-Ankabut</option><option value="30">30. Ar-Rum</option><option value="31">31. Luqman</option><option value="32">32. As-Sajdah</option><option value="33">33. Al-Ahzab</option><option value="34">34. Saba</option><option value="35">35. Fatir</option><option value="36">36. Ya-Sin</option><option value="37">37. As-Saffat</option><option value="38">38. Sad</option><option value="39">39. Az-Zumar</option><option value="40">40. Ghafir</option><option value="41">41. Fussilat</option><option value="42">42. Ash-Shura</option><option value="43">43. Az-Zukhruf</option><option value="44">44. Ad-Dukhan</option><option value="45">45. Al-Jathiyah</option><option value="46">46. Al-Ahqaf</option><option value="47">47. Muhammad</option><option value="48">48. Al-Fath</option><option value="49">49. Al-Hujurat</option><option value="50">50. Qaf</option><option value="51">51. Adh-Dhariyat</option><option value="52">52. At-Tur</option><option value="53">53. An-Najm</option><option value="54">54. Al-Qamar</option><option value="55">55. Ar-Rahman</option><option value="56">56. Al-Waqiah</option><option value="57">57. Al-Hadid</option><option value="58">58. Al-Mujadila</option><option value="59">59. Al-Hashr</option><option value="60">60. Al-Mumtahanah</option><option value="61">61. As-Saff</option><option value="62">62. Al-Jumuah</option><option value="63">63. Al-Munafiqun</option><option value="64">64. At-Taghabun</option><option value="65">65. At-Talaq</option><option value="66">66. At-Tahrim</option><option value="67">67. Al-Mulk</option><option value="68">68. Al-Qalam</option><option value="69">69. Al-Haqqah</option><option value="70">70. Al-Maarij</option><option value="71">71. Nuh</option><option value="72">72. Al-Jinn</option><option value="73">73. Al-Muzzammil</option><option value="74">74. Al-Muddaththir</option><option value="75">75. Al-Qiyamah</option><option value="76">76. Al-Insan</option><option value="77">77. Al-Mursalat</option><option value="78">78. An-Naba</option><option value="79">79. An-Nazi'at</option><option value="80">80. Abasa</option><option value="81">81. At-Takwir</option><option value="82">82. Al-Infitar</option><option value="83">83. Al-Mutaffifin</option><option value="84">84. Al-Inshiqaq</option><option value="85">85. Al-Buruj</option><option value="86">86. At-Tariq</option><option value="87">87. Al-Ala</option><option value="88">88. Al-Ghashiyah</option><option value="89">89. Al-Fajr</option><option value="90">90. Al-Balad</option><option value="91">91. Ash-Shams</option><option value="92">92. Al-Layl</option><option value="93">93. Ad-Duhaa</option><option value="94">94. Ash-Sharh</option><option value="95">95. At-Tin</option><option value="96">96. Al-Alaq</option><option value="97">97. Al-Qadr</option><option value="98">98. Al-Bayyinah</option><option value="99">99. Az-Zalzalah</option><option value="100">100. Al-Adiyat</option><option value="101">101. Al-Qariah</option><option value="102">102. At-Takathur</option><option value="103">103. Al-Asr</option><option value="104">104. Al-Humazah</option><option value="105">105. Al-Fil</option><option value="106">106. Quraysh</option><option value="107">107. Al-Maun</option><option value="108">108. Al-Kawthar</option><option value="109">109. Al-Kafirun</option><option value="110">110. An-Nasr</option><option value="111">111. Al-Masad</option><option value="112">112. Al-Ikhlas</option><option value="113">113. Al-Falaq</option><option value="114">114. An-Nas</option>
           </select>
           <div id="quran-audio-view">
             <select id="quran-reciter" style="margin-top:10px" onchange="loadQuranSurah()">
@@ -526,10 +552,25 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
               <option value="ar.hanirifai">Hani Ar-Rifai</option>
             </select>
             <audio id="quran-audio-player" style="width:100%;margin-top:12px" controls></audio>
+            <div class="qa-now">
+              <button class="btn btn-pill" onclick="quranAyahStep(-1)">‹</button>
+              <span id="quran-now-label">Choose a surah and press play</span>
+              <button class="btn btn-pill" onclick="quranAyahStep(1)">›</button>
+            </div>
           </div>
           <div id="quran-read-view" style="display:none">
-            <p id="quran-surah-title" style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-align:center"></p>
-            <div id="quran-text-box" class="q-reader"></div>
+            <p id="quran-surah-title" style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:2px;text-align:center"></p>
+            <div class="book" id="quran-book">
+              <div class="book-page" id="book-left"><div class="book-loading">Loading surah…</div></div>
+              <div class="spine"></div>
+              <div class="book-page" id="book-right"></div>
+            </div>
+            <div class="book-nav">
+              <button class="btn btn-pill" onclick="bookPrev()">‹ Prev</button>
+              <span id="book-page-label" style="font-size:12px;color:var(--text-sub)"></span>
+              <button class="btn btn-pill" onclick="bookNext()">Next ›</button>
+            </div>
+            <p style="font-size:11px;color:var(--text-tert);margin-top:8px;text-align:center">Tap any ayah to hear it recited</p>
           </div>
         </div>
       </details>
@@ -572,9 +613,17 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
             <button id="tab-cricket" class="tab-btn active" onclick="switchSportsTab('cricket')">Cricket</button>
             <button id="tab-football" class="tab-btn" onclick="switchSportsTab('football')">Football</button>
           </div>
-          <div id="sports-scores-container">
-            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov)</span></div></div>
+          <div id="sports-cricket">
+            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov) — Need 41 off 10 balls</span></div></div>
+            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">BAN vs SA</strong><br><span style="font-size:13px;color:var(--text-sub)">BAN 156/6 (17.4 ov)</span></div></div>
+            <div class="score"><div><span class="badge upcoming">UPCOMING</span> <strong style="margin-left:8px">ENG vs NZ</strong><br><span style="font-size:13px;color:var(--text-sub)">Today · 7:00 PM</span></div></div>
           </div>
+          <div id="sports-football" style="display:none">
+            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">Real Madrid vs Barcelona</strong><br><span style="font-size:13px;color:var(--text-sub)">2 – 1 · 67'</span></div></div>
+            <div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">Man City vs Liverpool</strong><br><span style="font-size:13px;color:var(--text-sub)">0 – 0 · 23'</span></div></div>
+            <div class="score"><div><span class="badge upcoming">FT</span> <strong style="margin-left:8px">Bayern vs Dortmund</strong><br><span style="font-size:13px;color:var(--text-sub)">3 – 2</span></div></div>
+          </div>
+          <p style="font-size:11px;color:var(--text-tert);margin-top:8px;text-align:center">Demo scores — connect a live sports API anytime</p>
         </div>
       </details>
 
@@ -606,7 +655,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
           </div>
           <button class="btn btn-primary" onclick="buildQR()" style="margin-top:14px">Generate QR Code</button>
           <div id="qr-output-wrap" style="display:none">
-            <div class="qr-out"><img id="qr-output-img" src="" alt="QR" style="width:220px;height:220px"></div>
+            <div class="qr-out"><div id="qr-code-box"></div></div>
             <a id="qr-download" href="#" download="akash-qr.png" class="btn btn-ghost" style="margin-top:10px;text-decoration:none">
               <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download PNG
@@ -649,12 +698,16 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
     <div class="col">
       <details class="acc" open>
         <summary class="tab">
-          <div style="display:flex;align-items:center;gap:14px">
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span>Messaging</span>
             <div style="display:flex;gap:6px" onclick="event.preventDefault()">
               <button id="tab-global" class="btn btn-pill" style="background:var(--accent);color:#fff" onclick="switchChat('global')">Global</button>
               <button id="tab-private" class="btn btn-pill" style="background:transparent;color:var(--text-sub);border:1px solid var(--hairline)" onclick="switchChat('private')">Direct</button>
+              <button id="tab-group-call" class="btn btn-pill" style="background:transparent;color:var(--text-sub);border:1px solid var(--hairline)" onclick="startGroupCall()">
+                <svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Call
+              </button>
             </div>
           </div>
           <div id="dm-call-icons" style="display:none;gap:12px;align-items:center" onclick="event.preventDefault()">
@@ -671,7 +724,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
           <section class="chat-wrap">
             <div class="chat-split">
               <div id="dm-list" class="dm-list" style="display:none"></div>
-              <div style="flex:1;display:flex;flex-direction:column;position:relative">
+              <div style="flex:1;display:flex;flex-direction:column;position:relative;min-width:0">
                 <div id="chat-messages" class="msg-area"></div>
                 <div class="chat-input">
                   <div id="img-preview-box" class="preview-box">
@@ -681,7 +734,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
                   <textarea id="chat-input-text" placeholder="Type a message…" style="min-height:44px"></textarea>
                   <div class="toolbar">
                     <div class="tools">
-                      <label for="img-up" title="Attach image">
+                      <label for="img-up" title="Attach image" style="display:flex">
                         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                       </label>
                       <input type="file" id="img-up" accept="image/*" style="display:none" onchange="attachImage(event)">
@@ -701,7 +754,7 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
                   </div>
                 </div>
                 <div id="emoji-picker" class="emoji-box" style="display:none">
-                  <span onclick="addE('😀')">😀</span><span onclick="addE('😂')">😂</span><span onclick="addE('🔥')">🔥</span><span onclick="addE('👍')">👍</span>
+                  <span onclick="addE('😀')">😀</span><span onclick="addE('😂')">😂</span><span onclick="addE('🔥')">🔥</span><span onclick="addE('👍')">👍</span><span onclick="addE('❤️')">❤️</span><span onclick="addE('🙏')">🙏</span><span onclick="addE('😊')">😊</span><span onclick="addE('🎉')">🎉</span>
                 </div>
                 <div id="gif-picker" class="emoji-box" style="display:none;width:220px;grid-template-columns:1fr 1fr">
                   <img src="https://media.giphy.com/media/l0AM4154T6T25w9mU/giphy.gif" style="width:100%;height:60px;border-radius:6px" onclick="addG(this.src)">
@@ -716,11 +769,145 @@ hr.sep{border:none;border-top:1px solid var(--hairline);margin:18px 0}
   </div>
 </div>
 
-<!-- ====================== FIREBASE & AUTH ====================== -->
+<!-- ====================== HELPERS (plain script) ====================== -->
+<script>
+/* Default avatar (replaces dead via.placeholder.com) */
+window.DEFAULT_AVATAR = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><rect width="150" height="150" fill="#c7c7cc"/><circle cx="75" cy="58" r="26" fill="#f5f5f7"/><path d="M75 92c-26 0-44 16-44 36v22h88v-22c0-20-18-36-44-36z" fill="#f5f5f7"/></svg>');
+document.getElementById('nav-avatar').src = window.DEFAULT_AVATAR;
+document.getElementById('modal-avatar-preview').src = window.DEFAULT_AVATAR;
+
+/* HTML escape helper */
+window.esc = function(s){ return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+
+/* ---------- Apple-style alert popup ---------- */
+const ALERT_ICONS = {
+  error:   '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  warn:    '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  success: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg>'
+};
+function showAppleAlert(title, message, type, btnText){
+  type = ALERT_ICONS[type] ? type : 'error';
+  document.getElementById('alert-title').textContent = title || 'Notice';
+  document.getElementById('alert-message').textContent = message || '';
+  document.getElementById('alert-btn').textContent = btnText || 'OK';
+  const icon = document.getElementById('alert-icon');
+  icon.className = 'alert-icon ' + type;
+  icon.innerHTML = ALERT_ICONS[type];
+  document.getElementById('apple-alert').classList.add('show');
+  if (navigator.vibrate) navigator.vibrate(15);
+}
+function closeAppleAlert(){
+  document.getElementById('apple-alert').classList.remove('show');
+  const pw = document.getElementById('login-password');
+  if (pw && pw.classList.contains('input-error')) setTimeout(() => { pw.focus(); pw.select(); }, 300);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAppleAlert(); });
+
+/* ---------- Wrong-password shake ---------- */
+function shakeLoginCard(){
+  const card = document.getElementById('login-screen');
+  const pw = document.getElementById('login-password');
+  if (!card) return;
+  card.classList.remove('fade-in','shake');
+  pw.classList.remove('input-error');
+  void card.offsetWidth;
+  card.classList.add('shake');
+  pw.classList.add('input-error');
+  setTimeout(() => { card.classList.remove('shake'); pw.classList.remove('input-error'); }, 1400);
+}
+
+/* ---------- Toast notifications ---------- */
+function toast(title, body, type){
+  type = type || 'msg';
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  const icon = type === 'error' ? ALERT_ICONS.error : type === 'success' ? ALERT_ICONS.success
+             : type === 'warn' ? ALERT_ICONS.warn
+             : '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+  el.innerHTML = '<div class="toast-ico ' + type + '">' + icon + '</div><div style="min-width:0"><b>' + esc(title) + '</b><p>' + esc(body || '') + '</p></div>';
+  el.onclick = () => removeToast(el);
+  wrap.appendChild(el);
+  setTimeout(() => removeToast(el), 4500);
+}
+function removeToast(el){ if (!el.parentNode) return; el.classList.add('out'); setTimeout(() => el.remove(), 300); }
+
+/* ---------- Notification permission ---------- */
+function requestNotify(){
+  if (!('Notification' in window)){ toast('Not Supported', 'Notifications are not supported in this browser.', 'warn'); return; }
+  if (Notification.permission === 'granted'){ toast('Notifications On', 'You will be notified for new messages and calls.', 'success'); updateBell(); return; }
+  Notification.requestPermission().then(p => {
+    updateBell();
+    if (p === 'granted') toast('Notifications Enabled', 'You will be notified for new messages and calls.', 'success');
+    else toast('Notifications Blocked', 'Enable them in your browser settings to receive alerts.', 'warn');
+  });
+}
+function updateBell(){
+  const dot = document.getElementById('bell-dot');
+  if (dot) dot.style.display = (!('Notification' in window) || Notification.permission === 'granted') ? 'none' : 'block';
+}
+function pushNotify(title, body){
+  toast(title, body, 'msg');
+  if ('Notification' in window && Notification.permission === 'granted' && document.hidden){
+    try { new Notification(title, { body: body, tag: 'akash-' + Date.now() }); } catch(e){}
+  }
+  beep();
+}
+let _audioCtx = null;
+function beep(){
+  try{
+    _audioCtx = _audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
+    o.frequency.value = 880; g.gain.value = 0.06;
+    o.connect(g); g.connect(_audioCtx.destination);
+    o.start(); o.stop(_audioCtx.currentTime + 0.12);
+  }catch(e){}
+}
+
+/* ---------- Password show/hide toggle (Apple eye icon) ---------- */
+document.querySelectorAll('input[type=password]').forEach(input => {
+  const wrap = document.createElement('div');
+  wrap.className = 'password-field';
+  input.parentNode.insertBefore(wrap, input);
+  wrap.appendChild(input);
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', 'Show password');
+  btn.title = 'Show password';
+  btn.innerHTML =
+    '<svg class="eye-on" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+    '<svg class="eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+  btn.addEventListener('click', () => {
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.classList.toggle('visible', isHidden);
+    btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    btn.title = isHidden ? 'Hide password' : 'Show password';
+    input.focus();
+  });
+  wrap.appendChild(btn);
+
+  /* Caps Lock hint */
+  const hint = document.createElement('div');
+  hint.className = 'caps-hint';
+  hint.textContent = '⚠︎ Caps Lock is on';
+  wrap.appendChild(hint);
+  input.addEventListener('keyup', e => {
+    if (e.getModifierState) hint.style.display = e.getModifierState('CapsLock') ? 'block' : 'none';
+  });
+  input.addEventListener('blur', () => hint.style.display = 'none');
+});
+updateBell();
+</script>
+
+<!-- ====================== FIREBASE & APP ====================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, limitToLast, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const app = initializeApp({
   apiKey: "AIzaSyB1WEnjUu_bxl_H6oBDjl5yXMZgNX2Mwn4",
@@ -732,943 +919,1054 @@ const app = initializeApp({
 });
 const auth = getAuth(app);
 const db = getFirestore(app);
-window.currentUserObj = null;
+const DEFAULT_AVATAR = window.DEFAULT_AVATAR;
+const esc = window.esc;
+const $ = id => document.getElementById(id);
 
-function sanitizeText(str){const t=document.createElement('div');t.textContent=str;return t.innerHTML}
-window.sanitizeText = sanitizeText;
+/* ================= AUTH SCREENS ================= */
+const AUTH_SCREENS = ['login-screen','forgot-screen','reg-email-screen','reg-pass-screen','reg-sent-screen'];
+function showAuthScreen(id){
+  AUTH_SCREENS.forEach(s => { const el = $(s); el.style.display = (s === id) ? '' : 'none'; });
+  const el = $(id); el.classList.remove('fade-in'); void el.offsetWidth; el.classList.add('fade-in');
+}
+function hideAuthScreens(){ AUTH_SCREENS.forEach(s => $(s).style.display = 'none'); }
 
-function hideAllScreens(){
-  document.querySelectorAll('.auth').forEach(c=>c.style.display='none');
-  document.getElementById('main-site').style.display='none';
+ $('btn-goto-forgot').onclick = () => showAuthScreen('forgot-screen');
+ $('btn-back-login-forgot').onclick = () => showAuthScreen('login-screen');
+ $('btn-goto-register').onclick = () => showAuthScreen('reg-email-screen');
+ $('btn-back-login1').onclick = () => showAuthScreen('login-screen');
+ $('btn-back-reg-email').onclick = () => showAuthScreen('reg-email-screen');
+ $('btn-sent-to-login').onclick = () => showAuthScreen('login-screen');
+
+/* ---------- LOGIN (username OR email) ---------- */
+let regTemp = { username: '', email: '' };
+
+async function resolveEmail(identifier){
+  if (identifier.includes('@')) return identifier;
+  try{
+    const snap = await getDocs(query(collection(db, 'users'), where('username', '==', identifier.toLowerCase())));
+    if (!snap.empty) return snap.docs[0].data().email;
+  }catch(e){ console.warn('Username lookup failed:', e); }
+  return null;
 }
 
-document.getElementById('btn-goto-register').onclick=()=>{hideAllScreens();document.getElementById('reg-email-screen').style.display='block'};
-document.getElementById('btn-reg-next').onclick=()=>{
-  const u=document.getElementById('reg-username').value.trim();
-  const e=document.getElementById('reg-email').value.trim();
-  if(!u||!e){alert('Fill all fields');return}
-  document.getElementById('reg-email-screen').style.display='none';
-  document.getElementById('reg-pass-screen').style.display='block';
-};
-document.getElementById('btn-goto-forgot').onclick=()=>{hideAllScreens();document.getElementById('forgot-screen').style.display='block'};
-document.getElementById('btn-back-login1').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
-document.getElementById('btn-back-login-forgot').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
-document.getElementById('btn-sent-to-login').onclick=()=>{hideAllScreens();document.getElementById('login-screen').style.display='block'};
+async function handleLogin(){
+  const identifier = $('login-identifier').value.trim();
+  const password = $('login-password').value;
+  $('login-error').textContent = '';
 
-document.getElementById('btn-reg-finish').onclick=()=>{
-  const u=sanitizeText(document.getElementById('reg-username').value.trim());
-  const e=sanitizeText(document.getElementById('reg-email').value.trim());
-  const p=document.getElementById('reg-password').value;
-  if(!u||!e||p.length<6){alert('Please fill all fields. Password must be 6+ chars.');return}
-  createUserWithEmailAndPassword(auth,e,p).then(c=>{
-    updateProfile(c.user,{displayName:u,photoURL:`https://ui-avatars.com/api/?name=${encodeURIComponent(u)}&background=0A84FF&color=fff`}).then(()=>{
-      sendEmailVerification(c.user).then(()=>{
-        auth.signOut();
-        hideAllScreens();
-        document.getElementById('reg-sent-screen').style.display='block';
-      });
-    });
-  }).catch(er=>alert(er.message));
-};
+  if (!identifier){ showAppleAlert('Email Required', 'Please enter your username or email address.', 'warn'); shakeLoginCard(); return; }
+  if (!password){ showAppleAlert('Password Required', 'Please enter your password to continue.', 'warn'); shakeLoginCard(); return; }
 
-document.getElementById('btn-send-reset').onclick=()=>{
-  const e=document.getElementById('forgot-email').value.trim();
-  if(!e){alert('Enter email');return}
-  sendPasswordResetEmail(auth,e).then(()=>alert('Reset link sent to '+e)).catch(er=>alert(er.message));
-};
+  const btn = $('btn-login');
+  btn.disabled = true; btn.textContent = 'Signing In…';
 
-document.getElementById('btn-login').onclick=()=>{
-  const i=sanitizeText(document.getElementById('login-identifier').value.trim());
-  const p=document.getElementById('login-password').value;
-  if(!i||!p){document.getElementById('login-error').innerText='Enter credentials';return}
-  signInWithEmailAndPassword(auth,i.includes('@')?i:`${i}@akashportal.com`,p).catch(()=>{
-    document.getElementById('login-error').innerText='Invalid credentials or email not verified.';
-  });
-};
-
-document.getElementById('btn-logout').onclick=()=>signOut(auth);
-
-onAuthStateChanged(auth,(user)=>{
-  if(user && user.emailVerified){
-    window.currentUserObj=user;
-    document.getElementById('nav-avatar').src=localStorage.getItem('localAvatar')||user.photoURL||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.email[0])}&background=0A84FF&color=fff`;
-    setDoc(doc(db,"users",user.uid),{
-      uid:user.uid,
-      username:user.displayName||user.email.split('@')[0],
-      photoURL:document.getElementById('nav-avatar').src
-    },{merge:true});
-    hideAllScreens();
-    document.getElementById('main-site').style.display='block';
-    window.switchChat('global');
-    window.fetchPrayerTimes();
-    window.loadQuranSurah();
-    window.startClock();
-  }else{
-    hideAllScreens();
-    document.getElementById('login-screen').style.display='block';
-  }
-});
-
-let chatMode='global';
-let dmTarget=null;
-let dmTargetName='';
-let chatUnsub=null;
-window.chatBase64=null;
-
-window.switchChat=function(mode){
-  chatMode=mode;
-  const g=document.getElementById('tab-global'),p=document.getElementById('tab-private');
-  g.style.background=mode==='global'?'var(--accent)':'transparent';
-  g.style.color=mode==='global'?'#fff':'var(--text-sub)';
-  g.style.border=mode==='global'?'none':'1px solid var(--hairline)';
-  p.style.background=mode==='private'?'var(--accent)':'transparent';
-  p.style.color=mode==='private'?'#fff':'var(--text-sub)';
-  p.style.border=mode==='private'?'none':'1px solid var(--hairline)';
-  document.getElementById('dm-list').style.display=mode==='private'?'block':'none';
-  document.getElementById('dm-call-icons').style.display=(mode==='private'&&dmTarget)?'flex':'none';
-  if(mode==='private'){
-    loadUsers();
-    if(dmTarget)loadChat();
-    else document.getElementById('chat-messages').innerHTML='<p style="text-align:center;color:var(--text-sub);margin-top:20px">Select a user to start chatting.</p>';
-  } else loadChat();
-};
-
-async function loadUsers(){
-  const list=document.getElementById('dm-list');
-  const snaps=await getDocs(collection(db,"users"));
-  let h='';
-  snaps.forEach(d=>{
-    const u=d.data();
-    if(u.uid!==window.currentUserObj.uid){
-      h+=`<div class="dm-item ${dmTarget===u.uid?'active':''}" onclick="window.openDM('${u.uid}','${sanitizeText(u.username)}')"><img src="${u.photoURL}" class="dm-ava"><div class="dm-name">${sanitizeText(u.username)}</div></div>`;
+  try{
+    const email = await resolveEmail(identifier);
+    if (!email){
+      showAppleAlert('Account Not Found', 'We couldn\u2019t find an account with that username or email.', 'error', 'Try Again');
+      shakeLoginCard(); return;
     }
-  });
-  list.innerHTML=h;
+    await signInWithEmailAndPassword(auth, email, password);
+    // success → onAuthStateChanged takes over
+  }catch(error){
+    console.warn('Login error:', error.code);
+    let title = 'Sign In Failed', msg = 'Something went wrong. Please try again.';
+    switch (error.code){
+      case 'auth/invalid-credential':
+      case 'auth/wrong-password':
+        title = 'Incorrect Password';
+        msg = 'The password you entered is incorrect. Please try again.';
+        break;
+      case 'auth/user-not-found':
+      case 'auth/invalid-email':
+        title = 'Account Not Found';
+        msg = 'We couldn\u2019t find an account with that username or email.';
+        break;
+      case 'auth/too-many-requests':
+        title = 'Too Many Attempts';
+        msg = 'Access is temporarily disabled after too many failed attempts. Try again later.';
+        break;
+      case 'auth/user-disabled':
+        title = 'Account Disabled';
+        msg = 'This account has been disabled. Please contact support.';
+        break;
+      case 'auth/network-request-failed':
+        title = 'Network Error';
+        msg = 'Please check your internet connection and try again.';
+        break;
+    }
+    showAppleAlert(title, msg, 'error', 'Try Again');
+    shakeLoginCard();
+  }finally{
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
 }
+ $('btn-login').onclick = handleLogin;
+ $('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+ $('login-identifier').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
 
-window.openDM=function(uid,name){
-  dmTarget=uid;
-  dmTargetName=name;
-  document.getElementById('dm-head-name').innerText=name;
-  document.getElementById('dm-call-icons').style.display='flex';
-  loadUsers();
-  loadChat();
+/* ---------- FORGOT PASSWORD ---------- */
+ $('btn-send-reset').onclick = async () => {
+  const email = $('forgot-email').value.trim();
+  if (!email){ showAppleAlert('Email Required', 'Please enter your registered email address.', 'warn'); return; }
+  try{
+    await sendPasswordResetEmail(auth, email);
+    showAppleAlert('Reset Link Sent', 'Check your inbox \u2014 a reset link was sent to ' + email + '.', 'success', 'Done');
+  }catch(err){
+    showAppleAlert('Couldn\u2019t Send Reset Link', 'That email isn\u2019t registered or is invalid. Please double-check and try again.', 'error');
+  }
 };
 
-function loadChat(){
-  if(chatUnsub)chatUnsub();
-  const box=document.getElementById('chat-messages');
-  box.innerHTML='';
-  let q;
-  if(chatMode==='global'){
-    q=query(collection(db,"group_messages"),orderBy("timestamp","asc"));
-  } else {
-    if(!dmTarget)return;
-    const cid=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
-    q=query(collection(db,"private_messages"),where("chatId","==",cid));
+/* ---------- REGISTRATION ---------- */
+ $('btn-reg-next').onclick = async () => {
+  const username = $('reg-username').value.trim().toLowerCase();
+  const email = $('reg-email').value.trim();
+
+  if (!/^[a-z0-9._]{3,20}$/.test(username)){
+    showAppleAlert('Invalid Username', 'Use 3\u201320 characters: letters, numbers, dots or underscores.', 'warn'); return;
   }
-  chatUnsub=onSnapshot(q,(snap)=>{
-    box.innerHTML='';
-    let arr=[];
-    snap.forEach(d=>arr.push({id:d.id,...d.data()}));
-    arr.sort((a,b)=>(a.timestamp?a.timestamp.toMillis():0)-(b.timestamp?b.timestamp.toMillis():0));
-    arr.forEach(data=>{
-      const time=data.timestamp?data.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'Now';
-      let content='';
-      if(data.isDeleted){
-        content=`<div style="color:var(--text-tert);font-style:italic;font-size:14px">Message deleted</div>`;
+  if (!email.includes('@') || email.length < 6){
+    showAppleAlert('Invalid Email', 'Please enter a valid email address.', 'warn'); return;
+  }
+  try{
+    const snap = await getDocs(query(collection(db, 'users'), where('username', '==', username)));
+    if (!snap.empty){ showAppleAlert('Username Taken', 'That username is already in use. Please choose another one.', 'error'); return; }
+  }catch(e){ console.warn('Username check failed:', e); }
+
+  regTemp = { username, email };
+  showAuthScreen('reg-pass-screen');
+};
+
+ $('btn-reg-finish').onclick = async () => {
+  const password = $('reg-password').value;
+  if (password.length < 6){ showAppleAlert('Weak Password', 'Password must be at least 6 characters long.', 'warn'); return; }
+
+  const btn = $('btn-reg-finish');
+  btn.disabled = true; btn.textContent = 'Creating…';
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, regTemp.email, password);
+    await updateProfile(cred.user, { displayName: regTemp.username });
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      username: regTemp.username,
+      email: regTemp.email,
+      displayName: regTemp.username,
+      avatar: DEFAULT_AVATAR,
+      createdAt: serverTimestamp()
+    });
+    try{ await sendEmailVerification(cred.user); }catch(e){ console.warn('Verification email:', e); }
+    showAuthScreen('reg-sent-screen');
+  }catch(error){
+    let msg = 'Please try again.';
+    if (error.code === 'auth/email-already-in-use') msg = 'This email is already registered. Try signing in instead.';
+    else if (error.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+    else if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+    showAppleAlert('Registration Failed', msg, 'error');
+  }finally{
+    btn.disabled = false; btn.textContent = 'Complete Registration';
+  }
+};
+
+/* ---------- AUTH STATE ---------- */
+let myUid = null, myName = '', myAvatar = DEFAULT_AVATAR;
+let globalUnsub = null, usersUnsub = null, dmUnsub = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (user){
+    myUid = user.uid;
+    hideAuthScreens();
+    $('main-site').style.display = 'block';
+    setTimeout(() => { $('welcome-overlay').style.display = 'none'; }, 700);
+
+    try{
+      const usnap = await getDocs(query(collection(db, 'users'), where('email', '==', user.email)));
+      if (!usnap.empty){
+        const d = usnap.docs[0].data();
+        myName = d.displayName || d.username || user.email.split('@')[0];
+        myAvatar = d.avatar || DEFAULT_AVATAR;
       } else {
-        content=(data.text?`<div class="msg-text">${sanitizeText(data.text)}</div>`:'')+
-          (data.attachedImage?`<img src="${data.attachedImage}" class="msg-img">`:'');
+        myName = user.displayName || user.email.split('@')[0];
+        myAvatar = DEFAULT_AVATAR;
       }
-      const isOwn=data.uid===window.currentUserObj.uid;
-      const delBtn=isOwn&&!data.isDeleted?`<div class="msg-actions"><button class="icon-btn" onclick="window.deleteMsg('${data.id}')"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div>`:'';
-      const ava=data.photoURL||`https://ui-avatars.com/api/?name=${(data.username||'U')[0]}`;
-      const msg=document.createElement('div');
-      msg.className='msg-item';
-      msg.innerHTML=`<img src="${ava}" class="msg-ava"><div class="msg-body"><div class="msg-head"><span class="msg-name">${sanitizeText(data.username||'User')}</span><span class="msg-time">${time}</span>${delBtn}</div>${content}</div>`;
-      box.appendChild(msg);
-    });
-    box.scrollTop=box.scrollHeight;
-  });
-}
-
-window.deleteMsg=async function(id){
-  const colName=chatMode==='global'?'group_messages':'private_messages';
-  await deleteDoc(doc(db,colName,id));
-};
-
-window.sendChatMessage=async function(){
-  const inp=document.getElementById('chat-input-text');
-  const text=inp.value.trim();
-  if(!text&&!window.chatBase64)return;
-  const data={
-    uid:window.currentUserObj.uid,
-    username:window.currentUserObj.displayName||window.currentUserObj.email.split('@')[0],
-    photoURL:document.getElementById('nav-avatar').src,
-    text:text||'',
-    timestamp:serverTimestamp()
-  };
-  if(window.chatBase64)data.attachedImage=window.chatBase64;
-  let colName='group_messages';
-  if(chatMode==='private'&&dmTarget){
-    data.chatId=window.currentUserObj.uid<dmTarget?`${window.currentUserObj.uid}_${dmTarget}`:`${dmTarget}_${window.currentUserObj.uid}`;
-    colName='private_messages';
-  }
-  await addDoc(collection(db,colName),data);
-  inp.value='';
-  clearChatMedia();
-};
-
-window.clearChatMedia=function(){
-  window.chatBase64=null;
-  const pb=document.getElementById('img-preview-box');
-  pb.style.display='none';
-  document.getElementById('img-preview').src='';
-};
-
-window.attachImage=function(e){
-  const f=e.target.files[0];
-  if(!f)return;
-  const r=new FileReader();
-  r.onload=()=>{
-    window.chatBase64=r.result;
-    document.getElementById('img-preview').src=r.result;
-    document.getElementById('img-preview-box').style.display='block';
-  };
-  r.readAsDataURL(f);
-};
-
-window.toggleP=function(p){
-  const emoji=document.getElementById('emoji-picker');
-  const gif=document.getElementById('gif-picker');
-  emoji.style.display='none';
-  gif.style.display='none';
-  if(p==='emoji')emoji.style.display='grid';
-  else gif.style.display='grid';
-};
-
-window.addE=function(em){
-  const inp=document.getElementById('chat-input-text');
-  inp.value+=em;
-  inp.focus();
-};
-
-window.addG=function(src){
-  window.chatBase64=src;
-  document.getElementById('img-preview').src=src;
-  document.getElementById('img-preview-box').style.display='block';
-  document.getElementById('gif-picker').style.display='none';
-};
-
-window.toggleMic=function(){
-  const ms=document.getElementById('mic-status');
-  if(ms.style.display==='none'){ms.style.display='inline';}
-  else ms.style.display='none';
-};
-
-window.openProfileModal=function(){
-  document.getElementById('profile-modal').style.display='flex';
-  document.getElementById('modal-avatar-preview').src=document.getElementById('nav-avatar').src;
-};
-
-window.closeProfileModal=function(){
-  document.getElementById('profile-modal').style.display='none';
-};
-
-window.handleFileSelect=function(e){
-  const f=e.target.files[0];
-  if(!f)return;
-  const r=new FileReader();
-  r.onload=()=>{
-    document.getElementById('modal-avatar-preview').src=r.result;
-    document.getElementById('btn-save-avatar').disabled=false;
-    document.getElementById('btn-save-avatar').onclick=()=>{
-      localStorage.setItem('localAvatar',r.result);
-      document.getElementById('nav-avatar').src=r.result;
-      closeProfileModal();
-    };
-  };
-  r.readAsDataURL(f);
-};
-
-window.startCall=function(type){
-  document.getElementById('call-overlay').style.display='flex';
-  document.getElementById('call-status').innerText=type==='video'?'Video Calling…':'Audio Calling…';
-  document.getElementById('call-target-name').innerText=dmTargetName||'User';
-};
-
-window.endCall=function(){
-  document.getElementById('call-overlay').style.display='none';
-};
-
-document.getElementById('chat-input-text').addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&!e.shiftKey){
-    e.preventDefault();
-    sendChatMessage();
-  }
-});
-
-setTimeout(()=>{
-  const w=document.getElementById('welcome-overlay');
-  if(w)w.style.display='none';
-},1200);
-</script>
-
-<!-- ====================== MAIN APP LOGIC ====================== -->
-<script>
-/* ===================== LIVE CLOCK ===================== */
-window.startClock=function(){
-  function tick(){
-    const n=new Date();
-    const h=String(n.getHours()).padStart(2,'0');
-    const m=String(n.getMinutes()).padStart(2,'0');
-    const s=String(n.getSeconds()).padStart(2,'0');
-    const el=document.getElementById('live-clock');
-    if(el)el.innerText=`${h}:${m}:${s}`;
-  }
-  tick();
-  setInterval(tick,1000);
-};
-
-/* ===================== AI SMART ASSISTANT ===================== */
-/* Tries 6 different free AI services + optional Gemini key */
-let aiHistory=[];
-
-function escapeHtml(str){const d=document.createElement('div');d.textContent=str;return d.innerHTML}
-
-function formatAIReply(text){
-  let safe=escapeHtml(text);
-  safe=safe.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  safe=safe.replace(/`([^`]+)`/g,'<code style="background:var(--fill-2);padding:1px 5px;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:13px">$1</code>');
-  safe=safe.replace(/\n/g,'<br>');
-  return safe;
-}
-
-function isErrorResponse(text){
-  if(!text)return true;
-  const t=text.trim().toLowerCase();
-  if(!t)return true;
-  if(t.includes('402')&&t.includes('payment'))return true;
-  if(t.includes('payment_required'))return true;
-  if(t.startsWith('{"error"'))return true;
-  if(t.includes('"success":false'))return true;
-  if(t.includes('deprecation_notice'))return true;
-  if(t.includes('api key budget'))return true;
-  if(t.length<2)return true;
-  return false;
-}
-
-window.aiQuick=function(prompt){
-  const inp=document.getElementById('ai-input');
-  inp.value=prompt;
-  inp.focus();
-  inp.selectionStart=inp.selectionEnd=inp.value.length;
-};
-
-window.aiClearChat=function(){
-  aiHistory=[];
-  const box=document.getElementById('ai-chat-box');
-  box.innerHTML=`<div class="ai-empty" id="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p><p style="font-size:12px">Free AI — unlimited questions</p></div>`;
-  document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
-};
-
-window.toggleAiSettings=function(){
-  const s=document.getElementById('ai-settings');
-  s.style.display=s.style.display==='none'?'block':'none';
-  const k=localStorage.getItem('gemini_api_key');
-  if(k)document.getElementById('gemini-key-input').value=k;
-};
-
-window.saveGeminiKey=function(){
-  const k=document.getElementById('gemini-key-input').value.trim();
-  if(!k){alert('Please paste your API key');return}
-  localStorage.setItem('gemini_api_key',k);
-  alert('Gemini API key saved! AI will respond fast and reliably now.');
-  document.getElementById('ai-settings').style.display='none';
-};
-
-window.clearGeminiKey=function(){
-  localStorage.removeItem('gemini_api_key');
-  document.getElementById('gemini-key-input').value='';
-  alert('API key removed. AI will use free public services.');
-};
-
-function typeOut(text,bubble,box){
-  return new Promise(resolve=>{
-    let i=0;
-    function step(){
-      i+=5;
-      if(i>=text.length){bubble.innerHTML=formatAIReply(text);box.scrollTop=box.scrollHeight;resolve();return}
-      bubble.innerHTML=formatAIReply(text.slice(0,i));
-      box.scrollTop=box.scrollHeight;
-      requestAnimationFrame(step);
-    }
-    step();
-  });
-}
-
-function showError(box,msg){
-  const e=document.createElement('div');
-  e.className='ai-msg ai';
-  e.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="ai-bubble" style="color:var(--red)">${msg||'All AI services busy. Try again or add a free Gemini API key in Settings.'}</div>`;
-  box.appendChild(e);
-  box.scrollTop=box.scrollHeight;
-  document.getElementById('ai-status').innerText='Error — retry';
-}
-
-/* ====== SERVICE 1: Google Gemini (if user has key) — FASTEST & MOST RELIABLE ====== */
-async function callGemini(prompt){
-  const key=localStorage.getItem('gemini_api_key');
-  if(!key)return null;
-  try{
-    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key='+key,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{parts:[{text:prompt}]}],
-        generationConfig:{temperature:0.7,maxOutputTokens:800}
-      })
-    });
-    if(!res.ok)return null;
-    const j=await res.json();
-    if(j.candidates&&j.candidates[0]&&j.candidates[0].content){
-      return j.candidates[0].content.parts[0].text;
-    }
-    return null;
-  }catch(e){return null}
-}
-
-/* ====== SERVICE 2: Pollinations.ai GET (anonymous) ====== */
-async function callPollinations(prompt){
-  const urls=[
-    'https://text.pollinations.ai/'+encodeURIComponent(prompt),
-    'https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?referrer=akash',
-    'https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?seed='+Math.floor(Math.random()*999999),
-  ];
-  for(const url of urls){
-    try{
-      const c=new AbortController();
-      const tid=setTimeout(()=>c.abort(),8000);
-      const res=await fetch(url,{signal:c.signal,credentials:'omit'});
-      clearTimeout(tid);
-      if(!res.ok)continue;
-      const t=await res.text();
-      if(t&&!isErrorResponse(t))return t.trim();
-    }catch(e){}
-  }
-  return null;
-}
-
-/* ====== SERVICE 3: Pollinations via CORS proxy ====== */
-async function callPollinationsProxy(prompt){
-  const proxies=[
-    'https://api.allorigins.win/raw?url=',
-    'https://corsproxy.io/?',
-    'https://api.codetabs.com/v1/proxy/?quest=',
-  ];
-  const target='https://text.pollinations.ai/'+encodeURIComponent(prompt);
-  for(const proxy of proxies){
-    try{
-      const c=new AbortController();
-      const tid=setTimeout(()=>c.abort(),8000);
-      const url=proxy+encodeURIComponent(target);
-      const res=await fetch(url,{signal:c.signal});
-      clearTimeout(tid);
-      if(!res.ok)continue;
-      const t=await res.text();
-      if(t&&!isErrorResponse(t))return t.trim();
-    }catch(e){}
-  }
-  return null;
-}
-
-/* ====== SERVICE 4: Free GPT proxy ====== */
-async function callGptProxy(prompt){
-  const proxies=[
-    {url:'https://free.churchless.tech/v1/chat/completions',model:'gpt-3.5-turbo'},
-    {url:'https://api.chimeragpt.net/v1/chat/completions',model:'gpt-3.5-turbo'},
-    {url:'https://api.naga.ac/v1/chat/completions',model:'gpt-3.5-turbo'},
-  ];
-  for(const p of proxies){
-    try{
-      const c=new AbortController();
-      const tid=setTimeout(()=>c.abort(),8000);
-      const res=await fetch(p.url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          model:p.model,
-          messages:[{role:'user',content:prompt}]
-        }),
-        signal:c.signal
-      });
-      clearTimeout(tid);
-      if(!res.ok)continue;
-      const j=await res.json();
-      if(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content){
-        return j.choices[0].message.content;
-      }
-    }catch(e){}
-  }
-  return null;
-}
-
-/* ====== SERVICE 5: DuckDuckGo AI Chat ====== */
-async function callDuckDuckGo(prompt){
-  try{
-    const c1=new AbortController();
-    const tid1=setTimeout(()=>c1.abort(),5000);
-    const statusRes=await fetch('https://duckduckgo.com/duckchat/v1/status',{
-      headers:{'x-vqd-accept':'1'},
-      signal:c1.signal
-    });
-    clearTimeout(tid1);
-    const token=statusRes.headers.get('x-vqd-4');
-    if(!token)return null;
-
-    const c2=new AbortController();
-    const tid2=setTimeout(()=>c2.abort(),8000);
-    const chatRes=await fetch('https://duckduckgo.com/duckchat/v1/chat',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-vqd-4':token
-      },
-      body:JSON.stringify({
-        model:'gpt-4o-mini',
-        messages:[{role:'user',content:prompt}]
-      }),
-      signal:c2.signal
-    });
-    clearTimeout(tid2);
-    if(!chatRes.ok)return null;
-    const text=await chatRes.text();
-    /* Parse SSE response */
-    const lines=text.split('\n');
-    let reply='';
-    for(const line of lines){
-      if(line.startsWith('data: ')){
-        const data=line.slice(6).trim();
-        if(data==='[DONE]')break;
-        try{
-          const j=JSON.parse(data);
-          if(j.message)reply+=j.message;
-        }catch(e){}
-      }
-    }
-    if(reply.trim())return reply.trim();
-  }catch(e){}
-  return null;
-}
-
-/* ====== SERVICE 6: You.com / alternative ====== */
-async function callAlternative(prompt){
-  try{
-    const c=new AbortController();
-    const tid=setTimeout(()=>c.abort(),8000);
-    const res=await fetch('https://api.binjie.fun/api/generateStream',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({prompt:prompt,options:{}}),
-      signal:c.signal
-    });
-    clearTimeout(tid);
-    if(!res.ok)return null;
-    const t=await res.text();
-    if(t&&!isErrorResponse(t))return t.trim();
-  }catch(e){}
-  return null;
-}
-
-/* ====== MAIN: Try all services in order ====== */
-window.sendAIMessage=async function(){
-  const inp=document.getElementById('ai-input');
-  const text=inp.value.trim();
-  if(!text)return;
-  const box=document.getElementById('ai-chat-box');
-  const empty=document.getElementById('ai-empty');
-  if(empty)empty.remove();
-
-  /* User message */
-  const userMsg=document.createElement('div');
-  userMsg.className='ai-msg user';
-  userMsg.innerHTML=`<div class="ai-avatar user"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ai-bubble">${escapeHtml(text)}</div>`;
-  box.appendChild(userMsg);
-  box.scrollTop=box.scrollHeight;
-
-  /* Typing indicator */
-  const typing=document.createElement('div');
-  typing.className='ai-msg ai';
-  typing.id='ai-typing-indicator';
-  typing.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg></div><div class="ai-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>`;
-  box.appendChild(typing);
-  box.scrollTop=box.scrollHeight;
-
-  inp.value='';
-  inp.style.height='auto';
-  document.getElementById('ai-status').innerText='Thinking...';
-  document.getElementById('ai-send').disabled=true;
-
-  /* Build minimal context */
-  let promptText=text;
-  if(aiHistory.length>=2){
-    const lq=aiHistory[aiHistory.length-2].content;
-    const la=aiHistory[aiHistory.length-1].content;
-    promptText=`[Context: Q="${lq.slice(0,80)}" A="${la.slice(0,120)}"]\n\n${text}`;
-  }
-
-  let reply=null;
-
-  /* Try services in order — first one that works wins */
-  const services=[
-    {name:'Gemini',fn:()=>callGemini(promptText)},
-    {name:'Pollinations',fn:()=>callPollinations(promptText)},
-    {name:'Pollinations-Proxy',fn:()=>callPollinationsProxy(promptText)},
-    {name:'GPT-Proxy',fn:()=>callGptProxy(text)},
-    {name:'DuckDuckGo',fn:()=>callDuckDuckGo(text)},
-    {name:'Alternative',fn:()=>callAlternative(text)},
-  ];
-
-  for(const svc of services){
-    document.getElementById('ai-status').innerText='Trying '+svc.name+'...';
-    try{
-      reply=await svc.fn();
     }catch(e){
-      reply=null;
+      myName = user.displayName || user.email.split('@')[0];
     }
-    if(reply&&!isErrorResponse(reply)){
-      reply=reply.trim();
-      break;
-    }
-    reply=null;
-  }
+    $('nav-avatar').src = myAvatar;
 
-  /* Remove typing */
-  if(typing.parentNode)typing.remove();
-
-  if(reply){
-    const aiMsg=document.createElement('div');
-    aiMsg.className='ai-msg ai';
-    const bubble=document.createElement('div');
-    bubble.className='ai-bubble';
-    aiMsg.innerHTML=`<div class="ai-avatar ai"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4A2.5 2.5 0 1 0 9 17.5c0-1.5.7-2.8 1.8-3.6.4 2.5 2.5 4.6 5.2 4.6a2.5 2.5 0 1 0 2.5-2.5c-1.5 0-2.8-.7-3.6-1.8 2.5-.4 4.6-2.5 4.6-5.2a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 1.6.9 3 2.2 3.7-.5 2.2-2.4 4-4.7 4.4"/></svg></div>`;
-    aiMsg.appendChild(bubble);
-    box.appendChild(aiMsg);
-    await typeOut(reply,bubble,box);
-    aiHistory.push({role:'user',content:text});
-    aiHistory.push({role:'assistant',content:reply});
-    document.getElementById('ai-status').innerText='Ready — ask unlimited questions';
-  }else{
-    const hasKey=!!localStorage.getItem('gemini_api_key');
-    if(hasKey){
-      showError(box,'All services failed. Check your Gemini API key in Settings.');
-    }else{
-      showError(box,'All free services busy. Click "API Key" button above to add a FREE Gemini key for reliable AI.');
-    }
-  }
-
-  document.getElementById('ai-send').disabled=false;
-};
-
-/* Enter key */
-document.addEventListener('keydown',function(e){
-  if(e.target&&e.target.id==='ai-input'){
-    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAIMessage()}
+    startChatListeners();
+    toast('Welcome back', 'Signed in as ' + myName, 'success');
+  } else {
+    myUid = null;
+    $('main-site').style.display = 'none';
+    $('welcome-overlay').style.display = 'none';
+    cleanupOnLogout();
+    showAuthScreen('login-screen');
   }
 });
-/* Auto-resize */
-document.addEventListener('input',function(e){
-  if(e.target&&e.target.id==='ai-input'){
-    e.target.style.height='auto';
-    e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';
-  }
-});
-/* ===================== PRAYER TIMES ===================== */
-window.fetchPrayerTimes=function(){
-  if(!navigator.geolocation){
-    alert('Geolocation not supported');
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    const{latitude:lat,longitude:lng}=pos.coords;
-    try{
-      const r=await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`);
-      const j=await r.json();
-      const t=j.data.timings;
-      const fmt=s=>s.substring(0,5);
-      document.getElementById('t-fajr').innerText=fmt(t.Fajr);
-      document.getElementById('t-dhuhr').innerText=fmt(t.Dhuhr);
-      document.getElementById('t-asr').innerText=fmt(t.Asr);
-      document.getElementById('t-maghrib').innerText=fmt(t.Maghrib);
-      document.getElementById('t-isha').innerText=fmt(t.Isha);
-      updateNextPrayer(t);
-      setInterval(()=>updateNextPrayer(t),1000);
-    } catch(e){console.error(e)}
-  },err=>alert('Location access needed for prayer times.'));
-};
 
-function updateNextPrayer(t){
-  const prayers=[
-    {name:'Fajr',time:t.Fajr},
-    {name:'Dhuhr',time:t.Dhuhr},
-    {name:'Asr',time:t.Asr},
-    {name:'Maghrib',time:t.Maghrib},
-    {name:'Isha',time:t.Isha}
-  ];
-  document.querySelectorAll('.prayer-card').forEach(c=>c.classList.remove('is-next'));
-  const now=new Date();
-  const nowSec=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();
-  let next=null;
-  for(const p of prayers){
-    const[hh,mm]=p.time.split(':').map(Number);
-    const pSec=hh*3600+mm*60;
-    if(pSec>nowSec){next=p;break}
-  }
-  if(!next)next=prayers[0];
-  for(const p of prayers){
-    const[hh,mm]=p.time.split(':').map(Number);
-    const pSec=hh*3600+mm*60;
-    let diff=pSec-nowSec;
-    if(diff<0)diff+=86400;
-    if(p.name===next.name){
-      document.getElementById('card-'+p.name).classList.add('is-next');
-      const h=Math.floor(diff/3600);
-      const m=Math.floor((diff%3600)/60);
-      const s=diff%60;
-      document.getElementById('next-prayer-name').innerText=p.name;
-      document.getElementById('next-prayer-count').innerText=
-        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-      break;
-    }
-  }
+function cleanupOnLogout(){
+  if (globalUnsub){ globalUnsub(); globalUnsub = null; }
+  if (dmUnsub){ dmUnsub(); dmUnsub = null; }
+  if (usersUnsub){ usersUnsub(); usersUnsub = null; }
+  endCall(true);
+  $('chat-messages').innerHTML = '';
+  $('dm-list').innerHTML = '';
+  $('dm-call-icons').style.display = 'none';
+  currentScope = 'global'; currentDM = null;
+  pendingImage = null; $('img-preview-box').style.display = 'none';
+  aiHistory = []; aiClearChat();
+  globalFirstLoad = true;
+  try{ $('quran-audio-player').pause(); }catch(e){}
 }
 
-/* ===================== QURAN — ALL 114 SURAHS ===================== */
-window.switchQuranTab=function(tab){
-  const audioBtn=document.getElementById('q-tab-audio');
-  const readBtn=document.getElementById('q-tab-read');
-  const audioView=document.getElementById('quran-audio-view');
-  const readView=document.getElementById('quran-read-view');
-  if(tab==='audio'){
-    audioBtn.classList.add('active');
-    readBtn.classList.remove('active');
-    audioView.style.display='block';
-    readView.style.display='none';
-  } else {
-    audioBtn.classList.remove('active');
-    readBtn.classList.add('active');
-    audioView.style.display='none';
-    readView.style.display='block';
-    loadQuranText();
-  }
-};
+ $('btn-logout').onclick = () => signOut(auth);
 
-window.loadQuranSurah=function(){
-  const surahNum=parseInt(document.getElementById('quran-surah').value);
-  const reciter=document.getElementById('quran-reciter').value;
-  const audioUrl=`https://cdn.islamic.network/quran/audio-surah/${reciter}/${String(surahNum).padStart(3,'0')}.mp3`;
-  const player=document.getElementById('quran-audio-player');
-  player.src=audioUrl;
-  player.load();
-  const surahName=document.querySelector(`#quran-surah option[value="${surahNum}"]`).text;
-  const titleEl=document.getElementById('quran-surah-title');
-  if(titleEl)titleEl.innerText=surahName;
-  const readView=document.getElementById('quran-read-view');
-  if(readView&&readView.style.display!=='none'){
-    loadQuranText();
-  }
-};
+/* ---------- Theme persistence ---------- */
+const themeDropdown = $('theme-dropdown');
+const savedTheme = localStorage.getItem('akash-theme');
+if (savedTheme){
+  document.body.className = savedTheme === 'light' ? '' : 'theme-' + savedTheme;
+  themeDropdown.value = savedTheme;
+}
+themeDropdown.addEventListener('change', () => localStorage.setItem('akash-theme', themeDropdown.value));
 
-async function loadQuranText(){
-  const surahNum=parseInt(document.getElementById('quran-surah').value);
-  const box=document.getElementById('quran-text-box');
-  if(!box)return;
-  box.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text-tert)">Loading Surah ${surahNum}...</div>`;
+/* ---------- Live clock ---------- */
+setInterval(() => { $('live-clock').textContent = new Date().toLocaleTimeString([], { hour12: false }); }, 1000);
+ $('live-clock').textContent = new Date().toLocaleTimeString([], { hour12: false });
+
+/* ================= AI SMART ASSISTANT (free, no key) ================= */
+let aiHistory = [];
+const AI_SYSTEM = { role: 'system', content: 'You are Akash AI, a friendly and concise assistant. Answer helpfully in the same language the user writes in.' };
+
+async function askPollinations(messages){
+  const body = { model: 'openai-fast', messages, referrer: 'akash-portal' };
   try{
-    const resAr=await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`);
-    const dataAr=await resAr.json();
-    const ayahsAr=dataAr.data.ayahs;
-    const resEn=await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/en.sahih`);
-    const dataEn=await resEn.json();
-    const ayahsEn=dataEn.data.ayahs;
-    let html='';
-    for(let i=0;i<ayahsAr.length;i++){
-      const arText=ayahsAr[i].text;
-      const enText=ayahsEn[i]?ayahsEn[i].text:'';
-      const num=i+1;
-      html+=`
-        <div class="ayah-row">
-          <div class="ayah-ar">
-            <span class="ayah-num">${num}</span>${arText}
-          </div>
-          <div class="ayah-tr">${enText}</div>
-        </div>`;
+    const r = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (r.ok){
+      const j = await r.json();
+      const c = j?.choices?.[0]?.message?.content;
+      if (c && c.trim()) return c.trim();
     }
-    box.innerHTML=html;
-    box.scrollTop=0;
-  } catch(err){
-    box.innerHTML=`<div style="text-align:center;padding:20px;color:var(--red)">Failed to load. Check connection.</div>`;
+  }catch(e){}
+  /* Fallback: simple GET endpoint */
+  const lastUser = [...messages].reverse().find(m => m.role === 'user');
+  const r2 = await fetch('https://text.pollinations.ai/' + encodeURIComponent(lastUser ? lastUser.content : 'hello') + '?model=openai');
+  if (r2.ok){
+    const t = await r2.text();
+    if (t && t.trim()) return t.trim();
+  }
+  throw new Error('AI unavailable');
+}
+
+function aiBubble(role, text){
+  const box = $('ai-chat-box');
+  const empty = $('ai-empty'); if (empty) empty.style.display = 'none';
+  const el = document.createElement('div');
+  el.className = 'ai-msg ' + (role === 'user' ? 'user' : 'ai');
+  const ava = role === 'user' ? 'user' : 'ai';
+  const escaped = esc(text).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  el.innerHTML = '<div class="ai-avatar ' + ava + '">' +
+    (role === 'user'
+      ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+      : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>') +
+    '</div><div class="ai-bubble">' + escaped + '</div>';
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+  return el;
+}
+
+let aiBusy = false;
+async function sendAIMessage(){
+  if (aiBusy) return;
+  const input = $('ai-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  aiBusy = true;
+  $('ai-status').textContent = 'Thinking…';
+  aiBubble('user', text);
+  aiHistory.push({ role: 'user', content: text });
+
+  const typing = document.createElement('div');
+  typing.className = 'ai-msg ai';
+  typing.innerHTML = '<div class="ai-avatar ai"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="ai-bubble"><span class="ai-typing"><span></span><span></span><span></span></span></div>';
+  $('ai-chat-box').appendChild(typing);
+  $('ai-chat-box').scrollTop = $('ai-chat-box').scrollHeight;
+
+  try{
+    const reply = await askPollinations([AI_SYSTEM, ...aiHistory.slice(-14)]);
+    typing.remove();
+    aiBubble('ai', reply);
+    aiHistory.push({ role: 'assistant', content: reply });
+    $('ai-status').textContent = 'Ready — ask unlimited questions';
+  }catch(e){
+    typing.remove();
+    aiBubble('ai', 'Sorry, the AI service is busy right now. Please try again in a moment.');
+    $('ai-status').textContent = 'AI temporarily unavailable';
+  }finally{
+    aiBusy = false;
+  }
+}
+function aiQuick(prefix){ $('ai-input').value = prefix; $('ai-input').focus(); }
+function aiClearChat(){
+  $('ai-chat-box').innerHTML = '<div class="ai-empty" id="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><p style="font-size:14px;font-weight:500;margin-bottom:4px">Ask me anything</p><p style="font-size:12px">Free AI — unlimited questions, no API key</p></div>';
+  aiHistory = [];
+  $('ai-status').textContent = 'Ready — ask unlimited questions';
+}
+ $('ai-input').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendAIMessage(); } });
+
+/* ================= PRAYER TIMES ================= */
+const PRAYER_FALLBACK = { Fajr: '05:10', Dhuhr: '12:10', Asr: '16:15', Maghrib: '18:05', Isha: '19:25' };
+let prayerTimes = null;
+
+function fmt12(hhmm){
+  const [h, m] = hhmm.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM';
+  const hr = h % 12 === 0 ? 12 : h % 12;
+  return hr + ':' + String(m).padStart(2, '0') + ' ' + ap;
+}
+
+async function loadPrayerTimes(){
+  try{
+    const r = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1');
+    const j = await r.json();
+    const t = j.data.timings;
+    prayerTimes = {
+      Fajr: t.Fajr.split(' ')[0],
+      Dhuhr: t.Dhuhr.split(' ')[0],
+      Asr: t.Asr.split(' ')[0],
+      Maghrib: t.Maghrib.split(' ')[0],
+      Isha: t.Isha.split(' ')[0]
+    };
+  }catch(e){
+    prayerTimes = PRAYER_FALLBACK;
+  }
+  ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(n => {
+    $('t-' + n.toLowerCase()).textContent = fmt12(prayerTimes[n]);
+  });
+}
+
+function tickPrayer(){
+  if (!prayerTimes) return;
+  const now = new Date();
+  const names = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  let next = null;
+  for (const n of names){
+    const [h, m] = prayerTimes[n].split(':').map(Number);
+    const t = new Date(); t.setHours(h, m, 0, 0);
+    if (t > now){ next = { name: n, at: t }; break; }
+  }
+  if (!next){
+    const [h, m] = prayerTimes.Fajr.split(':').map(Number);
+    const t = new Date(); t.setDate(t.getDate() + 1); t.setHours(h, m, 0, 0);
+    next = { name: 'Fajr', at: t };
+  }
+  names.forEach(n => $('card-' + n).classList.toggle('is-next', n === next.name));
+  $('next-prayer-name').textContent = next.name;
+  let diff = Math.max(0, Math.floor((next.at - now) / 1000));
+  const hh = String(Math.floor(diff / 3600)).padStart(2, '0');
+  const mm = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+  const ss = String(diff % 60).padStart(2, '0');
+  $('next-prayer-count').textContent = hh + ':' + mm + ':' + ss;
+}
+loadPrayerTimes();
+setInterval(tickPrayer, 1000);
+
+/* ================= QURAN ================= */
+const AYAH_COUNTS = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+const SURAH_START = (() => { const a = [0]; let s = 0; for (const c of AYAH_COUNTS){ s += c; a.push(s); } return a; })();
+
+const quranAudio = $('quran-audio-player');
+let qaSurah = 1, qaIdx = 0, qaCount = 7;
+let bookPages = [], bookIndex = 0, bookAyahs = [], bookLoadedSurah = 0;
+
+function qaUpdateLabel(){
+  $('quran-now-label').textContent = 'Ayah ' + (qaIdx + 1) + ' of ' + qaCount;
+}
+function qaSetSrc(){
+  const g = SURAH_START[qaSurah - 1] + qaIdx + 1;
+  const reciter = $('quran-reciter').value;
+  quranAudio.src = 'https://cdn.islamic.network/quran/audio/128/' + reciter + '/' + g + '.mp3';
+  qaUpdateLabel();
+}
+function loadQuranSurah(){
+  qaSurah = +$('quran-surah').value;
+  qaCount = AYAH_COUNTS[qaSurah - 1];
+  qaIdx = 0;
+  quranAudio.pause();
+  qaSetSrc();
+  if ($('quran-read-view').style.display !== 'none') loadBook();
+}
+quranAudio.addEventListener('ended', () => {
+  if (qaIdx < qaCount - 1){
+    qaIdx++; qaSetSrc(); quranAudio.play().catch(() => {});
+    highlightPlayingAyah();
+  } else {
+    $('quran-now-label').textContent = 'Surah finished ✓';
+  }
+});
+function quranAyahStep(dir){
+  const next = qaIdx + dir;
+  if (next < 0 || next >= qaCount) return;
+  qaIdx = next; qaSetSrc();
+  quranAudio.play().catch(() => {});
+  highlightPlayingAyah();
+}
+function playAyah(num){
+  qaIdx = num - 1; qaSetSrc();
+  quranAudio.play().catch(() => {});
+  highlightPlayingAyah();
+}
+function switchQuranTab(tab){
+  const audio = tab === 'audio';
+  $('q-tab-audio').classList.toggle('active', audio);
+  $('q-tab-read').classList.toggle('active', !audio);
+  $('quran-audio-view').style.display = audio ? '' : 'none';
+  $('quran-read-view').style.display = audio ? 'none' : '';
+  if (!audio) loadBook();
+}
+
+/* ---------- Book (read like a book) ---------- */
+async function loadBook(){
+  const n = +$('quran-surah').value;
+  if (bookLoadedSurah === n && bookPages.length) { renderBook(); return; }
+  const name = $('quran-surah').selectedOptions[0].textContent;
+  $('quran-surah-title').textContent = name;
+  $('book-left').innerHTML = '<div class="book-loading">Loading surah…</div>';
+  $('book-right').innerHTML = '';
+  $('book-page-label').textContent = '';
+  try{
+    const r = await fetch('https://api.alquran.cloud/v1/surah/' + n + '/editions/quran-uthmani,en.sahih');
+    const j = await r.json();
+    const ar = j.data[0].ayahs, tr = j.data[1].ayahs;
+    bookAyahs = ar.map((a, i) => ({ num: i + 1, ar: a.text, tr: tr[i] ? tr[i].text : '' }));
+    /* paginate into pages */
+    bookPages = [];
+    let cur = [], chars = 0;
+    for (const a of bookAyahs){
+      cur.push(a); chars += a.ar.length;
+      if (chars > 650 || cur.length >= 8){ bookPages.push(cur); cur = []; chars = 0; }
+    }
+    if (cur.length) bookPages.push(cur);
+    bookIndex = 0;
+    bookLoadedSurah = n;
+    renderBook();
+  }catch(e){
+    $('book-left').innerHTML = '<div class="book-loading">Couldn\u2019t load surah. Check your connection and switch tabs to retry.</div>';
   }
 }
 
-/* ===================== TRANSLATOR ===================== */
-let transTimer=null;
-window.autoTranslate=function(){
+function ayahBlockHTML(a){
+  return '<div class="ayah-block" data-ayah="' + a.num + '" onclick="playAyah(' + a.num + ')">' +
+    '<div class="ayah-ar"><span class="ayah-num">' + a.num + '</span>' + esc(a.ar) + '</div>' +
+    '<div class="ayah-tr">' + esc(a.tr) + '</div></div>';
+}
+
+function renderBook(){
+  const book = $('quran-book');
+  const n = +$('quran-surah').value;
+  const name = $('quran-surah').selectedOptions[0].textContent;
+  const left = bookPages[bookIndex] || [];
+  const right = bookPages[bookIndex + 1] || [];
+  const showBismillah = bookIndex === 0 && n !== 1 && n !== 9;
+
+  $('book-left').innerHTML =
+    '<div class="book-head">' + esc(name) + ' · Page ' + (bookIndex + 1) + '</div>' +
+    (showBismillah ? '<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>' : '') +
+    left.map(ayahBlockHTML).join('');
+  $('book-right').innerHTML = right.length
+    ? '<div class="book-head">Page ' + (bookIndex + 2) + '</div>' + right.map(ayahBlockHTML).join('')
+    : '<div class="book-loading" style="padding-top:120px">— End of Surah —</div>';
+
+  $('book-page-label').textContent = 'Page ' + (bookIndex + 1) + (right.length ? '–' + (bookIndex + 2) : '') + ' of ' + bookPages.length;
+  book.classList.remove('turning'); void book.offsetWidth; book.classList.add('turning');
+  highlightPlayingAyah();
+}
+function bookPrev(){ if (bookIndex > 0){ bookIndex--; renderBook(); } }
+function bookNext(){ if (bookIndex < bookPages.length - 1){ bookIndex++; renderBook(); } }
+
+function highlightPlayingAyah(){
+  document.querySelectorAll('#quran-read-view .ayah-block.playing').forEach(el => el.classList.remove('playing'));
+  if (bookLoadedSurah !== +$('quran-surah').value) return;
+  const el = document.querySelector('#quran-read-view .ayah-block[data-ayah="' + (qaIdx + 1) + '"]');
+  if (el) el.classList.add('playing');
+}
+loadQuranSurah();
+
+/* ================= TRANSLATOR (MyMemory, free) ================= */
+let transTimer = null;
+function autoTranslate(){
   clearTimeout(transTimer);
-  transTimer=setTimeout(async()=>{
-    const src=document.getElementById('src-lang').value;
-    const tgt=document.getElementById('target-lang').value;
-    const text=document.getElementById('trans-input-text').value.trim();
-    const out=document.getElementById('trans-output-text');
-    if(!text){out.innerText='Translation appears here';return}
-    out.innerText='Translating...';
+  const text = $('trans-input-text').value.trim();
+  const out = $('trans-output-text');
+  if (!text){ out.textContent = 'Translation appears here'; return; }
+  out.textContent = 'Translating…';
+  transTimer = setTimeout(async () => {
+    const src = $('src-lang').value, tgt = $('target-lang').value;
     try{
-      const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${src}|${tgt}`);
-      const j=await r.json();
-      out.innerText=j.responseData.translatedText||'No translation';
-    } catch(e){out.innerText='Translation failed';}
-  },500);
-};
-
-window.swapLanguages=function(){
-  const s=document.getElementById('src-lang');
-  const t=document.getElementById('target-lang');
-  const tmp=s.value;
-  s.value=t.value;
-  t.value=tmp;
-  const ti=document.getElementById('trans-input-text');
-  const to=document.getElementById('trans-output-text');
-  const tmpT=ti.value;
-  ti.value=to.innerText;
-  to.innerText=tmpT;
-  autoTranslate();
-};
-
-/* ===================== SPORTS ===================== */
-window.switchSportsTab=function(tab){
-  const c=document.getElementById('tab-cricket');
-  const f=document.getElementById('tab-football');
-  c.classList.toggle('active',tab==='cricket');
-  f.classList.toggle('active',tab==='football');
-  const container=document.getElementById('sports-scores-container');
-  if(tab==='cricket'){
-    container.innerHTML=`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">IND vs AUS</strong><br><span style="font-size:13px;color:var(--text-sub)">IND 210/4 (18.2 ov) — Target 245</span></div></div>`;
-  } else {
-    container.innerHTML=`<div class="score"><div><span class="badge">LIVE</span> <strong style="margin-left:8px">BRA vs ARG</strong><br><span style="font-size:13px;color:var(--text-sub)">2-1 — 78'</span></div></div>`;
-  }
-};
-
-/* ===================== QR STUDIO ===================== */
-window.toggleQrMode=function(){
-  const mode=document.getElementById('qr-mode').value;
-  document.getElementById('qr-text-fields').style.display=mode==='text'?'block':'none';
-  document.getElementById('qr-wifi-fields').style.display=mode==='wifi'?'block':'none';
-};
-
-window.buildQR=function(){
-  const mode=document.getElementById('qr-mode').value;
-  let data='';
-  if(mode==='text'){
-    data=document.getElementById('qr-text').value.trim();
-    if(!data){alert('Enter text');return}
-  } else {
-    const ssid=document.getElementById('qr-wifi-ssid').value.trim();
-    const pass=document.getElementById('qr-wifi-pass').value;
-    const enc=document.getElementById('qr-wifi-enc').value;
-    if(!ssid){alert('Enter SSID');return}
-    if(enc==='nopass'){
-      data=`WIFI:T:WPA;S:${ssid};P:;;`;
-    } else {
-      data=`WIFI:T:${enc};S:${ssid};P:${pass};;`;
+      if (src === tgt){ out.textContent = text; return; }
+      const r = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + src + '|' + tgt);
+      const j = await r.json();
+      out.textContent = j?.responseData?.translatedText || '—';
+    }catch(e){
+      out.textContent = 'Translation unavailable — check connection';
     }
+  }, 600);
+}
+function swapLanguages(){
+  const s = $('src-lang'), t = $('target-lang');
+  const sv = s.value; s.value = t.value; t.value = sv;
+  const inp = $('trans-input-text'), out = $('trans-output-text');
+  const iv = inp.value;
+  inp.value = out.textContent !== 'Translation appears here' ? out.textContent : iv;
+  autoTranslate();
+}
+
+/* ================= SPORTS ================= */
+function switchSportsTab(tab){
+  $('tab-cricket').classList.toggle('active', tab === 'cricket');
+  $('tab-football').classList.toggle('active', tab === 'football');
+  $('sports-cricket').style.display = tab === 'cricket' ? '' : 'none';
+  $('sports-football').style.display = tab === 'football' ? '' : 'none';
+}
+
+/* ================= QR STUDIO ================= */
+function toggleQrMode(){
+  const wifi = $('qr-mode').value === 'wifi';
+  $('qr-text-fields').style.display = wifi ? 'none' : '';
+  $('qr-wifi-fields').style.display = wifi ? '' : 'none';
+}
+function escWifi(s){ return String(s).replace(/([\\;,:"])/g, '\\$1'); }
+
+function buildQR(){
+  const mode = $('qr-mode').value;
+  let text = '';
+  if (mode === 'text'){
+    text = $('qr-text').value.trim();
+    if (!text){ showAppleAlert('Empty', 'Please enter some text or a URL first.', 'warn'); return; }
+  } else {
+    const ssid = $('qr-wifi-ssid').value.trim();
+    const pass = $('qr-wifi-pass').value;
+    const enc = $('qr-wifi-enc').value;
+    if (!ssid){ showAppleAlert('Missing SSID', 'Please enter your WiFi network name.', 'warn'); return; }
+    text = 'WIFI:T:' + enc + ';S:' + escWifi(ssid) + ';P:' + escWifi(pass) + ';;';
   }
-  const url=`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(data)}`;
-  document.getElementById('qr-output-img').src=url;
-  document.getElementById('qr-download').href=url;
-  document.getElementById('qr-output-wrap').style.display='block';
-};
+  const box = $('qr-code-box');
+  box.innerHTML = '';
+  $('qr-output-wrap').style.display = '';
+  new QRCode(box, { text, width: 220, height: 220, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.M });
+  setTimeout(() => {
+    const c = box.querySelector('canvas');
+    if (c) $('qr-download').href = c.toDataURL('image/png');
+  }, 200);
+}
 
-window.scanQRFile=function(event){
-  const file=event.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(){
-    const img=new Image();
-    img.onload=function(){
-      const canvas=document.createElement('canvas');
-      const ctx=canvas.getContext('2d');
-      canvas.width=img.width;
-      canvas.height=img.height;
-      ctx.drawImage(img,0,0);
-      const imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
-      const code=jsQR(imgData.data,imgData.width,imgData.height);
-      const result=document.getElementById('qr-scan-result');
-      result.style.display='block';
-      if(code){
-        let html=`<div><strong>Decoded:</strong></div><div style="margin-top:6px">${code.data}</div>`;
-        const wifiMatch=code.data.match(/^WIFI:T:(WPA|WEP|nopass);S:([^;]*);P:([^;]*);/);
-        if(wifiMatch){
-          html+=`<div style="margin-top:10px"><strong>SSID:</strong> ${wifiMatch[2]}<br><strong>Password:</strong> <span class="qr-secret">${wifiMatch[3]||'(none)'}</span></div>`;
-        }
-        result.innerHTML=html;
-      } else {
-        result.innerHTML='<span style="color:var(--red)">No QR code detected in image.</span>';
-      }
-    };
-    img.src=reader.result;
+function scanQRFile(event){
+  const file = event.target.files[0];
+  if (!file) return;
+  const result = $('qr-scan-result');
+  result.style.display = 'none';
+  const img = new Image();
+  img.onload = () => {
+    const scale = Math.min(1, 900 / Math.max(img.width, img.height));
+    const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+    const cv = document.createElement('canvas');
+    cv.width = w; cv.height = h;
+    const ctx = cv.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    const data = ctx.getImageData(0, 0, w, h);
+    const code = window.jsQR ? jsQR(data.data, w, h) : null;
+    if (!code || !code.data){
+      result.style.display = '';
+      result.innerHTML = 'No QR code found in this image. Try a clearer screenshot.';
+      return;
+    }
+    let html = '';
+    if (code.data.startsWith('WIFI:')){
+      const fields = {};
+      code.data.slice(5).split(/(?<!\\);/).forEach(seg => {
+        const i = seg.indexOf(':');
+        if (i > 0) fields[seg[0]] = seg.slice(i + 1).replace(/\\(.)/g, '$1');
+      });
+      html = '<div style="font-weight:600;margin-bottom:6px">WiFi QR decoded:</div>' +
+             'Network: <b>' + esc(fields.S || '—') + '</b><br>' +
+             'Security: ' + esc(fields.T || '—') + '<br>' +
+             (fields.P !== undefined && fields.T !== 'nopass'
+               ? 'Password: <span class="qr-secret">' + esc(fields.P || '(empty)') + '</span>'
+               : 'Password: <span class="qr-secret">Open network — no password</span>');
+    } else {
+      html = '<div style="font-weight:600;margin-bottom:6px">Decoded data:</div>' + esc(code.data);
+    }
+    result.style.display = '';
+    result.innerHTML = html;
+    URL.revokeObjectURL(img.src);
   };
-  reader.readAsDataURL(file);
-};
+  img.onerror = () => { result.style.display = ''; result.innerHTML = 'Couldn\u2019t read that image file.'; };
+  img.src = URL.createObjectURL(file);
+  event.target.value = '';
+}
 
-/* ===================== IMAGE TO PDF ===================== */
-let pdfImages=[];
-window.handleImageToPdfSelect=function(event){
-  const files=Array.from(event.target.files);
-  pdfImages=files;
-  const cont=document.getElementById('pdf-preview-container');
-  cont.innerHTML='';
-  files.forEach((f,i)=>{
-    const url=URL.createObjectURL(f);
-    cont.innerHTML+=`<img src="${url}" class="pdf-thumb">`;
+/* ================= IMAGE → PDF ================= */
+let pdfImages = [];
+function handleImageToPdfSelect(event){
+  const files = Array.from(event.target.files || []);
+  if (!files.length) return;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        pdfImages.push({ data: reader.result, w: img.width, h: img.height });
+        renderPdfThumbs();
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
   });
-  document.getElementById('btn-generate-pdf').disabled=files.length===0;
-};
-
-window.generatePDF=async function(){
-  if(pdfImages.length===0)return;
-  const{jsPDF}=window.jspdf;
-  const pdf=new jsPDF();
-  for(let i=0;i<pdfImages.length;i++){
-    const img=await loadImage(URL.createObjectURL(pdfImages[i]));
-    const w=pdf.internal.pageSize.getWidth();
-    const h=pdf.internal.pageSize.getHeight();
-    const imgRatio=img.width/img.height;
-    let imgW=w-20;
-    let imgH=imgW/imgRatio;
-    if(imgH>h-20){imgH=h-20;imgW=imgH*imgRatio}
-    if(i>0)pdf.addPage();
-    const canvas=document.createElement('canvas');
-    canvas.width=img.width;
-    canvas.height=img.height;
-    canvas.getContext('2d').drawImage(img,0,0);
-    const dataURL=canvas.toDataURL('image/jpeg',0.92);
-    pdf.addImage(dataURL,'JPEG',(w-imgW)/2,(h-imgH)/2,imgW,imgH);
+  event.target.value = '';
+}
+function renderPdfThumbs(){
+  const c = $('pdf-preview-container');
+  c.innerHTML = '';
+  pdfImages.forEach((im, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.position = 'relative';
+    wrap.innerHTML = '<img class="pdf-thumb" src="' + im.data + '">' +
+      '<button class="x" style="position:absolute;top:-8px;left:-8px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:14px;line-height:1">\u00d7</button>';
+    wrap.querySelector('button').onclick = () => { pdfImages.splice(i, 1); renderPdfThumbs(); };
+    c.appendChild(wrap);
+  });
+  $('btn-generate-pdf').disabled = pdfImages.length === 0;
+}
+async function generatePDF(){
+  if (!pdfImages.length) return;
+  const { jsPDF } = window.jspdf;
+  let pdf = null;
+  for (let i = 0; i < pdfImages.length; i++){
+    const im = pdfImages[i];
+    const w = im.w * 0.75, h = im.h * 0.75; /* px → pt */
+    if (i === 0) pdf = new jsPDF({ unit: 'pt', format: [w, h] });
+    else pdf.addPage([w, h]);
+    pdf.addImage(im.data, 'JPEG', 0, 0, w, h);
   }
   pdf.save('akash-document.pdf');
-};
+  toast('PDF Ready', pdfImages.length + ' page(s) downloaded.', 'success');
+}
 
-function loadImage(src){
-  return new Promise((res,rej)=>{
-    const img=new Image();
-    img.onload=()=>res(img);
-    img.onerror=rej;
-    img.src=src;
+/* ================= PROFILE PICTURE ================= */
+function resizeImageFile(file, maxDim, quality){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(img.width * scale);
+        cv.height = Math.round(img.height * scale);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        resolve(cv.toDataURL('image/jpeg', quality || 0.85));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 }
 
-/* ===================== INIT ===================== */
-window.startClock();
+let pendingAvatar = null;
+function openProfileModal(){
+  pendingAvatar = null;
+  $('modal-avatar-preview').src = myAvatar || DEFAULT_AVATAR;
+  $('btn-save-avatar').disabled = true;
+  $('profile-modal').style.display = 'flex';
+}
+function closeProfileModal(){ $('profile-modal').style.display = 'none'; }
+
+async function handleFileSelect(event){
+  const file = event.target.files[0];
+  if (!file) return;
+  try{
+    pendingAvatar = await resizeImageFile(file, 256, 0.85);
+    $('modal-avatar-preview').src = pendingAvatar;
+    $('btn-save-avatar').disabled = false;
+  }catch(e){
+    showAppleAlert('Invalid Image', 'Couldn\u2019t read that image. Please try another file.', 'error');
+  }
+  event.target.value = '';
+}
+
+ $('btn-save-avatar').onclick = async () => {
+  if (!pendingAvatar || !myUid) return;
+  try{
+    await setDoc(doc(db, 'users', myUid), { avatar: pendingAvatar }, { merge: true });
+    myAvatar = pendingAvatar;
+    $('nav-avatar').src = pendingAvatar;
+    closeProfileModal();
+    toast('Saved', 'Your profile picture was updated.', 'success');
+  }catch(e){
+    showAppleAlert('Save Failed', 'Couldn\u2019t save your picture. Please try again.', 'error');
+  }
+};
+
+/* ================= MESSAGING ================= */
+let currentScope = 'global', currentDM = null;
+let globalMsgs = [], usersCache = [];
+let globalFirstLoad = true, dmFirstLoad = true;
+let pendingImage = null;
+
+function msgPreview(m){
+  if (m.text) return m.text;
+  if (m.image) return '\ud83d\udcf7 Photo';
+  if (m.audio) return '\ud83c\udfa4 Voice message';
+  return 'New message';
+}
+
+function msgHTML(m, scope){
+  const time = m.createdAt?.toDate?.() ? m.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+  const ava = m.avatar || DEFAULT_AVATAR;
+  const del = (m.uid === myUid)
+    ? '<button class="icon-btn msg-actions" title="Delete" onclick="deleteMessage(\'' + scope + '\',\'' + m.id + '\')">' +
+      '<svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>'
+    : '';
+  return '<div class="msg-item">' +
+    '<img class="msg-ava" src="' + esc(ava) + '" onerror="this.src=DEFAULT_AVATAR">' +
+    '<div class="msg-body"><div class="msg-head"><span class="msg-name">' + esc(m.name || 'User') + '</span><span class="msg-time">' + time + '</span></div>' +
+    (m.text ? '<div class="msg-text">' + esc(m.text) + '</div>' : '') +
+    (m.image ? '<img class="msg-img" src="' + esc(m.image) + '" loading="lazy">' : '') +
+    (m.audio ? '<audio controls src="' + esc(m.audio) + '" style="margin-top:6px;width:220px;height:36px"></audio>' : '') +
+    del + '</div></div>';
+}
+
+function renderMessages(list, scope){
+  const area = $('chat-messages');
+  if (!list.length){
+    area.innerHTML = '<div style="margin:auto;color:var(--text-tert);font-size:13px;text-align:center">' +
+      (scope === 'global' ? 'No messages yet — say hello 👋' : 'Start the conversation ✉️') + '</div>';
+    return;
+  }
+  area.innerHTML = list.map(m => msgHTML(m, scope === 'global' ? 'global' : 'dm')).join('');
+  area.scrollTop = area.scrollHeight;
+}
+
+function deleteMessage(scope, id){
+  const path = scope === 'global'
+    ? doc(db, 'globalMessages', id)
+    : doc(db, 'chats', currentDM.chatId, 'messages', id);
+  deleteDoc(path).catch(() => toast('Delete Failed', 'Couldn\u2019t delete that message.', 'error'));
+}
+
+function startChatListeners(){
+  if (globalUnsub) globalUnsub();
+  if (usersUnsub) usersUnsub();
+
+  globalUnsub = onSnapshot(
+    query(collection(db, 'globalMessages'), orderBy('createdAt'), limitToLast(100)),
+    (snap) => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      snap.docChanges().forEach(ch => {
+        if (ch.type === 'added' && !globalFirstLoad){
+          const m = ch.doc.data();
+          if (m.uid !== myUid) pushNotify(m.name || 'New message', msgPreview(m));
+        }
+      });
+      globalFirstLoad = false;
+      globalMsgs = msgs;
+      if (currentScope === 'global') renderMessages(globalMsgs, 'global');
+    },
+    (err) => { console.warn('Global chat error:', err); toast('Chat Error', 'Check your Firestore rules for globalMessages.', 'error'); }
+  );
+
+  usersUnsub = onSnapshot(collection(db, 'users'), (snap) => {
+    usersCache = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== myUid);
+    if (currentScope === 'private') renderDMList();
+  });
+}
+
+function switchChat(mode){
+  currentScope = mode;
+  const isGlobal = mode === 'global';
+  $('tab-global').style.background = isGlobal ? 'var(--accent)' : 'transparent';
+  $('tab-global').style.color = isGlobal ? '#fff' : 'var(--text-sub)';
+  $('tab-private').style.background = !isGlobal ? 'var(--accent)' : 'transparent';
+  $('tab-private').style.color = !isGlobal ? '#fff' : 'var(--text-sub)';
+  $('dm-list').style.display = isGlobal ? 'none' : '';
+  if (isGlobal){
+    if (dmUnsub){ dmUnsub(); dmUnsub = null; }
+    currentDM = null;
+    $('dm-call-icons').style.display = 'none';
+    renderMessages(globalMsgs, 'global');
+  } else {
+    renderDMList();
+    $('chat-messages').innerHTML = '<div style="margin:auto;color:var(--text-tert);font-size:13px;text-align:center">Select a contact to start chatting</div>';
+  }
+}
+
+function renderDMList(){
+  const list = $('dm-list');
+  if (!usersCache.length){
+    list.innerHTML = '<p style="font-size:12px;color:var(--text-tert);padding:12px;text-align:center">No other users registered yet</p>';
+    return;
+  }
+  list.innerHTML = usersCache.map(u =>
+    '<div class="dm-item' + (currentDM && currentDM.uid === u.uid ? ' active' : '') + '" onclick="openDM(\'' + u.uid + '\')">' +
+    '<img class="dm-ava" src="' + esc(u.avatar || DEFAULT_AVATAR) + '" onerror="this.src=DEFAULT_AVATAR">' +
+    '<div style="min-width:0"><div class="dm-name">' + esc(u.displayName || u.username || 'User') + '</div>' +
+    '<div style="font-size:11px;color:var(--text-tert)">@' + esc(u.username || '') + '</div></div></div>'
+  ).join('');
+}
+
+function openDM(uid){
+  const user = usersCache.find(u => u.uid === uid);
+  if (!user) return;
+  currentDM = { uid, chatId: [myUid, uid].sort().join('_'), name: user.displayName || user.username || 'User' };
+  dmFirstLoad = true;
+  $('dm-head-name').textContent = currentDM.name;
+  $('dm-call-icons').style.display = 'flex';
+  renderDMList();
+
+  if (dmUnsub) dmUnsub();
+  dmUnsub = onSnapshot(
+    query(collection(db, 'chats', currentDM.chatId, 'messages'), orderBy('createdAt'), limitToLast(100)),
+    (snap) => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      snap.docChanges().forEach(ch => {
+        if (ch.type === 'added' && !dmFirstLoad){
+          const m = ch.doc.data();
+          if (m.uid !== myUid) pushNotify(m.name || currentDM.name, msgPreview(m));
+        }
+      });
+      dmFirstLoad = false;
+      renderMessages(msgs, 'dm');
+    },
+    (err) => console.warn('DM error:', err)
+  );
+}
+
+async function sendChatMessage(){
+  const input = $('chat-input-text');
+  const text = input.value.trim();
+  if (!text && !pendingImage) return;
+  if (!myUid) return;
+
+  const msg = { uid: myUid, name: myName, avatar: myAvatar, text, createdAt: serverTimestamp() };
+  if (pendingImage) msg.image = pendingImage;
+
+  const target = currentScope === 'global'
+    ? collection(db, 'globalMessages')
+    : (currentDM ? collection(db, 'chats', currentDM.chatId, 'messages') : null);
+  if (!target){ toast('No recipient', 'Select a contact first in Direct tab.', 'warn'); return; }
+
+  input.value = '';
+  pendingImage = null;
+  $('img-preview-box').style.display = 'none';
+  try{
+    await addDoc(target, msg);
+  }catch(e){
+    toast('Send Failed', 'Message couldn\u2019t be sent. Check connection.', 'error');
+  }
+}
+ $('chat-input-text').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendChatMessage(); } });
+
+async function attachImage(event){
+  const file = event.target.files[0];
+  if (!file) return;
+  try{
+    pendingImage = await resizeImageFile(file, 900, 0.8);
+    $('img-preview').src = pendingImage;
+    $('img-preview-box').style.display = 'block';
+  }catch(e){ toast('Image Error', 'Couldn\u2019t read that image.', 'error'); }
+  event.target.value = '';
+}
+function clearChatMedia(){
+  pendingImage = null;
+  $('img-preview-box').style.display = 'none';
+}
+
+function toggleP(kind){
+  const emoji = $('emoji-picker'), gif = $('gif-picker');
+  emoji.style.display = kind === 'emoji' && emoji.style.display === 'none' ? 'grid' : 'none';
+  gif.style.display = kind === 'gif' && gif.style.display === 'none' ? 'grid' : 'none';
+}
+function addE(e){ const i = $('chat-input-text'); i.value += e; i.focus(); }
+async function addG(src){
+  if (!myUid) return;
+  const target = currentScope === 'global'
+    ? collection(db, 'globalMessages')
+    : (currentDM ? collection(db, 'chats', currentDM.chatId, 'messages') : null);
+  if (!target){ toast('No recipient', 'Select a contact first in Direct tab.', 'warn'); return; }
+  try{
+    await addDoc(target, { uid: myUid, name: myName, avatar: myAvatar, image: src, createdAt: serverTimestamp() });
+  }catch(e){ toast('Send Failed', 'GIF couldn\u2019t be sent.', 'error'); }
+}
+
+/* ---------- Voice messages ---------- */
+let mediaRecorder = null, recChunks = [], recTimer = null;
+async function toggleMic(){
+  const status = $('mic-status');
+  if (mediaRecorder && mediaRecorder.state === 'recording'){
+    mediaRecorder.stop();
+    return;
+  }
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    recChunks = [];
+    mediaRecorder.ondataavailable = e => { if (e.data.size) recChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      clearTimeout(recTimer);
+      status.style.display = 'none';
+      const blob = new Blob(recChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+      if (blob.size > 900000){ toast('Too Long', 'Voice message too large — keep it under ~30 seconds.', 'warn'); return; }
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const target = currentScope === 'global'
+          ? collection(db, 'globalMessages')
+          : (currentDM ? collection(db, 'chats', currentDM.chatId, 'messages') : null);
+        if (!target) return;
+        try{
+          await addDoc(target, { uid: myUid, name: myName, avatar: myAvatar, audio: reader.result, createdAt: serverTimestamp() });
+        }catch(e){ toast('Send Failed', 'Voice message couldn\u2019t be sent.', 'error'); }
+      };
+      reader.readAsDataURL(blob);
+    };
+    mediaRecorder.start();
+    status.style.display = 'inline';
+    recTimer = setTimeout(() => { if (mediaRecorder.state === 'recording') mediaRecorder.stop(); }, 30000);
+  }catch(e){
+    showAppleAlert('Microphone Blocked', 'Allow microphone access in your browser to record voice messages.', 'warn');
+  }
+}
+
+/* ================= CALLS (1:1 + Group) ================= */
+let callStream = null, callTimer = null, callSeconds = 0, callGroupMode = false, callVideoMode = false;
+
+async function startCall(type, name, group){
+  callGroupMode = !!group;
+  callVideoMode = type === 'video';
+  const overlay = $('call-overlay');
+  $('call-status').textContent = 'Calling…';
+  $('call-target-name').textContent = name || (group ? 'Group Call' : 'Direct Call');
+  $('call-video-wrap').style.display = 'none';
+  $('call-participants').style.display = 'none';
+  $('call-invite-list').style.display = 'none';
+  $('btn-call-cam').style.display = callVideoMode ? '' : 'none';
+  $('btn-call-mute').classList.remove('off');
+  $('btn-call-cam').classList.remove('off');
+  overlay.style.display = 'flex';
+
+  /* Real microphone/camera */
+  try{
+    callStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: callVideoMode });
+    if (callVideoMode){
+      $('call-local-video').srcObject = callStream;
+      $('call-video-wrap').style.display = 'block';
+    }
+  }catch(e){
+    console.warn('Media permission denied:', e);
+  }
+
+  if (callGroupMode){
+    renderCallParticipants();
+    renderInviteList();
+  }
+
+  /* connect (demo) + duration timer */
+  setTimeout(() => {
+    if (overlay.style.display !== 'flex') return;
+    $('call-status').textContent = 'Connected';
+    callSeconds = 0;
+    clearInterval(callTimer);
+    callTimer = setInterval(() => {
+      callSeconds++;
+      const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+      const s = String(callSeconds % 60).padStart(2, '0');
+      $('call-status').textContent = 'Connected · ' + m + ':' + s;
+    }, 1000);
+  }, 2500);
+}
+
+function startGroupCall(){ startCall('audio', 'Group Call', true); }
+
+let callParticipants = [];
+function renderCallParticipants(){
+  const grid = $('call-participants');
+  grid.style.display = 'grid';
+  grid.innerHTML = callParticipants.map((p, i) =>
+    '<div class="call-tile ' + (p.state === 'joined' ? 'joined' : 'ringing') + (p.me ? ' me' : '') + '">' +
+    '<img src="' + esc(p.avatar || DEFAULT_AVATAR) + '" onerror="this.src=DEFAULT_AVATAR">' +
+    '<span class="ct-name">' + esc(p.name) + '</span>' +
+    '<span class="ct-status">' + (p.me ? 'You · live' : p.state === 'joined' ? 'Joined' : 'Ringing…') + '</span></div>'
+  ).join('');
+}
+
+function renderInviteList(){
+  const list = $('call-invite-list');
+  if (!usersCache.length){
+    list.style.display = '';
+    list.innerHTML = '<p style="font-size:12px;color:var(--text-tert);text-align:center;padding:8px">No contacts yet — other users must register first.</p>';
+    return;
+  }
+  list.style.display = '';
+  list.innerHTML = usersCache.map((u, i) => {
+    const invited = callParticipants.some(p => p.uid === u.uid);
+    return '<div class="call-contact"><img src="' + esc(u.avatar || DEFAULT_AVATAR) + '" onerror="this.src=DEFAULT_AVATAR">' +
+      '<span class="cc-name">' + esc(u.displayName || u.username || 'User') + '</span>' +
+      '<button class="call-invite-btn" ' + (invited ? 'disabled' : '') + ' onclick="inviteToCall(' + i + ')">' + (invited ? 'Invited' : 'Invite') + '</button></div>';
+  }).join('');
+}
+
+function inviteToCall(i){
+  const u = usersCache[i];
+  if (!u || callParticipants.some(p => p.uid === u.uid)) return;
+  callParticipants.push({ uid: u.uid, name: u.displayName || u.username || 'User', avatar: u.avatar, state: 'ringing' });
+  renderCallParticipants();
+  renderInviteList();
+  pushNotify('Group Call', 'Ringing ' + (u.displayName || u.username) + '…');
+  setTimeout(() => {
+    const p = callParticipants.find(p => p.uid === u.uid);
+    if (p){ p.state = 'joined'; renderCallParticipants(); toast('Group Call', p.name + ' joined the call.', 'success'); }
+  }, 2000 + Math.random() * 2500);
+}
+
+function toggleCallMute(){
+  const btn = $('btn-call-mute');
+  btn.classList.toggle('off');
+  const muted = btn.classList.contains('off');
+  btn.title = muted ? 'Unmute' : 'Mute';
+  if (callStream) callStream.getAudioTracks().forEach(t => t.enabled = !muted);
+}
+function toggleCallCam(){
+  const btn = $('btn-call-cam');
+  btn.classList.toggle('off');
+  const off = btn.classList.contains('off');
+  btn.title = off ? 'Turn camera on' : 'Turn camera off';
+  if (callStream) callStream.getVideoTracks().forEach(t => t.enabled = !off);
+}
+
+function endCall(silent){
+  clearInterval(callTimer);
+  if (callStream){ callStream.getTracks().forEach(t => t.stop()); callStream = null; }
+  $('call-local-video').srcObject = null;
+  $('call-overlay').style.display = 'none';
+  callParticipants = [{ uid: myUid, name: myName + ' (You)', avatar: myAvatar, state: 'joined', me: true }];
+  if (!silent) toast('Call Ended', 'You left the call.', 'success');
+}
+callParticipants = [];
+
+/* ================= EXPOSE TO WINDOW (inline onclick) ================= */
+Object.assign(window, {
+  aiQuick, aiClearChat, sendAIMessage, switchQuranTab, loadQuranSurah, quranAyahStep, playAyah,
+  bookPrev, bookNext, autoTranslate, swapLanguages, switchSportsTab, toggleQrMode, buildQR, scanQRFile,
+  handleImageToPdfSelect, generatePDF, switchChat, openDM, sendChatMessage, deleteMessage,
+  attachImage, clearChatMedia, toggleP, addE, addG, toggleMic,
+  startCall, startGroupCall, endCall, toggleCallMute, toggleCallCam, inviteToCall,
+  openProfileModal, closeProfileModal, handleFileSelect, requestNotify, showAppleAlert, closeAppleAlert
+});
 </script>
 </body>
 </html>
